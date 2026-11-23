@@ -1,0 +1,91 @@
+{
+  "schema_version": "1.1.0",
+  "copyright": "Copyright (c) 2026 Ergentics, LLC",
+  "organization": "Ergentics",
+  "title": "SCargo Live Self-Audit & Immediate Remediation Receipt (v1)",
+  "recorded_utc": "2026-11-23",
+  "policy_reference": "data/manifests/swe_sweep_policy_v1.json",
+  "note": "Strictly separated from normative policy manifests so opening or closing live findings never mutates policy provenance hashes.",
+  "findings": [
+    {
+      "id": "AUD-01",
+      "compartment": "data/manifests",
+      "defect_class": "COMPROMISE_AND_SHORTCUT",
+      "conflation_type": "Policy vs. Live Runtime Audit State",
+      "status": "repaired_and_verified",
+      "before": "Observed live findings (OBS-01..OBS-03) were embedded directly inside immutable policy manifest data/manifests/swe_sweep_policy_v1.json.",
+      "repair": "Removed observed_platform_ledger from swe_sweep_policy_v1.json and isolated live audit state into data/audits/live_self_audit_v1.json.",
+      "verification": "swe_sweep_policy_v1.json validated with 100% referential integrity and zero mutable state fields."
+    },
+    {
+      "id": "AUD-02",
+      "compartment": "rust",
+      "defect_class": "WARNINGS_AND_DEPRECATIONS",
+      "conflation_type": "Advisory Warnings vs. Hard Errors",
+      "status": "repaired_and_verified",
+      "before": "compartments/rust/Cargo.toml lacked workspace-wide lint enforcement; running cargo clippy --all-targets -- -D warnings exposed 7 live lint errors across scargo-probe (2), scargo-qualify (2), and scargo-trace (3).",
+      "repair": "Added [workspace.lints.rust] (unsafe_code=forbid, warnings=deny, deprecated=deny, unused_must_use=deny) and [workspace.lints.clippy] (all=deny), added #![forbid(unsafe_code)] to all 3 crates, and fixed all 7 clippy errors cleanly without a single #[allow(...)].",
+      "verification": "RUSTFLAGS='-D warnings' cargo clippy --all-targets -- -D warnings and cargo test (8/8) pass with 0 warnings and 0 errors."
+    },
+    {
+      "id": "AUD-03",
+      "compartment": "rust",
+      "defect_class": "HIDDEN_DEPENDENCY",
+      "conflation_type": "Ambient Host Subprocess Dependency",
+      "status": "repaired_and_verified",
+      "before": "scargo-probe, scargo-trace, and scargo-qualify invoked std::process::Command::new(\"git\") via ambient PATH to read HEAD commit SHA.",
+      "repair": "Removed std::process::Command imports across all 3 crates and replaced with a pure zero-subprocess .git/HEAD + .git/<ref> + .git/packed-refs reader.",
+      "verification": "Zero Command::new occurrences in compartments/rust/crates/; cargo test passes 8/8."
+    },
+    {
+      "id": "AUD-04",
+      "compartment": "swift",
+      "defect_class": "SUPPRESSION",
+      "conflation_type": "Silent Error Swallowing + Scattered Process Exits",
+      "status": "repaired_and_verified",
+      "before": "compartments/swift/Sources/scargo-audit/main.swift used `try? FileHandle.standardError.write(contentsOf: data)` (silently swallowing stderr I/O failure) and 6 raw exit() calls, and Package.swift lacked SE-0480 warning-as-error settings.",
+      "repair": "Enabled .treatAllWarnings(as: .error) in Package.swift, replaced `try?` with throwing FileHandle.standardError.write(contentsOf:), eliminated raw exit() calls via typed SCargoAuditError, and added 5 explicit atomic CompartmentGuardVerdict boolean guards.",
+      "verification": "swift build --build-system native -Xswiftc -print-diagnostic-groups compiles in 1.93s with 0 Swift compiler warnings; live scargo-audit passes 5/5 atomic compartment guards."
+    },
+    {
+      "id": "AUD-05",
+      "compartment": "lean",
+      "defect_class": "WARNINGS_AND_DEPRECATIONS",
+      "conflation_type": "Advisory Linter Warnings vs. Hard Errors",
+      "status": "repaired_and_verified",
+      "before": "compartments/lean/lakefile.toml omitted warningAsError = true, linter.deprecated = true, and linter.unusedVariables = true.",
+      "repair": "Enabled warningAsError = true, linter.deprecated = true, and linter.unusedVariables = true in lakefile.toml; fixed unnecessarySimpa and unusedSimpArgs flagged immediately by Lean 4.36.0 without any linter suppression.",
+      "verification": "lake build succeeds (6/6 jobs) with 0 warnings under LEAN_ABORT_ON_PANIC=1."
+    },
+    {
+      "id": "AUD-06",
+      "compartment": "lean",
+      "defect_class": "MONOLITHIC_GATE_OR_UNVERIFIED_TRUST",
+      "conflation_type": "Monolithic Boolean + Hardcoded Dataset Literals in Code",
+      "status": "repaired_and_verified",
+      "before": "compartments/lean/SCargoLean/Contract.lean hardcoded Riemannian theorem/axiom tables directly in Lean source and collapsed 4 checks into an opaque monolithic SafetyGate.passes boolean.",
+      "repair": "Replaced with parameterized atomic fail-closed boolean guards (GuardVerdict, guardZeroViolations, guardPermittedAxioms, guardCorrespondenceExact, guardCorrespondenceBounded), non-opaque failedCompartments diagnostic extractor, and 6 machine-checked soundness/correspondence theorems.",
+      "verification": "leanchecker SCargoLean SCargoLean.Contract passes; leanexport of all 6 theorems verified via leanchecker --from-export ('Lean default kernel accepts the solution')."
+    },
+    {
+      "id": "AUD-07",
+      "compartment": "research/papers/001",
+      "defect_class": "COMPROMISE_AND_SHORTCUT",
+      "conflation_type": "Code vs. Data Conflation & Baked Empirical Literals in Figure Renderer",
+      "status": "repaired_and_verified",
+      "before": "research/papers/001-riemannian-formulary-and-reduction-architecture/render_figures.py embedded hardcoded commit-specific JSON paths (51d9b1a280), 5 hardcoded Linux font paths, 7 inline display/lineage dicts duplicating formulary_lineage_v1.json, and 10+ hardcoded empirical measurements (149,397; 15,168,601; 5,308; 5 lines; 1.64M; 1,300-3,100; 1837-2026).",
+      "repair": "Extracted pure presentation metadata (zero numerals) to data/sources/paper_001_presentation_v1.json; refactored render_figures.py to require explicit CLI inputs, compute 100% of rendered metrics dynamically, enforce 5 atomic fail-closed pre-render guards with explicit healing actions (including an anti-baked-metric guard rejecting numerals smuggled into presentation JSON), resolve fonts portably, and emit a cryptographic SHA-256 figures_manifest.json receipt.",
+      "verification": "test_render_figures.py passes 8/8 adversarial & metamorphic pressure tests (including 50% corpus scaling with epsilon=0 claim correspondence and 5 poisoned negative controls); canonical Paper 001 figures regenerated with 5/5 guards PASS and 4/4 PNG SHA-256 verified."
+    },
+    {
+      "id": "OBS-01",
+      "compartment": "swift",
+      "defect_class": "WARNINGS_AND_DEPRECATIONS",
+      "conflation_type": "KVM Cross-vCPU TSC Skew + Upstream swift-build Telemetry Precondition + Swift 6.4 Deprecation",
+      "status": "healed_locally_and_upstream_report_drafted",
+      "before": "Swift 6.4.3 default swiftbuild (SWBBuildSystem) trapped with SIGILL (ud2 at swift-package+0x1aee1ef) inside ElapsedTimerInterval.init (Sources/SWBUtil/ElapsedTimer.swift:71) when fast tasks migrated from vCPU 0 to vCPU 1 on KVM clocksource=tsc (-2.08 ms measured cross-vCPU CLOCK_BOOTTIME skew); --build-system native worked around the crash but emitted a SwiftPM deprecation warning.",
+      "repair": "Added pure zero-trap ClockMonotonicityGuard & CompartmentAuditEvaluator to SCargoModel, 10 Swift Testing pressure tests (SCargoModelTests), and zero-dependency preflight runner compartments/swift/scripts/swift_guarded_build.py that probes cross-CPU CLOCK_BOOTTIME (<5ms), surfaces host skew visibly, fails closed under --fail-on-skew, and otherwise pins unmodified default Swift 6.4.3 swiftbuild via direct Linux os.sched_setaffinity (zero taskset dependency, zero deprecation warnings). Drafted upstream bug report + minimal clamping patch in research/upstream_reports/swift_build_elapsed_timer_sigill_report.md.",
+      "verification": "Default Swift 6.4.3 swiftbuild debug build (17.43s), swift test (10/10 Swift Testing passed), and release build (8.75s) all pass with --check-zero-warnings (0 crashes, 0 deprecation warnings, 0 swiftc warnings); --fail-on-skew exits 3 on this host; --check-zero-warnings traps deprecated --build-system native (exit 5); swiftbuild vs native scargo-audit binaries achieve byte-for-byte stdout parity on canonical SCargo/data/ and fail closed on poisoned trace fixtures."
+    }
+  ]
+}

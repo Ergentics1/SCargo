@@ -1,0 +1,23 @@
+# Copyright (c) 2026 Ergentics, LLC
+# Licensed under the MIT License. See LICENSE in the project root.
+
+# Rust compartment build outputs
+compartments/rust/target/
+
+# Lean 4 compartment build outputs
+compartments/lean/.lake/
+
+# Open-Source Swift 6.4 compartment build outputs
+compartments/swift/.build/
+compartments/swift/.swiftpm/
+
+# Python caches
+__pycache__/
+*.py[cod]
+
+# OS / editor noise
+.DS_Store
+Thumbs.db
+*.swp
+*.swo
+*.tmp

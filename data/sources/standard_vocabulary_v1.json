@@ -1,0 +1,212 @@
+{
+  "schema_version": "1.0.0",
+  "copyright": "Copyright (c) 2026 Ergentics, LLC",
+  "organization": "Ergentics",
+  "title": "Standardized Cross-Era Mathematical & Clean-Room Engineering Lexicon",
+  "purpose": "Establishes lexical consistency across five historical eras of analytic and arithmetic number theory (1837-2026) and the clean-room empirical methodology used to study and compress machine-verified proofs.",
+  "eras": [
+    {
+      "id": "ERA-I",
+      "span": "1837-1896",
+      "name": "Classical Analytic Foundations",
+      "summary": "From Dirichlet characters and Riemann's analytic continuation to the classical non-vanishing theorems on the boundary of the critical strip."
+    },
+    {
+      "id": "ERA-II",
+      "span": "1946-1952",
+      "name": "Adelic Harmonic Analysis & Explicit Positivity",
+      "summary": "Local-global Fourier analysis over adeles, explicit prime-zero summation formulas, Weil's positivity equivalence, and combinatorial 3-AP-free constructions."
+    },
+    {
+      "id": "ERA-III",
+      "span": "1964-1989",
+      "name": "Multiplicity, Theta Lifts & Automorphic Representations",
+      "summary": "Stepanov's function-field multiplicity strategy alongside metaplectic Weil representations, smooth p-adic classification, Lie-group factorisation, canonical globalisation, and isobaric rigidity."
+    },
+    {
+      "id": "ERA-IV",
+      "span": "1974-2012",
+      "name": "Regularized Periods, Galois Compatibility & Arithmetic Slopes",
+      "summary": "Dual reductive pairs, Howe duality, regularized Siegel-Weil identities, seesaw inner products, automorphic purity, local-global Galois compatibility, and Arakelov slope bounds."
+    },
+    {
+      "id": "ERA-V",
+      "span": "2022-2026",
+      "name": "Integral p-adic Hodge Theory & Machine-Verified Synthesis",
+      "summary": "Prismatic cohomology, integral Dieudonné lattices, and the complete machine-checked synthesis chaining unitary theta lifts to prove RH and GRH."
+    }
+  ],
+  "terms": [
+    {
+      "term": "Dirichlet Character & L-Function",
+      "category": "Mathematical Formulary",
+      "era": "ERA-I",
+      "source_ids": ["SRC-01"],
+      "plain_definition": "A periodic, completely multiplicative weight chi(n) modulo N paired with the series L(s, chi) = sum chi(n) n^{-s}, generalizing the Riemann zeta function to primes in arithmetic progressions.",
+      "role_in_proof": "Defines the exact family of analytic functions whose non-vanishing for Re(s) > 1/2 is the Generalized Riemann Hypothesis (GRH).",
+      "preferred_usage": "Use 'Dirichlet L-function' consistently rather than mixing 'Dirichlet series' and 'character zeta'."
+    },
+    {
+      "term": "Critical Strip & Functional Symmetry",
+      "category": "Mathematical Formulary",
+      "era": "ERA-I",
+      "source_ids": ["SRC-02", "SRC-03"],
+      "plain_definition": "The vertical region 0 < Re(s) < 1 where all nontrivial zeros reside; Riemann's functional equation reflects zeros symmetrically across the critical line Re(s) = 1/2.",
+      "role_in_proof": "Combined with Hadamard and de la Vallée Poussin's boundary non-vanishing on Re(s) >= 1, symmetry reduces the entire hypothesis to ruling out zeros with Re(s) > 1/2.",
+      "preferred_usage": "Use 'critical strip' and 'functional symmetry' when describing the reflection s <-> 1-s."
+    },
+    {
+      "term": "Adelic Zeta Integral",
+      "category": "Mathematical Formulary",
+      "era": "ERA-II",
+      "source_ids": ["SRC-05"],
+      "plain_definition": "Tate's unified Fourier-analytic integral over all completions (real, complex, and p-adic) of a number field simultaneously.",
+      "role_in_proof": "Supplies analytic continuation, Euler products, local root numbers, and functional equations for Hecke L-functions in a uniform framework.",
+      "preferred_usage": "Use 'adelic zeta integral' or 'Tate local-global duality'."
+    },
+    {
+      "term": "Guinand-Weil Positivity Criterion",
+      "category": "Mathematical Formulary",
+      "era": "ERA-II",
+      "source_ids": ["SRC-06"],
+      "plain_definition": "An explicit duality relating sums over prime powers to sums over zeros, showing that RH holds if and only if a specific quadratic functional W(f * f~) is non-negative on test functions.",
+      "role_in_proof": "Serves as the central analytic bridge converting algebraic and automorphic inequalities into zero-free half-planes.",
+      "preferred_usage": "Always credit both Guinand (1948) and Weil (1952) as the 'Guinand-Weil positivity criterion'."
+    },
+    {
+      "term": "Behrend Progression-Free Set",
+      "category": "Mathematical Formulary",
+      "era": "ERA-II",
+      "source_ids": ["SRC-04"],
+      "plain_definition": "A dense subset of integers containing no three equally spaced elements, constructed via lattice points on high-dimensional spheres.",
+      "role_in_proof": "Used in the original 2026 formalization to select parameters for an Iwasawa tower; explicitly flagged by the proof's author as an early candidate for mathematical simplification.",
+      "preferred_usage": "Use 'Behrend progression-free construction' rather than shorthand '3-AP trick'."
+    },
+    {
+      "term": "Multiplicity Paradigm (Stepanov Descendant)",
+      "category": "Mathematical Formulary",
+      "era": "ERA-III",
+      "source_ids": ["SRC-08"],
+      "plain_definition": "A proof strategy originating over finite fields that bounds point counts by constructing an auxiliary object vanishing to high order; over the integers, where differentiation fails to produce arithmetic multiplicity, it is emulated by a long chain of iterated unitary theta lifts.",
+      "role_in_proof": "Provides the overarching organizing blueprint connecting all automorphic and geometric subsystems of the proof.",
+      "preferred_usage": "Use 'multiplicity paradigm' or 'iterated unitary theta chain'."
+    },
+    {
+      "term": "Metaplectic & Weil Representation",
+      "category": "Mathematical Formulary",
+      "era": "ERA-III",
+      "source_ids": ["SRC-07"],
+      "plain_definition": "A canonical projective unitary representation on a double cover of the symplectic group that generalizes classical theta functions to arbitrary reductive dual pairs.",
+      "role_in_proof": "Powers every step of the length ~sqrt(X) chain of theta lifts across totally definite unitary groups.",
+      "preferred_usage": "Use 'Weil unitary representation' and 'metaplectic double cover'."
+    },
+    {
+      "term": "Local Representation & Rigidity Package",
+      "category": "Mathematical Formulary",
+      "era": "ERA-III",
+      "source_ids": ["SRC-09", "SRC-10"],
+      "plain_definition": "The combined local theory classifying smooth p-adic representations (Bernstein-Zelevinsky), factoring smooth vectors on Lie groups (Dixmier-Malliavin), extending Harish-Chandra modules canonically (Casselman), and enforcing strong multiplicity one (Jacquet-Shalika).",
+      "role_in_proof": "Pins down local automorphic components and rules out degenerate cancellations in Satake parameter comparisons.",
+      "preferred_usage": "Refer to the specific constituent theorem by author name rather than generic 'published library'."
+    },
+    {
+      "term": "Regularized Siegel-Weil & Seesaw Duality",
+      "category": "Mathematical Formulary",
+      "era": "ERA-IV",
+      "source_ids": ["SRC-12"],
+      "plain_definition": "An identity expressing regularized theta integrals via special values of Siegel Eisenstein series, paired with Rallis's seesaw mechanism and Gan-Gross-Prasad period formulas to compute inner products.",
+      "role_in_proof": "Controls the norms and Bessel periods along the iterated theta-lift spine.",
+      "preferred_usage": "Use 'regularized Siegel-Weil identity' and 'seesaw period duality'."
+    },
+    {
+      "term": "Automorphic Galois Compatibility",
+      "category": "Mathematical Formulary",
+      "era": "ERA-IV",
+      "source_ids": ["SRC-11"],
+      "plain_definition": "The correspondence attaching pure l-adic Galois representations to regular algebraic cuspidal automorphic representations so local Frobenius data match local automorphic parameters.",
+      "role_in_proof": "Constructs the integral Galois-representation row that anchors the single largest uniquely dependent branch of the proof graph.",
+      "preferred_usage": "Use 'automorphic Galois compatibility' (Clozel-Caraiani lineage)."
+    },
+    {
+      "term": "Arakelov Slope & Covolume Inequality",
+      "category": "Mathematical Formulary",
+      "era": "ERA-IV",
+      "source_ids": ["SRC-13"],
+      "plain_definition": "Geometric height and lattice-volume inequalities for Hermitian vector bundles over rings of integers, bridging algebraic geometry and Minkowski-style lattice estimates.",
+      "role_in_proof": "Supplies covolume lower bounds and divisibility estimates across the abelian-variety height machinery.",
+      "preferred_usage": "Use 'Arakelov slope inequality' and 'Bost covolume bound'."
+    },
+    {
+      "term": "Prismatic Integral Hodge Lattice",
+      "category": "Mathematical Formulary",
+      "era": "ERA-V",
+      "source_ids": ["SRC-14"],
+      "plain_definition": "An integral p-adic cohomology structure introduced by Bhatt and Scholze that classifies crystalline lattices and p-divisible groups without inverting p.",
+      "role_in_proof": "Controls integral inertia eigenvalues and crystalline lattice comparisons inside the abelian-variety height proofs.",
+      "preferred_usage": "Use 'prismatic Dieudonné classification' or 'prismatic integral lattice'."
+    },
+    {
+      "term": "Clean-Room Laboratory vs. Reference Artifact",
+      "category": "Clean-Room Methodology",
+      "era": "ERA-V",
+      "source_ids": ["SRC-15"],
+      "plain_definition": "A strict operational separation in which all measurement, modeling, and experimental trials happen in an isolated laboratory while the verified mathematical proof remains completely untouched until a change passes formal acceptance.",
+      "role_in_proof": "Prevents speculative experiments from contaminating the verified proof baseline or invalidating build caches.",
+      "preferred_usage": "Use 'clean-room laboratory' and 'verified reference artifact' in scholarly text."
+    },
+    {
+      "term": "Structural Mass Vector",
+      "category": "Clean-Room Methodology",
+      "era": "ERA-V",
+      "source_ids": ["SRC-15"],
+      "plain_definition": "A five-dimensional measurement of proof size capturing module count, source lines, raw bytes, exported kernel proof-term size, and compilation compute cost simultaneously.",
+      "role_in_proof": "Prevents misleading single-metric optimizations that shrink one dimension (such as compile time) while inflating another (such as import lines).",
+      "preferred_usage": "Use 'structural mass' or 'five-component mass budget'."
+    },
+    {
+      "term": "Sole-Dependency Subtree",
+      "category": "Clean-Room Methodology",
+      "era": "ERA-V",
+      "source_ids": ["SRC-15"],
+      "plain_definition": "The set of downstream modules that are reachable from the main theorem exclusively through one given module (formally, its subtree in the graph-theoretic dominator tree).",
+      "role_in_proof": "Measures the exact upper bound on proof mass that can be simplified or eliminated if a single intermediate theorem is replaced by a shorter argument.",
+      "preferred_usage": "Use 'sole-dependency subtree' (noting 'dominator subtree' once at first definition)."
+    },
+    {
+      "term": "High-Impact Shared Module",
+      "category": "Clean-Room Methodology",
+      "era": "ERA-V",
+      "source_ids": ["SRC-15"],
+      "plain_definition": "A module imported directly by hundreds or thousands of other modules (high direct in-degree / fan-in in the dependency graph).",
+      "role_in_proof": "Identifies interface-sensitive foundations where even a minor signature change triggers wide recompilation across the proof tree.",
+      "preferred_usage": "Use 'high-impact shared module' (noting 'direct importer count' rather than bare 'fan-in')."
+    },
+    {
+      "term": "Scaffolding Overhead & Forwarding Wrappers",
+      "category": "Clean-Room Methodology",
+      "era": "ERA-V",
+      "source_ids": ["SRC-15"],
+      "plain_definition": "Non-mathematical structural lines—blank lines, import headers, namespace openings, compiler directives—and machine-generated wrapper files that merely re-export a theorem proven in an adjacent file.",
+      "role_in_proof": "Quantifies mechanical size that can be reduced safely without altering the underlying mathematical argument.",
+      "preferred_usage": "Use 'scaffolding overhead' and 'generated forwarding wrapper'."
+    },
+    {
+      "term": "Observational Baseline & Stratified Controlled Trial",
+      "category": "Clean-Room Methodology",
+      "era": "ERA-V",
+      "source_ids": ["SRC-15"],
+      "plain_definition": "A two-stage empirical protocol: first conducting a complete observational census of the untouched proof, then evaluating each candidate compression rule on balanced, randomly allocated treatment and control module pairs stratified by domain and file size.",
+      "role_in_proof": "Measures true net reduction and failure rates objectively before scaling any transformation across the proof tree.",
+      "preferred_usage": "Use 'observational baseline study' and 'stratified controlled trial'."
+    },
+    {
+      "term": "Interface Boundary & Safety Invariants",
+      "category": "Clean-Room Methodology",
+      "era": "ERA-V",
+      "source_ids": ["SRC-15"],
+      "plain_definition": "The explicit contract specifying which core theorem statements and axioms may never change, together with five pass/fail checks (import integrity, acyclicity, zero core drift, compilation of all affected importers, and strict axiom preservation).",
+      "role_in_proof": "Guarantees that every accepted reduction preserves full mathematical soundness and independent kernel verifiability.",
+      "preferred_usage": "Use 'interface boundary' and 'five safety invariants' instead of opaque internal gate codes."
+    }
+  ]
+}

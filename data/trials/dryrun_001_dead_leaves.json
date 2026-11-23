@@ -1,0 +1,24 @@
+{
+  "schema_version": "1.0.0",
+  "copyright": "Copyright (c) 2026 Ergentics, LLC",
+  "tool": "scargo-qualify/0.1.0",
+  "dry_run_id": "DRYRUN-001-dead-leaves",
+  "source_repo_commit": "51d9b1a28026d458aef9c9af3df8b083276e3d2d",
+  "elapsed_ms": 5608,
+  "summary": {
+    "dead_modules_count": 112,
+    "reclaimable_lines": 8060,
+    "reclaimable_bytes": 468760,
+    "imported_by_any_reachable_module": 0,
+    "internal_dead_to_dead_edges": 154,
+    "lakefile_explicit_references": 0,
+    "lakefile_uses_wildcard_glob": true,
+    "upstream_lakefile_edit_required": false,
+    "upstream_ci_compliant": true,
+    "quick_check_eligible_single_pr": false,
+    "recommended_ci_route": "full rh-build runner (112 deleted files exceed quick-check 8-root diagnostic cap) OR verify local lean build zero-dependency"
+  },
+  "subtree_breakdown": [
+    {"subtree": "Development/AbelianVarietyTheory/Proofs/FlagMeasures", "modules": 112}
+  ]
+}

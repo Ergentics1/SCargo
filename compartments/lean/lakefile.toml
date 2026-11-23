@@ -1,0 +1,23 @@
+# Copyright (c) 2026 Ergentics, LLC
+# Licensed under the MIT License. See LICENSE in the project root.
+
+name = "scargo_lean"
+version = "0.1.0"
+defaultTargets = ["SCargoLean"]
+testDriver = "riem_lattice_test"
+
+[leanOptions]
+warningAsError = true
+autoImplicit = false
+relaxedAutoImplicit = false
+pp.unicode.fun = true
+linter.deprecated = true
+linter.unusedVariables = true
+
+[[lean_lib]]
+name = "SCargoLean"
+roots = ["SCargoLean"]
+
+[[lean_exe]]
+name = "riem_lattice_test"
+root = "SCargoLean.RiemLatticeTest"

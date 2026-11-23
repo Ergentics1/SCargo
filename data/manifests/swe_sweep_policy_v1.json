@@ -1,0 +1,377 @@
+{
+  "schema_version": "1.1.0",
+  "copyright": "Copyright (c) 2026 Ergentics, LLC",
+  "organization": "Ergentics",
+  "title": "SCargo Ground-Level SWE-Sweep, Zero-Trust Compartment & Correspondence Verification Policy",
+  "status": "design_and_literature_baseline",
+  "core_thesis": {
+    "name": "The Correspondence Principle",
+    "statement": "Every deeper theory must smoothly contain the older theory inside its proven dimensionless regime, with a quantifiable error bound on the mismatch.",
+    "literature_ids": ["METH-34", "METH-35", "METH-36", "METH-37"]
+  },
+  "verified_toolchains": {
+    "rust": "rustc 1.100.0 (0ef1bc386 2026-11-09)",
+    "swift": "Swift 6.4.3 (swift-6.4.3-RELEASE, x86_64-unknown-linux-gnu)",
+    "lean": "Lean 4.36.0 (commit 611c117bfaf7b7ae1cfcf246ce6fba31e8f509e9, Release) / Lake 5.0.0-src+611c117"
+  },
+  "core_principles": [
+    {
+      "id": "PRIN-01",
+      "name": "Strict Code-Data-Model Separation",
+      "literature_ids": ["METH-01", "METH-02"],
+      "rule": "Executable code lives strictly in compartments/, immutable datasets and policy manifests live in data/, and conceptual/formal specifications live in models/. Code must read policy and dataset inputs at runtime rather than embedding tables or rule catalogs as magic literals."
+    },
+    {
+      "id": "PRIN-02",
+      "name": "Warnings as Errors Without Silent Suppression",
+      "literature_ids": ["METH-11", "METH-12", "METH-13", "METH-14"],
+      "rule": "Every compiler warning and deprecation warning is promoted to a hard build error in SCargo across Rust, Swift, and Lean. Blanket suppressions and stale suppressions are forbidden; any unavoidable external platform issue must be recorded in an explicit, expiring waiver entry in data/manifests/."
+    },
+    {
+      "id": "PRIN-03",
+      "name": "Three-Language Parity as Semantic Oracle",
+      "literature_ids": ["METH-03", "METH-04", "METH-05"],
+      "rule": "Rust, Swift 6.4, and Lean 4.36 implement shared ground-level models independently from identical schema specifications and canonical test fixtures. Any output divergence on identical input is a hard parity defect."
+    },
+    {
+      "id": "PRIN-04",
+      "name": "Zero Backdoors, Hidden Dependencies, or Symlink Escapes",
+      "literature_ids": ["METH-06", "METH-07", "METH-08", "METH-09", "METH-10", "METH-15", "METH-16", "METH-17", "METH-18", "METH-19"],
+      "rule": "All compartments build offline against pinned manifests with zero undeclared dependencies, zero symlinks inside repository trees, zero Trojan Source Unicode controls, zero build-time arbitrary code execution hooks, and zero kernel/type-system escape hatches."
+    },
+    {
+      "id": "PRIN-05",
+      "name": "Tri-Regime Verification + Adversarial Negative Controls",
+      "literature_ids": ["METH-20", "METH-21", "METH-22", "METH-23", "METH-24", "METH-25", "METH-31"],
+      "rule": "Every integrity and parity property is tested across deterministic, runtime, and probabilistic regimes, and every SWE-sweep compartment is mutation-qualified against planted negative-control ('poisoned') fixtures that it must reject."
+    },
+    {
+      "id": "PRIN-06",
+      "name": "Truth Independent of Non-Copying or Non-Modification (Anti-Helper-Pathology)",
+      "literature_ids": ["METH-26", "METH-27", "METH-28", "METH-30", "METH-32", "METH-33"],
+      "rule": "Build nothing whose truth depends on it not being copied, inspected, or modified, and never rely on trusting a human or AI helper's intentions or self-explanations. Every verification claim must ship as an independently re-verifiable, content-addressed witness artifact resistant to sloppy-helper holes, leakers, and false-integrity rationalization."
+    },
+    {
+      "id": "PRIN-07",
+      "name": "No Monolithic Gates — Independent Composable Compartments",
+      "literature_ids": ["METH-29", "METH-30", "METH-32"],
+      "rule": "Verification is never collapsed into a single master boolean gate or shared trust authority. Each integrity property (compiler strictness, anti-suppression, backdoor absence, confinement, dependency pinning, filesystem topology, parity, kernel replay, correspondence) is checked by an isolated compartment emitting its own independently replayable witness."
+    },
+    {
+      "id": "PRIN-08",
+      "name": "The Correspondence Principle with Quantifiable Dimensionless Error Bounds",
+      "literature_ids": ["METH-34", "METH-35", "METH-36", "METH-37"],
+      "rule": "Every deeper model, engine rung, or proof transformation must smoothly contain the proven older baseline inside its declared dimensionless validity regime with an explicit, computable error bound delta(epsilon) <= B(epsilon) (strictly 0 on exact logical/kernel invariants) and explicit singular-boundary guardrails."
+    }
+  ],
+  "verification_regimes": [
+    {
+      "id": "REG-DET",
+      "name": "Deterministic",
+      "literature_ids": ["METH-08", "METH-11", "METH-12", "METH-13", "METH-14", "METH-16", "METH-17"],
+      "objective": "Exact, bit-reproducible static and compiler-enforced verification with zero randomness.",
+      "checks": [
+        "Compiler warnings-as-errors across Rust, Swift 6.4, and Lean 4.36 (including deprecation diagnostics).",
+        "AST / token / byte-level SWE-sweep over source, manifests, dotfiles, and JSON vaults for suppressions, backdoors, invisible Unicode BiDi characters, hardcoded data conflation, and forbidden build hooks.",
+        "Filesystem topology sweep rejecting symlinks, hardlink escapes, directory traversal ('..'), git export-subst filters, and untracked shadow harness files.",
+        "Pinned lockfile and zero-undeclared-dependency audit across Cargo.lock, Package.swift, and lake-manifest.json.",
+        "Independent Lean kernel replay (leanchecker) and proof export verification (leanexport -> leanchecker --from-export) enforcing UP-01 through UP-03."
+      ]
+    },
+    {
+      "id": "REG-RUN",
+      "name": "Runtime",
+      "literature_ids": ["METH-06", "METH-15", "METH-16", "METH-18", "METH-19", "METH-24", "METH-25"],
+      "objective": "Dynamic execution verification under strict hermetic, bounded, fail-fast operating envelopes.",
+      "checks": [
+        "Offline execution verification: all tests and builds must succeed with zero network calls and immutable reference repository (Riemannian dirty file count == 0).",
+        "Fail-fast runtime flags: LEAN_ABORT_ON_PANIC=1 in Lean, debug overflow/bounds assertions in Rust, strict concurrency + runtime precondition traps in Swift.",
+        "Process, filesystem, and ambient environment boundary audit: verify no undeclared child subprocesses, no writes outside designated output/scratch paths, and no dependence on unrecorded ambient environment variables or PATH tricks.",
+        "Deterministic execution repeatability: identical inputs under repeated runs and perturbed working/env conditions must produce byte-identical canonical JSON outputs.",
+        "Strict execution time and memory watchdog bounds (no unbounded loops or hanging background tasks)."
+      ]
+    },
+    {
+      "id": "REG-PROB",
+      "name": "Probabilistic",
+      "literature_ids": ["METH-04", "METH-05", "METH-20", "METH-21", "METH-22", "METH-23"],
+      "objective": "Generative, metamorphic, differential-fuzzing, and statistically powered verification to uncover edge cases unreachable by hand-crafted unit tests.",
+      "checks": [
+        "Seeded property-based testing (QuickCheck style) generating synthetic import DAGs, wrapper ASTs, malformed JSON schemas, and edge-case UTF-8 streams with deterministic counterexample shrinking.",
+        "Differential fuzzing across Rust, Swift 6.4, and Lean 4.36 implementations over identical generated corpora (McKeeman oracle): zero cross-language semantic discrepancies permitted.",
+        "Metamorphic invariance sweeps: permuting file discovery order, inserting/removing comments or blank lines, or renaming non-contract identifiers must leave structural graph, dominator, and safety-gate invariants unchanged.",
+        "Randomized stratified sampling & statistical trials following Arcuri & Briand (2014) and Klees et al. (2018): fixed recorded PRNG seeds, n >= 30 replications for timing/randomized evaluations, two-tailed Wilcoxon-Mann-Whitney U test (alpha = 0.01) + Vargha-Delaney A12 effect size."
+      ]
+    }
+  ],
+  "defect_classes": [
+    {
+      "id": "DEF-SUPP",
+      "code": "SUPPRESSION",
+      "severity": "hard_fail",
+      "regimes": ["REG-DET", "REG-RUN"],
+      "literature_ids": ["METH-12", "METH-13", "METH-14"],
+      "upstream_links": ["UP-02", "UP-06"],
+      "description": "Any mechanism that silences compiler warnings, linter diagnostics, deprecation notices, runtime errors, or test assertions without fixing the root cause.",
+      "language_surfaces": {
+        "rust": [
+          "#[allow(...)] and #![allow(...)] (including dead_code, unused, deprecated, warnings, clippy::*)",
+          "#[expect(...)] used on lints without an approved manifest waiver",
+          "#[ignore] on tests or skipped assertions",
+          "Silent error discard via `let _ = fallible_expr` or `.ok()` hiding I/O or parse failures",
+          "Cargo/RUSTFLAGS overrides lowering lints (e.g., -A warnings, --cap-lints allow)"
+        ],
+        "swift": [
+          "-suppress-warnings, -no-warnings-as-errors, or -Wwarning <group> downgrading errors (SE-0443)",
+          "Silent error swallowing via `try?` where failure alters observable state or diagnostics",
+          "Skipped tests (`XCTSkip` / `.disabled(...)`) without an explicit manifest waiver",
+          "Blanket comment directives (`// swiftlint:disable`, `// swift-format-ignore`)"
+        ],
+        "lean": [
+          "`set_option warningAsError false`",
+          "`set_option linter.all false` or `set_option linter.<name> false` (including `linter.deprecated false`, `linter.unusedVariables false`)",
+          "`sorry`, `admit`, or silent tactic fallbacks masking warnings"
+        ]
+      }
+    },
+    {
+      "id": "DEF-BACK",
+      "code": "BACKDOOR",
+      "severity": "hard_fail",
+      "regimes": ["REG-DET", "REG-RUN"],
+      "literature_ids": ["METH-06", "METH-07", "METH-08", "METH-09", "METH-10", "METH-15", "METH-17"],
+      "upstream_links": ["UP-02", "UP-03", "UP-05", "UP-06"],
+      "description": "Any soundness escape hatch, FFI bypass, build-time code injection hook, kernel-check bypass, or visually deceptive source encoding.",
+      "language_surfaces": {
+        "rust": [
+          "`unsafe` blocks/functions/traits/impls (enforce `#![forbid(unsafe_code)]`)",
+          "`extern \"C\"` / `std::mem::transmute` / raw pointer dereference",
+          "Build scripts (`build.rs`) or procedural macro crates executing arbitrary compile-time code",
+          "Trojan Source Unicode BiDi overrides (U+202A..U+202E, U+2066..U+2069, U+200E, U+200F, U+061C) and zero-width invisibles"
+        ],
+        "swift": [
+          "`unsafeBitCast`, `UnsafePointer`, `UnsafeMutableRawPointer`, `withUnsafe*` escapes",
+          "Underscored compiler-private hooks (`@_silgen_name`, `@_extern`, `@_cdecl`, `@_transparent`, `@_implements`)",
+          "Concurrency soundness bypasses (`@unchecked Sendable`, `nonisolated(unsafe)`)",
+          "SwiftPM command/build-tool plugins executing arbitrary build-time binaries",
+          "Trojan Source Unicode BiDi overrides and invisible control characters"
+        ],
+        "lean": [
+          "`axiom`, `sorry`, `admit`, `opaque`, `unsafe`, `partial` (in verified contract/kernel modules)",
+          "`native_decide`, `@[implemented_by ...]`, `@[extern ...]`, `@[export ...]`",
+          "`debug.skipKernelTC`, `debug.*` options, or `extern_lib` in lakefile.toml",
+          "Elaborator/macro `IO`, `IO.Process`, `IO.FS`, or environment reads during elaboration",
+          "Trojan Source Unicode BiDi overrides and confusable notation shadowing"
+        ]
+      }
+    },
+    {
+      "id": "DEF-HDEP",
+      "code": "HIDDEN_DEPENDENCY",
+      "severity": "hard_fail",
+      "regimes": ["REG-DET", "REG-RUN"],
+      "literature_ids": ["METH-15", "METH-16", "METH-18", "METH-19"],
+      "upstream_links": ["UP-04", "UP-05", "UP-06"],
+      "description": "Any undeclared external library, unpinned git reference, ambient environment variable, runtime PATH probe, dynamic library load, or network dependency.",
+      "language_surfaces": {
+        "rust": [
+          "Non-empty `[dependencies]` not explicitly approved in SCargo policy (ground layer targets zero external crates)",
+          "Unpinned git/path dependencies or builds failing under `cargo --locked --offline`",
+          "Ambient `std::env::var` reads not declared in the CLI contract, or `std::process::Command` invoking ambient shell tools"
+        ],
+        "swift": [
+          "Undeclared `Package.swift` remote dependencies or unpinned branch/revision URLs",
+          "Dynamic `dlopen` / `Process` shell-outs or implicit `ProcessInfo.processInfo.environment` reads",
+          "Hidden C/system header imports not declared in toolchain specification"
+        ],
+        "lean": [
+          "Undeclared `[[require]]` entries or modified `lake-manifest.json` outside pinned policy",
+          "Unpinned `lean-toolchain` (must match `leanprover/lean4:v4.36.0`)",
+          "System/environment/filesystem reads inside Lean elaboration"
+        ]
+      }
+    },
+    {
+      "id": "DEF-SYML",
+      "code": "SYMLINK_AND_PATH_ESCAPE",
+      "severity": "hard_fail",
+      "regimes": ["REG-DET", "REG-RUN"],
+      "literature_ids": ["METH-16", "METH-24", "METH-25"],
+      "upstream_links": ["UP-05", "UP-06"],
+      "description": "Symbolic links in tracked source/data/model/fixture trees, out-of-root symlink escapes anywhere (including build caches), relative path escapes, git filter substitutions, or shadow test-harness files that violate compartment containment.",
+      "language_surfaces": {
+        "rust": [
+          "Zero symlinks anywhere in tracked source/data/models/fixtures; zero out-of-root symlinks in target/",
+          "Path arguments containing uncanonicalized `..` escaping declared input/output roots",
+          "Shadow `.cargo/config.toml` overriding compiler flags or runners silently"
+        ],
+        "swift": [
+          "Zero symlinks anywhere in tracked compartments/swift/Sources, Package.swift, or fixtures/ (SwiftPM's own gitignored .build/debug relative symlink is bounded strictly inside .build/ and must never escape)",
+          "Path resolution following symlinks outside authorized read-only or scratch directories",
+          "Hidden `.swiftpm/` configuration overrides committed or injected into test runs"
+        ],
+        "lean": [
+          "Zero symlinks anywhere in tracked compartments/lean/ or target source trees; zero out-of-root symlinks in .lake/",
+          "Git `.gitattributes` `export-subst` or smudge/clean filters (explicitly forbidden by UP-06)",
+          "Out-of-tree `srcDir` / `buildDir` / `packagesDir` redirections (UP-05)"
+        ]
+      }
+    },
+    {
+      "id": "DEF-WARN",
+      "code": "WARNINGS_AND_DEPRECATIONS",
+      "severity": "hard_fail",
+      "regimes": ["REG-DET"],
+      "literature_ids": ["METH-11", "METH-12", "METH-13", "METH-14"],
+      "upstream_links": ["UP-05"],
+      "description": "Compiler warnings, linter warnings, or deprecation notices left unresolved or masked instead of treated as hard errors.",
+      "language_surfaces": {
+        "rust": [
+          "Must compile and test cleanly with `RUSTFLAGS=\"-D warnings\"` and `cargo clippy --all-targets -- -D warnings`",
+          "Deprecated API warnings (`#[deny(deprecated)]`) must fail the build, never be allowed"
+        ],
+        "swift": [
+          "Must compile and test cleanly with `-warnings-as-errors` and `-print-diagnostic-groups` under `.swiftLanguageMode(.v6)`",
+          "Deprecation warnings (`Deprecated`, `DeprecatedDeclaration`) must remain errors; `-Wwarning Deprecated` is banned",
+          "Toolchain-driver deprecation warnings (such as OBS-01) must never be silenced and must be logged in the explicit platform ledger"
+        ],
+        "lean": [
+          "SCargo compartments/lean enforces `warningAsError = true`, `autoImplicit = false`, `relaxedAutoImplicit = false`, `linter.deprecated = true`, `linter.unusedVariables = true`",
+          "Upstream nuance (UP-05): do NOT modify Riemannian/lakefile.toml to inject warningAsError; enforce warning-free compilation on SCargo-touched modules via targeted verification runs"
+        ]
+      }
+    },
+    {
+      "id": "DEF-COMP",
+      "code": "COMPROMISE_AND_SHORTCUT",
+      "severity": "hard_fail",
+      "regimes": ["REG-DET", "REG-RUN", "REG-PROB"],
+      "literature_ids": ["METH-01", "METH-02", "METH-21", "METH-23", "METH-24", "METH-25"],
+      "upstream_links": ["UP-01", "UP-02", "UP-06", "UP-08"],
+      "description": "Engineering shortcuts that weaken verification strength: code/data conflation, unseeded randomness, relaxed compiler safety flags, unverified single-run claims, or test-oracle tampering.",
+      "language_surfaces": {
+        "rust": [
+          "Hardcoded dataset tables or baseline constants embedded in `.rs` code instead of read from `data/`",
+          "Unseeded RNG or hash-map iteration order leaking into serialized outputs (`BTreeMap` / canonical sort required)",
+          "Panicking `.unwrap()` / `.expect()` in production parsing paths instead of typed error propagation"
+        ],
+        "swift": [
+          "Hardcoded dataset tables embedded in `.swift` code instead of decoded from `data/`",
+          "Relaxing `.swiftLanguageMode(.v6)` down to `.v5` or disabling strict concurrency checks",
+          "Non-deterministic `Dictionary`/`Set` key ordering in emitted artifacts (require `.sortedKeys`)"
+        ],
+        "lean": [
+          "Relaxing `autoImplicit` or `relaxedAutoImplicit` to `true`",
+          "Embedding empirical dataset constants in proof/verification logic instead of parameterized inputs",
+          "Skipping independent kernel replay (`leanchecker` / `leanexport`)"
+        ]
+      }
+    },
+    {
+      "id": "DEF-PAR",
+      "code": "PARITY_DRIFT",
+      "severity": "hard_fail",
+      "regimes": ["REG-DET", "REG-RUN", "REG-PROB"],
+      "literature_ids": ["METH-03", "METH-04", "METH-05", "METH-20", "METH-22"],
+      "upstream_links": ["UP-01", "UP-03"],
+      "description": "Any semantic, structural, or numerical discrepancy between Rust, Swift 6.4, and Lean 4.36 implementations operating on identical canonical data fixtures.",
+      "language_surfaces": {
+        "rust": ["Canonical reference JSON output hash + exact schema conformance against Swift and Lean models"],
+        "swift": ["Canonical Codable JSON decode/encode round-trip + exact invariant agreement with Rust and Lean"],
+        "lean": ["Formal executable contract witnesses (axiom allowlists, DAG acyclicity, correspondence predicates) agreeing 1:1 with Rust and Swift outputs"]
+      }
+    },
+    {
+      "id": "DEF-LEAK",
+      "code": "CONFINEMENT_AND_EXFILTRATION_HOLE",
+      "severity": "hard_fail",
+      "regimes": ["REG-DET", "REG-RUN"],
+      "literature_ids": ["METH-28", "METH-29", "METH-33"],
+      "upstream_links": ["UP-05", "UP-06"],
+      "description": "Any overt or covert information-leakage channel, helper hook, ambient credential/environment read, unauthorized network egress, or out-of-scope file write that leaves an exfiltration or integrity hole in a codebase.",
+      "language_surfaces": {
+        "rust": [
+          "Network sockets (`std::net::*`) or HTTP clients in ground-layer analysis/sweep crates",
+          "Undeclared `std::env::vars()` dumping, ambient credential path reads, or writes outside declared CLI output paths",
+          "Hidden telemetry, temp-file side channels, or helper hooks left in target workspaces"
+        ],
+        "swift": [
+          "Network calls (`URLSession`, `FoundationNetworking`) in ground-layer audit/sweep targets",
+          "Undeclared `ProcessInfo.processInfo.environment` reads, credential-file reads, or writes outside explicit output paths",
+          "Subprocess launches (`Process`) without an explicit, static allowlist"
+        ],
+        "lean": [
+          "Any `IO.Process`, network, env-var (`IO.getEnv`), or out-of-tree `IO.FS` access during elaboration or proof verification (UP-06)",
+          "Metaprogramming side effects modifying files or leaking ambient host state into `.olean` artifacts"
+        ]
+      }
+    },
+    {
+      "id": "DEF-MONO",
+      "code": "MONOLITHIC_GATE_OR_UNVERIFIED_TRUST",
+      "severity": "hard_fail",
+      "regimes": ["REG-DET", "REG-RUN", "REG-PROB"],
+      "literature_ids": ["METH-26", "METH-27", "METH-29", "METH-30", "METH-31", "METH-32", "METH-33"],
+      "upstream_links": ["UP-01", "UP-03"],
+      "description": "Collapsing distinct integrity guarantees into a single monolithic pass/fail gate, or building any truth claim that depends on trusting helper intent, non-copying, secrecy, or self-certification rather than independently replayable compartment witnesses.",
+      "language_surfaces": {
+        "rust": [
+          "Single-boolean omnibus gate functions hiding which compartment check ran or passed",
+          "Reports lacking content-addressed input digests and independent replay instructions (proof-carrying witness contract)"
+        ],
+        "swift": [
+          "Monolithic audit verdict collapsing commit-match, DAG acyclicity, lineage, and schema integrity into an opaque boolean",
+          "Any verification logic whose truth assumes the fixture or repository cannot be copied or mutated externally"
+        ],
+        "lean": [
+          "Single aggregated boolean `SafetyGate.passes` substituting for separate, typed, independently replayable kernel/axiom/DAG/correspondence witnesses",
+          "Claims relying on prose assertions rather than independently re-checkable kernel export terms (`leanexport` -> `leanchecker --from-export`)"
+        ]
+      }
+    },
+    {
+      "id": "DEF-CORR",
+      "code": "CORRESPONDENCE_VIOLATION",
+      "severity": "hard_fail",
+      "regimes": ["REG-DET", "REG-RUN", "REG-PROB"],
+      "literature_ids": ["METH-34", "METH-35", "METH-36", "METH-37"],
+      "upstream_links": ["UP-01", "UP-02", "UP-03"],
+      "description": "Failure of a deeper theory, model rung, or compressed proof to smoothly contain the validated older baseline inside its proven dimensionless regime with a declared, quantifiable error bound delta(epsilon) <= B(epsilon), or silent extrapolation across a singular boundary.",
+      "language_surfaces": {
+        "rust": [
+          "Deeper analysis/reduction pass altering baseline discrete invariants (delta_logic != 0) or omitting declared numerical/statistical error bounds B(epsilon)",
+          "Unbounded extrapolation outside declared validity domain Omega_k without explicit boundary rejection"
+        ],
+        "swift": [
+          "Schema or model evolution breaking backward containment of proven v1 baselines without an explicit projection map pi and quantified mismatch bound",
+          "Floating-point or statistical comparisons without explicit dimensionless tolerance/confidence bounds"
+        ],
+        "lean": [
+          "Proof transformation altering theorem signature, universe parameters, or permitted axiom set (must satisfy delta_logic = 0 identically)",
+          "Silent breakage across singular formal boundaries (definitional equality `rfl`, `*.eq_1` equation-lemma pinning, or namespace shadowing)"
+        ]
+      }
+    }
+  ],
+  "negative_control_qualification": {
+    "literature_ids": ["METH-24", "METH-25", "METH-31", "METH-33"],
+    "requirement": "Before any SWE-sweep compartment is trusted, it must be executed against an isolated suite of deliberately poisoned fixtures (covering every defect class and language) and achieve 100% true-positive detection with 0% false negatives and 0% false positives on clean control fixtures—even when copied out-of-tree and re-run independently.",
+    "required_poisoned_fixtures": [
+      "poison_suppression_rust_allow_dead_code",
+      "poison_suppression_swift_try_optional_and_suppress_flag",
+      "poison_suppression_lean_set_option_linter_false",
+      "poison_backdoor_rust_unsafe_and_build_rs",
+      "poison_backdoor_swift_unchecked_sendable_and_silgen_name",
+      "poison_backdoor_lean_sorry_axiom_native_decide_skipKernelTC",
+      "poison_trojan_source_unicode_bidi_override",
+      "poison_symlink_out_of_tree_escape",
+      "poison_hidden_dependency_unpinned_manifest",
+      "poison_deprecation_warning_unflagged",
+      "poison_parity_drift_injected_off_by_one",
+      "poison_leaker_covert_env_exfil",
+      "poison_monolithic_self_certifying_gate",
+      "poison_correspondence_unbounded_drift"
+    ]
+  },
+  "state_separation_rule": "Normative policy rules in this manifest are strictly immutable and must never embed live audit findings, remediation logs, or platform waivers. Live audit state and explicit platform waivers live separately under data/audits/."
+}

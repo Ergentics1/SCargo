@@ -1,0 +1,98 @@
+{
+  "schema_version": "1.0.0",
+  "copyright": "Copyright (c) 2026 Ergentics, LLC",
+  "organization": "Ergentics",
+  "title": "Verified Upstream Requirements & Rejection Rules for leanprover-community/riemann-hypothesis",
+  "verified_against_commit": "51d9b1a28026d458aef9c9af3df8b083276e3d2d",
+  "rules": [
+    {
+      "id": "UP-01",
+      "category": "Verification Contract",
+      "severity": "hard_blocker",
+      "source": "comparator.json, export-targets.txt, src/Challenge.lean, src/Main.lean",
+      "requirement": "Main.lean must prove the exact five theorems declared in Challenge.lean (riemannHypothesis, riemannZeta_eq_zero_re, LFunction_ne_zero_of_half_lt_re, LFunction_eq_zero_re, LFunction_eq_zero_re_of_isPrimitive), where Challenge.lean imports only Mathlib.",
+      "disallowed_proposals": [
+        "Weakening, re-parameterizing, or modifying the statement of any of the five theorems in Challenge.lean, Statements.lean, or Main.lean.",
+        "Adding project imports to Challenge.lean."
+      ]
+    },
+    {
+      "id": "UP-02",
+      "category": "Soundness & Axioms",
+      "severity": "hard_blocker",
+      "source": "comparator.json, verification/NOTES.md",
+      "requirement": "Only three axioms are permitted: propext, Quot.sound, Classical.choice. Zero sorry, admit, axiom, native_decide, implemented_by, extern, unsafe, opaque, debug.* options, or skipKernelTC.",
+      "disallowed_proposals": [
+        "Using native_decide or external C/Rust/Swift FFI computation inside Lean proofs.",
+        "Introducing custom axioms, unsafe casts, opaque constants, or sorry placeholders.",
+        "Bypassing kernel type checking via debug.* options or skipKernelTC."
+      ]
+    },
+    {
+      "id": "UP-03",
+      "category": "Independent Kernel Replay",
+      "severity": "hard_blocker",
+      "source": "comparator.json, verification/NOTES.md",
+      "requirement": "The exported proof term (leanexport Main -- export-targets.txt) must be accepted by Lean's kernel, leanchecker-paranoid, AND nanoda_bin inside Comparator's offline sandbox.",
+      "disallowed_proposals": [
+        "Proof constructs accepted only by Lean's elaborator or default kernel but rejected by leanchecker-paranoid or nanoda.",
+        "Introducing new mutual reflexive inductive blocks (which additionally prevent future con-leche / con-ron adoption)."
+      ]
+    },
+    {
+      "id": "UP-04",
+      "category": "Pinned Toolchain & Dependencies",
+      "severity": "hard_blocker",
+      "source": "scripts/ci-prepare.py:83-85, scripts/ci-build.py:356-359, .github/workflows/checks.yml:40-41",
+      "requirement": "CI requires the exact pinned stock lean-toolchain (leanprover/lean4:v4.36.0) and unmodified lake-manifest.json SHA-256 unless upstream attests a new dependency cache.",
+      "disallowed_proposals": [
+        "Adding external Lean packages or changing Mathlib revision in a proof-reduction PR.",
+        "Switching to a custom/patched Lean binary or unpinned nightly toolchain."
+      ]
+    },
+    {
+      "id": "UP-05",
+      "category": "Build Configuration & Layout",
+      "severity": "hard_blocker",
+      "source": "scripts/ci-build.py:360-375, .github/workflows/checks.yml:43-49, lakefile.toml",
+      "requirement": "srcDir must remain 'src'; extern_lib is forbidden; custom buildDir/leanLibDir/irDir/packagesDir/manifestFile are forbidden; library roots must live under src/; original lakefile.toml submission block must remain intact.",
+      "disallowed_proposals": [
+        "Adding extern_lib or native FFI build hooks into Riemannian's lakefile.toml.",
+        "Restructuring src/ into custom buildDir or out-of-tree source roots.",
+        "Modifying lakefile.toml, lean-toolchain, or lake-manifest.json in routine reduction PRs."
+      ]
+    },
+    {
+      "id": "UP-06",
+      "category": "Offline Sandbox & Hygiene",
+      "severity": "hard_blocker",
+      "source": "scripts/ci-build.py:350-351, verification/NOTES.md:68-69, .github/workflows/checks.yml:55",
+      "requirement": "Builds run offline with LEAN_ABORT_ON_PANIC=1, read-only toolchain, no filesystem/network/process/environment access from Lean metaprogramming, local/scoped notation only, and no git export-subst attributes.",
+      "disallowed_proposals": [
+        "Lean macros/tactics that invoke IO, shell processes, network calls, or read external files during elaboration.",
+        "Global unscoped notation changes that pollute downstream namespaces.",
+        "Using git export-subst attributes in Riemannian."
+      ]
+    },
+    {
+      "id": "UP-07",
+      "category": "Small-Runner Quick-Check Envelope",
+      "severity": "ci_routing_constraint",
+      "source": "scripts/QUICK-CHECKS.md",
+      "requirement": "Quick-check small runners only accept PRs targeting main with unchanged config/toolchain, <= 8 changed Lean roots, and <= 2,000 project ancestors; larger PRs route to the full rh-build runner pool (up to 24h timeout).",
+      "disallowed_proposals": [
+        "Expecting fast small-runner quick-check validation on PRs touching > 8 Lean roots or high-ancestor hubs without splitting into bounded batches."
+      ]
+    },
+    {
+      "id": "UP-08",
+      "category": "Provenance & Licensing Hygiene",
+      "severity": "legal_policy",
+      "source": "README.md:77-80",
+      "requirement": "Alpöge's original Lean proof submission was published without an explicit open-source license and is mirrored upstream for verification. Original Ergentics code, models, and research in SCargo (MIT, Copyright 2026 Ergentics, LLC) must stay strictly separated from copied upstream Lean proof source.",
+      "disallowed_proposals": [
+        "Copying verbatim upstream Riemannian Lean proof files into SCargo under Ergentics MIT copyright headers."
+      ]
+    }
+  ]
+}

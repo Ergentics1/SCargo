@@ -1,0 +1,15 @@
+# Copyright (c) 2026 Ergentics, LLC
+# Licensed under the MIT License. See LICENSE in the project root.
+
+[package]
+name = "scargo-probe"
+version = "0.1.0"
+edition = "2021"
+authors = ["Ergentics, LLC"]
+description = "Zero-dependency parallel Lean 4 source telemetry probe and stratified RCT sampler for SCargo"
+license = "MIT"
+
+[dependencies]
+
+[lints]
+workspace = true

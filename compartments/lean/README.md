@@ -15,14 +15,16 @@ This compartment integrates **Lean 4** as a first-class language inside `SCargo`
    - Exact $\mathbb{Z}[u]$ Bass–Ihara Schur-complement identity, palindromic functional equation $\Xi(2^{-s}) = \Xi(2^{-(1 - s)})$, exact Möbius prime-cycle counts up to $m = 20$, and the `12 LPRLPR + 4 LPLPLP = 16` minimal prime-hexagon decomposition.
 3. **Coupled Schwartz–Zippel × PLR Lattice (`SCargoLean/SchwartzZippel.lean`)**: Pure-kernel formalization (zero `sorry`, zero `native_decide`, zero `Lean.ofReduceBool`) of universal multivariate Condition (D) Schwartz–Zippel over arbitrary commutative rings (`schwartz_zippel_conditionD`) and integral domains (`schwartz_zippel_integral_domain`), plus exact `F_13`/`F_65521` cyclotomic bilinear `P, L, R` involutions (zero axioms), faithful `rho_1`/`rho_5` holonomy separation, length-6 homology cycle sieving (`144 + 48 = 192`), `perm(B) = 113` perfect matchings, `TF-01..TF-05` regime witnesses, and sharp degree boundary witnesses.
 4. **Rung 1 13-Witness Contract, Blind-Spot & Seam Proofs (`SCargoLean/SweepWitness.lean`)**: Pure-kernel proofs of 13-witness non-opacity and provenance completeness, exact integer Sylvester leading-principal-minor SPD soundness (proving positive diagonals alone fail on `[[1,2,0],[2,1,0],[0,0,1]]`), scaled cancellation/conservation/calibration guards, typed `P -> D` `CertifiedEstimate` seam admission soundness, exact `D -> P` replay equality, and Stratified `RCT-R1` promotion soundness.
-5. **Standalone Runtime & Adversarial Test Drivers (`RiemLatticeTest.lean`, `SchwartzZippelTest.lean`, `SweepWitnessTest.lean`)**: Dynamically verify primary vaults, policy `v1.2.0`, 21 fixture IDs, and `RCT-R1` config with adversarial negative controls (18 `RiemLattice` + 24 `SchwartzZippel` + 22 `SweepWitness` atomic guards).
+5. **Rung 2 Shared Ground Codec & Metamorphic Invariance Proofs (`SCargoLean/GroundCodec.lean`)**: Pure-kernel proofs of comment/blank-line wrapper invariance (`MR-2`), disjointness of reachable vs. dead-leaf sets, exact line and byte mass conservation, diamond DAG `MR-1` permutation invariance, self-loop cycle detection, and smooth Rung 1 → Rung 2 Correspondence containment.
+6. **Standalone Runtime & Adversarial Test Drivers (`RiemLatticeTest.lean`, `SchwartzZippelTest.lean`, `SweepWitnessTest.lean`, `GroundCodecTest.lean`)**: Dynamically verify primary vaults, policy `v1.2.0`, 21 fixture IDs, `RCT-R1` config, and Rung 2 fuzz corpus config with adversarial negative controls (18 `RiemLattice` + 24 `SchwartzZippel` + 22 `SweepWitness` + 6 `GroundCodec` atomic guards).
 
 ## Standalone Verification Commands
 
 ```bash
-LEAN_ABORT_ON_PANIC=1 lake --dir compartments/lean build SCargoLean riem_lattice_test sz_lattice_test sweep_witness_test
+LEAN_ABORT_ON_PANIC=1 lake --dir compartments/lean build SCargoLean riem_lattice_test sz_lattice_test sweep_witness_test ground_codec_test
 LEAN_ABORT_ON_PANIC=1 lake --dir compartments/lean exe riem_lattice_test
 LEAN_ABORT_ON_PANIC=1 lake --dir compartments/lean exe sz_lattice_test
 LEAN_ABORT_ON_PANIC=1 lake --dir compartments/lean exe sweep_witness_test
-LEAN_PATH=compartments/lean/.lake/build/lib/lean leanchecker SCargoLean SCargoLean.Contract SCargoLean.RiemLattice SCargoLean.SchwartzZippel SCargoLean.SweepWitness
+LEAN_ABORT_ON_PANIC=1 lake --dir compartments/lean exe ground_codec_test
+LEAN_PATH=compartments/lean/.lake/build/lib/lean leanchecker SCargoLean SCargoLean.Contract SCargoLean.RiemLattice SCargoLean.SchwartzZippel SCargoLean.SweepWitness SCargoLean.GroundCodec
 ```

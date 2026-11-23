@@ -1,0 +1,31 @@
+{
+  "schema_version": "1.0.0",
+  "copyright": "Copyright (c) 2026 Ergentics, LLC",
+  "organization": "Ergentics",
+  "rung": 2,
+  "policy_reference": "data/manifests/swe_sweep_policy_v1.json",
+  "model_reference": "models/rung2_ground_codec_and_parity_model.md",
+  "prng_algorithm": "SplitMix64",
+  "master_seed": 2026112302,
+  "cases_per_family": 64,
+  "min_required_cases": 30,
+  "families": [
+    "FAM-DAG-CLEAN",
+    "FAM-CYCLE-INJECTED",
+    "FAM-DIAMOND-DOM",
+    "FAM-DEAD-LEAVES",
+    "FAM-WRAPPER-AST",
+    "FAM-METAMORPHIC-INV"
+  ],
+  "metamorphic_relations": [
+    "MR-1_NODE_AND_IMPORT_PERMUTATION",
+    "MR-2_COMMENT_AND_BLANK_LINE_INJECTION",
+    "MR-3_NON_ROOT_BIJECTIVE_RENAME"
+  ],
+  "malformed_negative_controls": [
+    "malformed_missing_root",
+    "malformed_duplicate_module",
+    "malformed_dangling_import",
+    "malformed_truncated_json"
+  ]
+}

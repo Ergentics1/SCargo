@@ -23,6 +23,10 @@ let package = Package(
             name: "SCargoSweep",
             targets: ["SCargoSweep"]
         ),
+        .library(
+            name: "SCargoGround",
+            targets: ["SCargoGround"]
+        ),
         .executable(
             name: "scargo-audit",
             targets: ["scargo-audit"]
@@ -38,6 +42,10 @@ let package = Package(
         .executable(
             name: "scargo-sweep",
             targets: ["scargo-sweep"]
+        ),
+        .executable(
+            name: "scargo-ground",
+            targets: ["scargo-ground"]
         )
     ],
     targets: [
@@ -72,6 +80,13 @@ let package = Package(
                 .treatAllWarnings(as: .error)
             ]
         ),
+        .target(
+            name: "SCargoGround",
+            swiftSettings: [
+                .swiftLanguageMode(.v6),
+                .treatAllWarnings(as: .error)
+            ]
+        ),
         .executableTarget(
             name: "scargo-audit",
             dependencies: ["SCargoModel"],
@@ -104,6 +119,14 @@ let package = Package(
                 .treatAllWarnings(as: .error)
             ]
         ),
+        .executableTarget(
+            name: "scargo-ground",
+            dependencies: ["SCargoGround"],
+            swiftSettings: [
+                .swiftLanguageMode(.v6),
+                .treatAllWarnings(as: .error)
+            ]
+        ),
         .testTarget(
             name: "SCargoModelTests",
             dependencies: ["SCargoModel"],
@@ -131,6 +154,14 @@ let package = Package(
         .testTarget(
             name: "SCargoSweepTests",
             dependencies: ["SCargoSweep", "SCargoModel"],
+            swiftSettings: [
+                .swiftLanguageMode(.v6),
+                .treatAllWarnings(as: .error)
+            ]
+        ),
+        .testTarget(
+            name: "SCargoGroundTests",
+            dependencies: ["SCargoGround"],
             swiftSettings: [
                 .swiftLanguageMode(.v6),
                 .treatAllWarnings(as: .error)

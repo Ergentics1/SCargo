@@ -29,3 +29,7 @@ root = "SCargoLean.SchwartzZippelTest"
 [[lean_exe]]
 name = "sweep_witness_test"
 root = "SCargoLean.SweepWitnessTest"
+
+[[lean_exe]]
+name = "ground_codec_test"
+root = "SCargoLean.GroundCodecTest"

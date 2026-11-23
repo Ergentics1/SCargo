@@ -1,0 +1,79 @@
+{
+  "schema_version": "1.0.0",
+  "copyright": "Copyright (c) 2026 Ergentics, LLC",
+  "organization": "Ergentics",
+  "trial_id": "RCT-R1",
+  "policy_reference": "data/manifests/swe_sweep_policy_v1.json",
+  "title": "Pre-Registered Stratified RCT-R1: Naive Point/Component Checks vs. Rung 1 Hardened Compartment Witnesses",
+  "prng_algorithm": "SplitMix64",
+  "master_seed": 2026112301,
+  "replicates_per_stratum": 32,
+  "calibration_sample_size": 256,
+  "wilcoxon_alpha": 0.01,
+  "clopper_pearson_alpha": 0.01,
+  "min_vargha_delaney_a12": 0.95,
+  "arms": {
+    "control": "naive_point_component_unguarded",
+    "treatment": "rung1_hardened_13_witness_compartments"
+  },
+  "strata": [
+    {
+      "id": "STRAT-D-CANCEL",
+      "witness": "w_fp_determinism",
+      "defect_class": "DEF-FP",
+      "regime": "Deterministic",
+      "description": "High-condition-number cancelling float sums (1e16 cancellation masked by fixed-order nominal check)"
+    },
+    {
+      "id": "STRAT-R-SPD",
+      "witness": "w_rt_invariants",
+      "defect_class": "DEF-RTINV",
+      "regime": "Runtime",
+      "description": "Symmetric 3x3 covariance matrices with strictly positive diagonals but negative minimum eigenvalue"
+    },
+    {
+      "id": "STRAT-R-NAN",
+      "witness": "w_rt_invariants",
+      "defect_class": "DEF-RTINV",
+      "regime": "Runtime",
+      "description": "Single NaN sensor sample injected into finite state vectors and max reductions"
+    },
+    {
+      "id": "STRAT-R-CAP",
+      "witness": "w_rt_invariants",
+      "defect_class": "DEF-RTINV",
+      "regime": "Runtime",
+      "description": "Vectors satisfying per-cell |u_i| <= 5.0 while breaching global L1 conservation cap"
+    },
+    {
+      "id": "STRAT-P-CAL",
+      "witness": "w_prob_calibration",
+      "defect_class": "DEF-CAL",
+      "regime": "Probabilistic",
+      "description": "Zero-mean bimodal/overconfident Gaussian predictions vs. distribution-free Massart-DKW/CRPS/coverage"
+    },
+    {
+      "id": "STRAT-SEAM-P2D",
+      "witness": "w_seam_integrity",
+      "defect_class": "DEF-SEAM",
+      "regime": "Seam",
+      "description": "Uncalibrated/OOD probabilistic outputs attempting to cross into deterministic actuators"
+    },
+    {
+      "id": "STRAT-SEAM-D2P",
+      "witness": "w_seam_integrity",
+      "defect_class": "DEF-SEAM",
+      "regime": "Seam",
+      "description": "Unkeyed PRNG entropy entering deterministic simulation paths and breaking bit-exact replay"
+    }
+  ],
+  "clean_control_strata": [
+    "CLEAN-D-FP",
+    "CLEAN-R-SPD",
+    "CLEAN-R-FINITE",
+    "CLEAN-R-CAP",
+    "CLEAN-P-CAL",
+    "CLEAN-SEAM-P2D",
+    "CLEAN-SEAM-D2P"
+  ]
+}

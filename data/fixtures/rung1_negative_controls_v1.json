@@ -1,0 +1,473 @@
+{
+  "schema_version": "1.0.0",
+  "copyright": "Copyright (c) 2026 Ergentics, LLC",
+  "organization": "Ergentics",
+  "policy_reference": "data/manifests/swe_sweep_policy_v1.json",
+  "title": "Rung 1 Declarative Negative-Control & Matched Clean-Control Recipe Vault",
+  "note": "Pure declarative JSON recipes materialized into isolated out-of-tree temp workspaces at qualification time. Zero tracked symlinks and zero raw Unicode BiDi bytes in repository source.",
+  "clean_controls": [
+    {
+      "id": "clean_control_rust",
+      "kind": "clean",
+      "language_scope": "rust",
+      "category": "source_tree",
+      "expected_pass": true,
+      "files": [
+        {
+          "rel_path": "Cargo.toml",
+          "content": "[package]\nname = \"clean-fixture\"\nversion = \"0.1.0\"\nedition = \"2024\"\n\n[lints.rust]\nunsafe_code = \"forbid\"\nwarnings = \"deny\"\ndeprecated = \"deny\"\n"
+        },
+        {
+          "rel_path": "src/lib.rs",
+          "content": "#![forbid(unsafe_code)]\n\npub fn add_checked(a: u64, b: u64) -> Option<u64> {\n    a.checked_add(b)\n}\n"
+        }
+      ]
+    },
+    {
+      "id": "clean_control_swift",
+      "kind": "clean",
+      "language_scope": "swift",
+      "category": "source_tree",
+      "expected_pass": true,
+      "files": [
+        {
+          "rel_path": "Package.swift",
+          "content": "// swift-tools-version: 6.4\nimport PackageDescription\nlet package = Package(name: \"CleanFixture\", targets: [.target(name: \"CleanFixture\", swiftSettings: [.treatAllWarnings(as: .error)])])\n"
+        },
+        {
+          "rel_path": "Sources/CleanFixture/Clean.swift",
+          "content": "public struct CleanValue: Sendable {\n    public let x: Int\n    public init(x: Int) { self.x = x }\n}\n"
+        }
+      ]
+    },
+    {
+      "id": "clean_control_lean",
+      "kind": "clean",
+      "language_scope": "lean",
+      "category": "source_tree",
+      "expected_pass": true,
+      "files": [
+        {
+          "rel_path": "lakefile.toml",
+          "content": "name = \"CleanLean\"\n[leanOptions]\nwarningAsError = true\nautoImplicit = false\nrelaxedAutoImplicit = false\n"
+        },
+        {
+          "rel_path": "CleanLean.lean",
+          "content": "theorem clean_add_comm (a b : Nat) : a + b = b + a := Nat.add_comm a b\n"
+        }
+      ]
+    },
+    {
+      "id": "clean_control_numeric_rt",
+      "kind": "clean",
+      "language_scope": "cross_language",
+      "category": "numeric_and_runtime",
+      "expected_pass": true,
+      "payload": {
+        "fp_values": [1.0, 0.5, 0.25, 0.125, 0.0625, 0.03125, 0.015625, 0.0078125],
+        "fp_exact_scaled_num": 255,
+        "fp_exact_scaled_den": 128,
+        "spd_matrix_dim": 3,
+        "spd_matrix_rows": [
+          [4.0, 1.0, 0.5],
+          [1.0, 3.0, 0.25],
+          [0.5, 0.25, 2.0]
+        ],
+        "spd_int_scaled_rows": [
+          [16, 4, 2],
+          [4, 12, 1],
+          [2, 1, 8]
+        ],
+        "state_vector": [0.25, 0.25, 0.25, 0.25],
+        "cell_abs_bound": 5.0,
+        "aggregate_abs_cap": 1.0,
+        "require_prob_simplex": true
+      }
+    },
+    {
+      "id": "clean_control_prob_seam",
+      "kind": "clean",
+      "language_scope": "cross_language",
+      "category": "prob_and_seam",
+      "expected_pass": true,
+      "payload": {
+        "prng_seed": 20261123,
+        "sample_count": 256,
+        "generator": "calibrated_normal_exact",
+        "declared_mean": 0.0,
+        "declared_std": 1.0,
+        "true_mean": 0.0,
+        "true_std": 1.0,
+        "mixture_weight_second": 0.0,
+        "mixture_shift": 0.0,
+        "ood_query_z": 1.25,
+        "actuator_requires_certificate": true,
+        "keyed_replay_seed": 99112233
+      }
+    }
+  ],
+  "poisoned_fixtures": [
+    {
+      "id": "poison_suppression_rust_allow_dead_code",
+      "kind": "poison",
+      "target_witness": "w_suppression",
+      "expected_defect_class": "DEF-SUPP",
+      "language_scope": "rust",
+      "category": "source_tree",
+      "expected_pass": false,
+      "files": [
+        {
+          "rel_path": "src/lib.rs",
+          "content": "#![forbid(unsafe_code)]\n#[allow(dead_code)]\nfn hidden_helper() -> u64 { 7 }\n"
+        }
+      ]
+    },
+    {
+      "id": "poison_suppression_swift_try_optional_and_suppress_flag",
+      "kind": "poison",
+      "target_witness": "w_suppression",
+      "expected_defect_class": "DEF-SUPP",
+      "language_scope": "swift",
+      "category": "source_tree",
+      "expected_pass": false,
+      "files": [
+        {
+          "rel_path": "Package.swift",
+          "content": "// swift-tools-version: 6.4\n// unsafeFlags: [\"-suppress-warnings\"]\n"
+        },
+        {
+          "rel_path": "Sources/Poison/Swallow.swift",
+          "content": "func swallow(_ fn: () throws -> Int) -> Int { (try? fn()) ?? 0 }\n"
+        }
+      ]
+    },
+    {
+      "id": "poison_suppression_lean_set_option_linter_false",
+      "kind": "poison",
+      "target_witness": "w_suppression",
+      "expected_defect_class": "DEF-SUPP",
+      "language_scope": "lean",
+      "category": "source_tree",
+      "expected_pass": false,
+      "files": [
+        {
+          "rel_path": "PoisonLinter.lean",
+          "content": "set_option linter.unusedVariables false\ntheorem masked (x : Nat) : True := trivial\n"
+        }
+      ]
+    },
+    {
+      "id": "poison_backdoor_rust_unsafe_and_build_rs",
+      "kind": "poison",
+      "target_witness": "w_backdoor",
+      "expected_defect_class": "DEF-BACK",
+      "language_scope": "rust",
+      "category": "source_tree",
+      "expected_pass": false,
+      "files": [
+        {
+          "rel_path": "build.rs",
+          "content": "fn main() { println!(\"cargo:rustc-cfg=backdoor\"); }\n"
+        },
+        {
+          "rel_path": "src/lib.rs",
+          "content": "pub fn cast_bits(x: u64) -> f64 { unsafe { std::mem::transmute(x) } }\n"
+        }
+      ]
+    },
+    {
+      "id": "poison_backdoor_swift_unchecked_sendable_and_silgen_name",
+      "kind": "poison",
+      "target_witness": "w_backdoor",
+      "expected_defect_class": "DEF-BACK",
+      "language_scope": "swift",
+      "category": "source_tree",
+      "expected_pass": false,
+      "files": [
+        {
+          "rel_path": "Sources/Poison/Backdoor.swift",
+          "content": "final class Sneaky: @unchecked Sendable {}\n@_silgen_name(\"hidden_hook\") func hiddenHook()\n"
+        }
+      ]
+    },
+    {
+      "id": "poison_backdoor_lean_sorry_axiom_native_decide_skipKernelTC",
+      "kind": "poison",
+      "target_witness": "w_kernel",
+      "expected_defect_class": "DEF-BACK",
+      "language_scope": "lean",
+      "category": "source_tree",
+      "expected_pass": false,
+      "files": [
+        {
+          "rel_path": "PoisonKernel.lean",
+          "content": "set_option debug.skipKernelTC true\naxiom fake_false : False\ntheorem cheat : 1 = 2 := by sorry\n"
+        }
+      ]
+    },
+    {
+      "id": "poison_trojan_source_unicode_bidi_override",
+      "kind": "poison",
+      "target_witness": "w_backdoor",
+      "expected_defect_class": "DEF-BACK",
+      "language_scope": "cross_language",
+      "category": "source_tree",
+      "expected_pass": false,
+      "files": [
+        {
+          "rel_path": "src/bidi.rs",
+          "content": "#![forbid(unsafe_code)]\npub fn is_admin(role: &str) -> bool {\n    // \u202e } if admin\n    role == \"user\"\n}\n"
+        }
+      ]
+    },
+    {
+      "id": "poison_symlink_out_of_tree_escape",
+      "kind": "poison",
+      "target_witness": "w_topology",
+      "expected_defect_class": "DEF-SYML",
+      "language_scope": "cross_language",
+      "category": "symlink_op",
+      "expected_pass": false,
+      "symlink": {
+        "rel_path": "src/escaped_link.rs",
+        "target": "../outside_secret_target.txt"
+      },
+      "files": [
+        {
+          "rel_path": ".gitattributes",
+          "content": "*.rs export-subst\n"
+        }
+      ]
+    },
+    {
+      "id": "poison_hidden_dependency_unpinned_manifest",
+      "kind": "poison",
+      "target_witness": "w_deps",
+      "expected_defect_class": "DEF-HDEP",
+      "language_scope": "cross_language",
+      "category": "source_tree",
+      "expected_pass": false,
+      "files": [
+        {
+          "rel_path": "Cargo.toml",
+          "content": "[package]\nname = \"hidden-dep\"\nversion = \"0.1.0\"\n[dependencies]\nsneaky = { git = \"https://example.invalid/sneaky.git\", branch = \"main\" }\n"
+        },
+        {
+          "rel_path": "src/lib.rs",
+          "content": "#![forbid(unsafe_code)]\npub fn run() { let _ = std::process::Command::new(\"git\"); }\n"
+        }
+      ]
+    },
+    {
+      "id": "poison_deprecation_warning_unflagged",
+      "kind": "poison",
+      "target_witness": "w_compiler",
+      "expected_defect_class": "DEF-WARN",
+      "language_scope": "cross_language",
+      "category": "source_tree",
+      "expected_pass": false,
+      "files": [
+        {
+          "rel_path": "Cargo.toml",
+          "content": "[package]\nname = \"relaxed-warn\"\nversion = \"0.1.0\"\n[lints.rust]\nwarnings = \"allow\"\ndeprecated = \"allow\"\n"
+        },
+        {
+          "rel_path": "lakefile.toml",
+          "content": "name = \"RelaxedLean\"\n[leanOptions]\nwarningAsError = false\n"
+        }
+      ]
+    },
+    {
+      "id": "poison_parity_drift_injected_off_by_one",
+      "kind": "poison",
+      "target_witness": "w_parity",
+      "expected_defect_class": "DEF-PAR",
+      "language_scope": "cross_language",
+      "category": "parity_vector",
+      "expected_pass": false,
+      "payload": {
+        "rust_count": 113,
+        "swift_count": 113,
+        "lean_count": 112
+      }
+    },
+    {
+      "id": "poison_leaker_covert_env_exfil",
+      "kind": "poison",
+      "target_witness": "w_confinement",
+      "expected_defect_class": "DEF-LEAK",
+      "language_scope": "cross_language",
+      "category": "source_tree",
+      "expected_pass": false,
+      "files": [
+        {
+          "rel_path": "src/leak.rs",
+          "content": "#![forbid(unsafe_code)]\nuse std::net::TcpStream;\npub fn dump_env() { let _ = std::env::vars(); let _ = TcpStream::connect(\"127.0.0.1:9\"); }\n"
+        }
+      ]
+    },
+    {
+      "id": "poison_monolithic_self_certifying_gate",
+      "kind": "poison",
+      "target_witness": "w_correspondence",
+      "expected_defect_class": "DEF-MONO",
+      "language_scope": "cross_language",
+      "category": "monolithic_report",
+      "expected_pass": false,
+      "payload": {
+        "reported_passed": true,
+        "per_compartment_witnesses_present": false,
+        "input_content_digests_present": false,
+        "independent_replay_command_present": false,
+        "failed_compartments_exposed": false
+      }
+    },
+    {
+      "id": "poison_correspondence_unbounded_drift",
+      "kind": "poison",
+      "target_witness": "w_correspondence",
+      "expected_defect_class": "DEF-CORR",
+      "language_scope": "cross_language",
+      "category": "correspondence_record",
+      "expected_pass": false,
+      "payload": {
+        "regime": "Reduction2",
+        "measured_mismatch_scaled": 2500,
+        "declared_bound_scaled": 1000,
+        "singular_boundary_crossed": true
+      }
+    },
+    {
+      "id": "poison_det_fp_catastrophic_cancellation",
+      "kind": "poison",
+      "target_witness": "w_fp_determinism",
+      "expected_defect_class": "DEF-FP",
+      "language_scope": "cross_language",
+      "category": "numeric_fp",
+      "expected_pass": false,
+      "payload": {
+        "fp_values": [1.0e16, 1.0, -1.0e16, 0.5, 1.0e16, 0.25, -1.0e16, 0.125],
+        "fp_exact_scaled_num": 15,
+        "fp_exact_scaled_den": 8,
+        "nominal_fixed_order_naive_expected": 0.0,
+        "note": "Forward naive sum loses 1.0 completely due to 1e16 absorption while exact sum is 1.875; condition number kappa_sum > 2e16 exceeds Higham bound."
+      }
+    },
+    {
+      "id": "poison_rt_spd_offdiag_indefinite",
+      "kind": "poison",
+      "target_witness": "w_rt_invariants",
+      "expected_defect_class": "DEF-RTINV",
+      "language_scope": "cross_language",
+      "category": "runtime_spd",
+      "expected_pass": false,
+      "payload": {
+        "spd_matrix_dim": 3,
+        "spd_matrix_rows": [
+          [1.0, 2.0, 0.0],
+          [2.0, 1.0, 0.0],
+          [0.0, 0.0, 1.0]
+        ],
+        "spd_int_scaled_rows": [
+          [1, 2, 0],
+          [2, 1, 0],
+          [0, 0, 1]
+        ],
+        "note": "All diagonals are +1.0 > 0, so component-wise diag(P) > 0 passes, yet leading 2x2 minor is -3 and lambda_min = -1 < 0."
+      }
+    },
+    {
+      "id": "poison_rt_nan_state_poisoning",
+      "kind": "poison",
+      "target_witness": "w_rt_invariants",
+      "expected_defect_class": "DEF-RTINV",
+      "language_scope": "cross_language",
+      "category": "runtime_nan",
+      "expected_pass": false,
+      "payload": {
+        "state_vector": [0.4, 0.3, 0.2, 0.1],
+        "inject_non_finite_index": 2,
+        "non_finite_kind": "NaN",
+        "cell_abs_bound": 5.0,
+        "aggregate_abs_cap": 1.0,
+        "note": "Single NaN injected at index 2; naive negated bounds checks and IEEE maxNum loops silently pass while positive is_finite guard fails closed."
+      }
+    },
+    {
+      "id": "poison_rt_aggregate_conservation_breach",
+      "kind": "poison",
+      "target_witness": "w_rt_invariants",
+      "expected_defect_class": "DEF-RTINV",
+      "language_scope": "cross_language",
+      "category": "runtime_conservation",
+      "expected_pass": false,
+      "payload": {
+        "state_vector": [4.5, 4.5, 4.5, 4.5],
+        "cell_abs_bound": 5.0,
+        "aggregate_abs_cap": 10.0,
+        "require_prob_simplex": false,
+        "note": "Every element satisfies |u_i| = 4.5 <= 5.0, yet aggregate L1 load sum(|u_i|) = 18.0 breaches global conservation cap 10.0."
+      }
+    },
+    {
+      "id": "poison_prob_naive_gaussian_miscalibrated",
+      "kind": "poison",
+      "target_witness": "w_prob_calibration",
+      "expected_defect_class": "DEF-CAL",
+      "language_scope": "cross_language",
+      "category": "prob_calibration",
+      "expected_pass": false,
+      "payload": {
+        "prng_seed": 20261124,
+        "sample_count": 256,
+        "generator": "bimodal_overconfident_gaussian",
+        "declared_mean": 0.0,
+        "declared_std": 0.4,
+        "true_mean": 0.0,
+        "true_std": 0.25,
+        "mixture_weight_second": 0.5,
+        "mixture_shift": 1.2,
+        "ood_query_z": 1.0,
+        "note": "Zero mean error passes point-estimate mean checks, yet bimodal overconfident predictive Gaussian badly violates Massart-DKW Calibration-PIT, 50%/80%/95% coverage, and CRPS."
+      }
+    },
+    {
+      "id": "poison_seam_p_to_d_uncalibrated_ood_actuator",
+      "kind": "poison",
+      "target_witness": "w_seam_integrity",
+      "expected_defect_class": "DEF-SEAM",
+      "language_scope": "cross_language",
+      "category": "seam_p_to_d",
+      "expected_pass": false,
+      "payload": {
+        "point_estimate": 0.05,
+        "calibrated": false,
+        "in_domain": false,
+        "ood_mahalanobis": 6.2,
+        "sample_count": 12,
+        "actuator_bypassed_certificate": true,
+        "note": "Uncalibrated OOD probabilistic output (Mahalanobis 6.2 > 3.5, n=12 < 200) fed directly into deterministic actuator."
+      }
+    },
+    {
+      "id": "poison_seam_d_to_p_unkeyed_global_prng",
+      "kind": "poison",
+      "target_witness": "w_seam_integrity",
+      "expected_defect_class": "DEF-SEAM",
+      "language_scope": "cross_language",
+      "category": "seam_d_to_p",
+      "expected_pass": false,
+      "files": [
+        {
+          "rel_path": "src/sim_det.rs",
+          "content": "#![forbid(unsafe_code)]\npub fn step_sim() -> u64 { let _ = thread_rng(); 42 }\n"
+        }
+      ],
+      "payload": {
+        "replay_run_a_hex": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "replay_run_b_hex": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+        "note": "Deterministic simulation invokes unkeyed global PRNG, causing divergent replay digests (delta_replay != 0)."
+      }
+    }
+  ]
+}

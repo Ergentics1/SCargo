@@ -1,0 +1,88 @@
+{
+  "schema_version": "1.0.0",
+  "copyright": "Copyright (c) 2026 Ergentics, LLC",
+  "organization": "Ergentics",
+  "rung": 3,
+  "icd_id": "ICD-SCARGO-RIEM-001",
+  "model_reference": "models/rung3_reconciled_reduction_and_airlock_model.md",
+  "target_repo_mutation_allowed": false,
+  "airlock_status": "CLEAN_ROOM_QUALIFIED_G1_G3_HOLD_FOR_G4_G5_SIGNOFF",
+  "baseline_commit": "51d9b1a28026d458aef9c9af3df8b083276e3d2d",
+  "toolchain": "leanprover/lean4:v4.36.0",
+  "up07_max_roots_per_quick_check_batch": 8,
+  "up07_max_project_ancestors": 2000,
+  "permitted_axioms": [
+    "propext",
+    "Quot.sound",
+    "Classical.choice"
+  ],
+  "input_artifacts": {
+    "inventory": "data/baselines/riemannian_51d9b1a280_inventory.json",
+    "trace": "data/traces/riemannian_51d9b1a280_trace.json",
+    "dryrun_dead_leaves": "data/trials/dryrun_001_dead_leaves.json",
+    "dryrun_wrappers": "data/trials/dryrun_002_rct001_wrappers.json",
+    "transfer_zones": "data/manifests/transfer_zones_v1.json",
+    "upstream_requirements": "data/manifests/upstream_requirements_v1.json"
+  },
+  "packages": [
+    {
+      "package_id": "PKG-R3-Z0-DEAD-LEAVES",
+      "zone_id": "Z-C0",
+      "mechanism": "dead_leaf_prune",
+      "requires_lakefile_edit": false,
+      "touches_zone_a": false,
+      "requires_single_decl_guard": false,
+      "gates_qualified_clean_room": [
+        "G1_STATIC_INTEGRITY",
+        "G2_CONTRACT_PRESERVATION"
+      ],
+      "gates_pending_flight_article_signoff": [
+        "G4_LEAN_ELABORATION",
+        "G5_COMPARATOR"
+      ]
+    },
+    {
+      "package_id": "PKG-R3-Z1A-ALIAS-INPLACE",
+      "zone_id": "Z-C1",
+      "mechanism": "strategy_a_inplace_alias",
+      "requires_lakefile_edit": false,
+      "touches_zone_a": false,
+      "requires_single_decl_guard": true,
+      "gates_qualified_clean_room": [
+        "G1_STATIC_INTEGRITY",
+        "G2_CONTRACT_PRESERVATION",
+        "G3_RCT_EFFICACY"
+      ],
+      "gates_pending_flight_article_signoff": [
+        "G4_LEAN_ELABORATION",
+        "G5_COMPARATOR"
+      ]
+    },
+    {
+      "package_id": "PKG-R3-Z1B-WRAPPER-COLLAPSE",
+      "zone_id": "Z-C1",
+      "mechanism": "strategy_b_wrapper_collapse",
+      "requires_lakefile_edit": false,
+      "touches_zone_a": false,
+      "requires_single_decl_guard": true,
+      "gates_qualified_clean_room": [
+        "G1_STATIC_INTEGRITY",
+        "G2_CONTRACT_PRESERVATION",
+        "G3_RCT_EFFICACY"
+      ],
+      "gates_pending_flight_article_signoff": [
+        "G4_LEAN_ELABORATION",
+        "G5_COMPARATOR"
+      ]
+    }
+  ],
+  "negative_controls": [
+    "neg_zone_a_protected_touch",
+    "neg_commit_sha_drift",
+    "neg_multi_decl_wrapper_unsafe_collapse",
+    "neg_missing_transitive_import_collapse",
+    "neg_up07_oversized_quick_check_batch",
+    "neg_up02_custom_axiom_or_native_decide",
+    "neg_pareto_mass_inflation"
+  ]
+}

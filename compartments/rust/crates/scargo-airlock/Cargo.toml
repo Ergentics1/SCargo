@@ -1,0 +1,14 @@
+# Copyright (c) 2026 Ergentics, LLC
+# Licensed under the MIT License. See LICENSE in the project root.
+
+[package]
+name = "scargo-airlock"
+version = "0.1.0"
+edition = "2024"
+license = "MIT"
+description = "Standalone Rung 3 reconciled proof-reduction and clean-room ICD airlock verifier (zero external deps)"
+
+[dependencies]
+
+[lints]
+workspace = true

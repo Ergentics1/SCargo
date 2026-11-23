@@ -33,3 +33,7 @@ root = "SCargoLean.SweepWitnessTest"
 [[lean_exe]]
 name = "ground_codec_test"
 root = "SCargoLean.GroundCodecTest"
+
+[[lean_exe]]
+name = "transfer_airlock_test"
+root = "SCargoLean.TransferAirlockTest"

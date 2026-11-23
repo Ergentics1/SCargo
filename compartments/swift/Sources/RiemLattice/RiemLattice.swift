@@ -446,6 +446,7 @@ public struct NTetSystem: Sendable, Equatable {
             let re = 1.0 + cos(a1) + cos(a2)
             let im = sin(a1) + sin(a2)
             let magSq = re * re + im * im
+            guard magSq.isFinite else { return nil }
             if magSq > best { best = magSq }
         }
         return best
@@ -654,8 +655,22 @@ public enum RiemLatticeEngine {
         var best = 0.0
         for k in 1..<12 {
             let kf = Double(k)
-            let lam = shifts.reduce(0.0) { $0 + cos(2.0 * Double.pi * kf * $1 / 12.0) }
-            best = max(best, abs(lam))
+            var sum = 0.0
+            var comp = 0.0
+            for s in shifts {
+                let term = cos(2.0 * Double.pi * kf * s / 12.0)
+                if !term.isFinite { return .nan }
+                let t = sum + term
+                if abs(sum) >= abs(term) {
+                    comp += (sum - t) + term
+                } else {
+                    comp += (term - t) + sum
+                }
+                sum = t
+            }
+            let mag = abs(sum + comp)
+            if !mag.isFinite { return .nan }
+            if mag > best { best = mag }
         }
         return best
     }

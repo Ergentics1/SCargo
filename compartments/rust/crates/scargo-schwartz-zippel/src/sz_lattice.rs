@@ -392,6 +392,37 @@ pub struct MixingReport {
     pub nb_ihara_nontrivial_rate: f64,
     pub tv_step_20_srw: f64,
     pub tv_step_20_nb: f64,
+    pub mass_conserved: bool,
+}
+
+/// Neumaier compensated sum that fails closed to NaN if any summand is non-finite.
+fn neumaier_sum(xs: &[f64]) -> f64 {
+    let mut sum = 0.0f64;
+    let mut comp = 0.0f64;
+    for &x in xs {
+        if !x.is_finite() {
+            return f64::NAN;
+        }
+        let t = sum + x;
+        if sum.abs() >= x.abs() {
+            comp += (sum - t) + x;
+        } else {
+            comp += (x - t) + sum;
+        }
+        sum = t;
+    }
+    sum + comp
+}
+
+fn probability_vector_conserved(vec: &[f64], tol: f64) -> bool {
+    if !tol.is_finite() || tol < 0.0 {
+        return false;
+    }
+    if vec.iter().any(|&v| !v.is_finite() || v < -tol) {
+        return false;
+    }
+    let total = neumaier_sum(vec);
+    total.is_finite() && (total - 1.0).abs() <= tol
 }
 
 pub fn analyze_ntet_mixing(n_tet: usize, m3: usize, minor3: usize, steps: usize) -> MixingReport {
@@ -417,27 +448,34 @@ pub fn analyze_ntet_mixing(n_tet: usize, m3: usize, minor3: usize, steps: usize)
     }
     let e2 = dir_edges.len();
 
-    // Exact Fourier spectrum of B*B^T for nontrivial modes k = 1..N-1.
+    // Exact Fourier spectrum of B*B^T with NaN-propagating maximum.
     let mut max_y = 0.0f64;
     let two_pi = std::f64::consts::TAU;
     for k in 1..n_tet {
         let th1 = two_pi * ((m3 * k) % n_tet) as f64 / (n_tet as f64);
         let th2 = two_pi * ((n_tet - ((minor3 * k) % n_tet)) % n_tet) as f64 / (n_tet as f64);
-        let re = 1.0 + th1.cos() + th2.cos();
+        let re = neumaier_sum(&[1.0, th1.cos(), th2.cos()]);
         let im = th1.sin() + th2.sin();
         let y = re * re + im * im;
+        if !y.is_finite() {
+            max_y = f64::NAN;
+            break;
+        }
         if y > max_y {
             max_y = y;
         }
     }
-    let satisfies_graph_rh = max_y < 8.0;
-    let srw_rate = max_y.sqrt() / 3.0;
-    let nb_rate = if satisfies_graph_rh {
+    let satisfies_graph_rh = max_y.is_finite() && max_y < 8.0;
+    let srw_rate = if max_y.is_finite() { max_y.sqrt() / 3.0 } else { f64::NAN };
+    let nb_rate = if !max_y.is_finite() {
+        f64::NAN
+    } else if satisfies_graph_rh {
         1.0 / 2.0f64.sqrt()
     } else {
         (max_y.sqrt() + (max_y - 8.0).sqrt()) / 4.0
     };
 
+    let mass_tol = 1e-11;
     let mut p_srw = vec![0.0f64; v_count];
     p_srw[0] = 1.0;
     let mut p_nb = vec![0.0f64; e2];
@@ -445,28 +483,37 @@ pub fn analyze_ntet_mixing(n_tet: usize, m3: usize, minor3: usize, steps: usize)
         p_nb[edge_idx[&(0, v)]] = 1.0 / 3.0;
     }
 
+    let mut mass_conserved =
+        probability_vector_conserved(&p_srw, mass_tol) && probability_vector_conserved(&p_nb, mass_tol);
+
     // Advance step 1 for SRW (NB starts already at edge (0, v) after step 1).
     p_srw = step_srw(&adj, &p_srw);
+    mass_conserved &= probability_vector_conserved(&p_srw, mass_tol);
     for _ in 2..=steps {
         p_srw = step_srw(&adj, &p_srw);
         p_nb = step_nb(&adj, &dir_edges, &edge_idx, &p_nb);
+        mass_conserved &= probability_vector_conserved(&p_srw, mass_tol)
+            && probability_vector_conserved(&p_nb, mass_tol);
     }
 
     let mut v_nb = vec![0.0f64; v_count];
     for (i, &mass) in p_nb.iter().enumerate() {
         v_nb[dir_edges[i].1] += mass;
     }
+    mass_conserved &= probability_vector_conserved(&v_nb, mass_tol);
+
     let stationary = 1.0 / (n_tet as f64);
-    let tv_srw = 0.5
-        * p_srw[..n_tet]
-            .iter()
-            .map(|&x| (x - stationary).abs())
-            .sum::<f64>();
-    let tv_nb = 0.5
-        * v_nb[..n_tet]
-            .iter()
-            .map(|&x| (x - stationary).abs())
-            .sum::<f64>();
+    let diffs_srw: Vec<f64> = p_srw[..n_tet]
+        .iter()
+        .map(|&x| (x - stationary).abs())
+        .collect();
+    let diffs_nb: Vec<f64> = v_nb[..n_tet]
+        .iter()
+        .map(|&x| (x - stationary).abs())
+        .collect();
+    let tv_srw = 0.5 * neumaier_sum(&diffs_srw);
+    let tv_nb = 0.5 * neumaier_sum(&diffs_nb);
+    mass_conserved &= tv_srw.is_finite() && tv_nb.is_finite();
 
     MixingReport {
         n_tet,
@@ -477,6 +524,7 @@ pub fn analyze_ntet_mixing(n_tet: usize, m3: usize, minor3: usize, steps: usize)
         nb_ihara_nontrivial_rate: nb_rate,
         tv_step_20_srw: tv_srw,
         tv_step_20_nb: tv_nb,
+        mass_conserved,
     }
 }
 
@@ -921,19 +969,25 @@ pub fn guard_condition_d_grid(m: u64, grid: &[u64]) -> GuardVerdict {
     }
 }
 
-/// Fail-closed atomic guard: Ramanujan non-backtracking mixing must hold (`max lambda^2 < 8`).
+/// Fail-closed atomic guard: Ramanujan non-backtracking mixing must hold (`max lambda^2 < 8`) and conserve probability mass.
 pub fn guard_ramanujan_nb_mixing(rep: &MixingReport) -> GuardVerdict {
-    let ok = rep.satisfies_graph_rh && rep.nb_ihara_nontrivial_rate < rep.srw_nontrivial_rate;
+    let ok = rep.mass_conserved
+        && rep.max_nontrivial_lambda_sq.is_finite()
+        && rep.satisfies_graph_rh
+        && rep.nb_ihara_nontrivial_rate.is_finite()
+        && rep.srw_nontrivial_rate.is_finite()
+        && rep.nb_ihara_nontrivial_rate < rep.srw_nontrivial_rate;
     GuardVerdict::from_violations(
         "coupled_ramanujan_nb_mixing",
         usize::from(!ok),
         format!(
-            "{}-TET: max_lambda^2={:.5}, NB={:.5}, SRW={:.5}, TV20_NB={:.6}",
+            "{}-TET: max_lambda^2={:.5}, NB={:.5}, SRW={:.5}, TV20_NB={:.6}, mass_conserved={}",
             rep.n_tet,
             rep.max_nontrivial_lambda_sq,
             rep.nb_ihara_nontrivial_rate,
             rep.srw_nontrivial_rate,
-            rep.tv_step_20_nb
+            rep.tv_step_20_nb,
+            rep.mass_conserved
         ),
     )
 }

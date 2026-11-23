@@ -337,12 +337,39 @@ public struct MixingReport: Sendable {
     public let nbIharaNontrivialRate: Double
     public let tvStep20SRW: Double
     public let tvStep20NB: Double
+    public let massConserved: Bool
 }
 
 public enum HashimotoMixing {
     private struct DirEdge: Hashable {
         let u: Int
         let v: Int
+    }
+
+    /// Neumaier compensated sum that fails closed to NaN on any non-finite summand.
+    private static func neumaierSum(_ xs: [Double]) -> Double {
+        var sum = 0.0
+        var comp = 0.0
+        for x in xs {
+            if !x.isFinite { return .nan }
+            let t = sum + x
+            if abs(sum) >= abs(x) {
+                comp += (sum - t) + x
+            } else {
+                comp += (x - t) + sum
+            }
+            sum = t
+        }
+        return sum + comp
+    }
+
+    private static func probabilityVectorConserved(_ vec: [Double], tol: Double) -> Bool {
+        guard tol.isFinite && tol >= 0.0 else { return false }
+        for v in vec {
+            if !v.isFinite || v < -tol { return false }
+        }
+        let total = neumaierSum(vec)
+        return total.isFinite && abs(total - 1.0) <= tol
     }
 
     public static func analyze(nTet: Int, m3: Int, minor3: Int, steps: Int = 20) -> MixingReport {
@@ -372,15 +399,27 @@ public enum HashimotoMixing {
         for k in 1..<nTet {
             let th1 = twoPi * Double((m3 * k) % nTet) / Double(nTet)
             let th2 = twoPi * Double((nTet - ((minor3 * k) % nTet)) % nTet) / Double(nTet)
-            let re = 1.0 + cos(th1) + cos(th2)
+            let re = neumaierSum([1.0, cos(th1), cos(th2)])
             let im = sin(th1) + sin(th2)
             let y = re * re + im * im
+            if !y.isFinite {
+                maxY = .nan
+                break
+            }
             if y > maxY { maxY = y }
         }
-        let satRH = maxY < 8.0
-        let srwRate = sqrt(maxY) / 3.0
-        let nbRate = satRH ? (1.0 / sqrt(2.0)) : ((sqrt(maxY) + sqrt(maxY - 8.0)) / 4.0)
+        let satRH = maxY.isFinite && maxY < 8.0
+        let srwRate = maxY.isFinite ? (sqrt(maxY) / 3.0) : .nan
+        let nbRate: Double
+        if !maxY.isFinite {
+            nbRate = .nan
+        } else if satRH {
+            nbRate = 1.0 / sqrt(2.0)
+        } else {
+            nbRate = (sqrt(maxY) + sqrt(maxY - 8.0)) / 4.0
+        }
 
+        let massTol = 1e-11
         var pSRW = Array(repeating: 0.0, count: vCount)
         pSRW[0] = 1.0
         var pNB = Array(repeating: 0.0, count: dirEdges.count)
@@ -390,11 +429,18 @@ public enum HashimotoMixing {
             }
         }
 
+        var massConserved = probabilityVectorConserved(pSRW, tol: massTol)
+            && probabilityVectorConserved(pNB, tol: massTol)
+
         pSRW = stepSRW(adj: adj, vec: pSRW)
+        massConserved = massConserved && probabilityVectorConserved(pSRW, tol: massTol)
         if steps >= 2 {
             for _ in 2...steps {
                 pSRW = stepSRW(adj: adj, vec: pSRW)
                 pNB = stepNB(adj: adj, dirEdges: dirEdges, edgeIdx: edgeIdx, evec: pNB)
+                massConserved = massConserved
+                    && probabilityVectorConserved(pSRW, tol: massTol)
+                    && probabilityVectorConserved(pNB, tol: massTol)
             }
         }
 
@@ -402,13 +448,15 @@ public enum HashimotoMixing {
         for (i, mass) in pNB.enumerated() {
             vNB[dirEdges[i].v] += mass
         }
+        massConserved = massConserved && probabilityVectorConserved(vNB, tol: massTol)
+
         let stat = 1.0 / Double(nTet)
-        var tvSRW = 0.0
-        var tvNB = 0.0
-        for u in 0..<nTet {
-            tvSRW += abs(pSRW[u] - stat)
-            tvNB += abs(vNB[u] - stat)
-        }
+        let diffsSRW = (0..<nTet).map { abs(pSRW[$0] - stat) }
+        let diffsNB = (0..<nTet).map { abs(vNB[$0] - stat) }
+        let tvSRW = 0.5 * neumaierSum(diffsSRW)
+        let tvNB = 0.5 * neumaierSum(diffsNB)
+        massConserved = massConserved && tvSRW.isFinite && tvNB.isFinite
+
         return MixingReport(
             nTet: nTet,
             directedEdges: dirEdges.count,
@@ -416,8 +464,9 @@ public enum HashimotoMixing {
             satisfiesGraphRH: satRH,
             srwNontrivialRate: srwRate,
             nbIharaNontrivialRate: nbRate,
-            tvStep20SRW: 0.5 * tvSRW,
-            tvStep20NB: 0.5 * tvNB
+            tvStep20SRW: tvSRW,
+            tvStep20NB: tvNB,
+            massConserved: massConserved
         )
     }
 
@@ -887,12 +936,17 @@ public enum SZCoupledVerifier {
     }
 
     public static func guardRamanujanNBMixing(_ rep: MixingReport) -> SZGuardVerdict {
-        let ok = rep.satisfiesGraphRH && rep.nbIharaNontrivialRate < rep.srwNontrivialRate
+        let ok = rep.massConserved
+            && rep.maxNontrivialLambdaSq.isFinite
+            && rep.satisfiesGraphRH
+            && rep.nbIharaNontrivialRate.isFinite
+            && rep.srwNontrivialRate.isFinite
+            && rep.nbIharaNontrivialRate < rep.srwNontrivialRate
         return SZGuardVerdict(
             compartment: "coupled_ramanujan_nb_mixing",
             violationCount: ok ? 0 : 1,
-            detail: "\(rep.nTet)-TET: max_lambda^2=\(String(format: "%.5f", rep.maxNontrivialLambdaSq)), NB=\(String(format: "%.5f", rep.nbIharaNontrivialRate)), SRW=\(String(format: "%.5f", rep.srwNontrivialRate))",
-            healingAction: "Switch to a Ramanujan N-TET graph (such as 12-TET) with max_lambda^2 < 8."
+            detail: "\(rep.nTet)-TET: max_lambda^2=\(String(format: "%.5f", rep.maxNontrivialLambdaSq)), NB=\(String(format: "%.5f", rep.nbIharaNontrivialRate)), SRW=\(String(format: "%.5f", rep.srwNontrivialRate)), massConserved=\(rep.massConserved)",
+            healingAction: "Switch to a Ramanujan N-TET graph (such as 12-TET) with max_lambda^2 < 8 and conserved Markov mass."
         )
     }
 

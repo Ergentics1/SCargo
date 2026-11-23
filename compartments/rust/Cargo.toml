@@ -9,6 +9,7 @@ members = [
     "crates/scargo-qualify",
     "crates/scargo-riem-lattice",
     "crates/scargo-schwartz-zippel",
+    "crates/scargo-sweep",
 ]
 
 [workspace.lints.rust]

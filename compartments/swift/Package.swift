@@ -19,6 +19,10 @@ let package = Package(
             name: "SchwartzZippel",
             targets: ["SchwartzZippel"]
         ),
+        .library(
+            name: "SCargoSweep",
+            targets: ["SCargoSweep"]
+        ),
         .executable(
             name: "scargo-audit",
             targets: ["scargo-audit"]
@@ -30,6 +34,10 @@ let package = Package(
         .executable(
             name: "scargo-schwartz-zippel",
             targets: ["scargo-schwartz-zippel"]
+        ),
+        .executable(
+            name: "scargo-sweep",
+            targets: ["scargo-sweep"]
         )
     ],
     targets: [
@@ -56,6 +64,14 @@ let package = Package(
                 .treatAllWarnings(as: .error)
             ]
         ),
+        .target(
+            name: "SCargoSweep",
+            dependencies: ["SCargoModel"],
+            swiftSettings: [
+                .swiftLanguageMode(.v6),
+                .treatAllWarnings(as: .error)
+            ]
+        ),
         .executableTarget(
             name: "scargo-audit",
             dependencies: ["SCargoModel"],
@@ -80,6 +96,14 @@ let package = Package(
                 .treatAllWarnings(as: .error)
             ]
         ),
+        .executableTarget(
+            name: "scargo-sweep",
+            dependencies: ["SCargoSweep", "SCargoModel"],
+            swiftSettings: [
+                .swiftLanguageMode(.v6),
+                .treatAllWarnings(as: .error)
+            ]
+        ),
         .testTarget(
             name: "SCargoModelTests",
             dependencies: ["SCargoModel"],
@@ -99,6 +123,14 @@ let package = Package(
         .testTarget(
             name: "SchwartzZippelTests",
             dependencies: ["SchwartzZippel", "SCargoModel"],
+            swiftSettings: [
+                .swiftLanguageMode(.v6),
+                .treatAllWarnings(as: .error)
+            ]
+        ),
+        .testTarget(
+            name: "SCargoSweepTests",
+            dependencies: ["SCargoSweep", "SCargoModel"],
             swiftSettings: [
                 .swiftLanguageMode(.v6),
                 .treatAllWarnings(as: .error)

@@ -36,27 +36,28 @@ Built on the **SpaceX Falcon Payload User's Guide (Rev. 8, May 2025)**, the **NA
 SCargo/
 ├── ARCHITECTURE.md                   # Compartment philosophy, Correspondence Principle & zero-trust invariants
 ├── compartments/
-│   ├── rust/                         # Rust 1.100.0 workspace: scargo-probe, scargo-trace, scargo-qualify, scargo-riem-lattice, scargo-schwartz-zippel (zero-dep, forbid(unsafe_code))
-│   ├── swift/                        # Open-Source Swift 6.4.3: SCargoModel, RiemLattice, SchwartzZippel, scargo-audit, scargo-riem-lattice, scargo-schwartz-zippel, Swift Testing suites
-│   └── lean/                         # Lean v4.36.0: SCargoLean.Contract, SCargoLean.RiemLattice, SCargoLean.SchwartzZippel (pure-kernel Condition-D SZ + coupled PLR proofs), riem_lattice_test, sz_lattice_test
+│   ├── rust/                         # Rust 1.100.0 workspace: scargo-probe, scargo-trace, scargo-qualify, scargo-riem-lattice, scargo-schwartz-zippel, scargo-sweep (zero-dep, forbid(unsafe_code))
+│   ├── swift/                        # Open-Source Swift 6.4.3: SCargoModel, RiemLattice, SchwartzZippel, SCargoSweep, scargo-audit, scargo-riem-lattice, scargo-schwartz-zippel, scargo-sweep, Swift Testing suites
+│   └── lean/                         # Lean v4.36.0: SCargoLean.Contract, RiemLattice, SchwartzZippel, SweepWitness (13-witness, Sylvester SPD, typed P->D seam & RCT-R1 proofs), riem_lattice_test, sz_lattice_test, sweep_witness_test
 ├── models/
 │   ├── reduction_model.md            # Quantitative proof mass-budget & reduction equations
-│   ├── verification_methodology_model.md   # Deterministic / runtime / probabilistic SWE-sweep model
+│   ├── verification_methodology_model.md   # Deterministic / runtime / probabilistic SWE-sweep & D<->R<->P seam model (13 witnesses, 14 defects)
 │   ├── conflation_and_boolean_guard_analysis.md  # Helper-pathology taxonomy, AUD-01..07 & atomic guard spec
 │   ├── riemannian_disambiguation_model.md  # Authority-controlled RIEM-A / RIEM-B / RIEM-C / RIEM-LATTICE map
 │   ├── riemann_lattice_graph_rh_model.md   # Euler 1735-1739 root & exact proof: G_PLR satisfies Graph RH
 │   └── schwartz_zippel_lattice_model.md    # ODLSZ / Schwartz-Zippel lineage, coupled PLR torus, ring bounds & G_PLR PIT bridge
 ├── data/
 │   ├── README.md                     # Code/data/policy/audit separation contract
-│   ├── sources/                      # 7 disjoint primary-source vaults (RIEM-A, RIEM-C [88 works], RIEM-LATTICE, PIT-SZ [38 works], SWE lit, lexicon, Paper 001 presentation)
-│   ├── manifests/                    # Normative policies (swe_sweep_policy_v1.json, transfer_zones_v1.json, upstream_requirements_v1.json)
+│   ├── sources/                      # 7 disjoint primary-source vaults (RIEM-A, RIEM-C [88 works], RIEM-LATTICE, PIT-SZ [38 works], SWE lit [55 works], lexicon, Paper 001 presentation)
+│   ├── fixtures/                     # Declarative negative-control & clean-control recipe vault (21 poisoned + 5 clean)
+│   ├── manifests/                    # Normative policies (swe_sweep_policy_v1.json v1.2.0, transfer_zones_v1.json, upstream_requirements_v1.json)
 │   ├── audits/                       # Live self-audit ledger & remediation receipts (live_self_audit_v1.json)
 │   ├── baselines/                    # Read-only telemetry snapshots (riemannian_51d9b1a280_inventory.json)
 │   ├── traces/                       # Independent dominator/reachability traces (riemannian_51d9b1a280_trace.json)
-│   └── trials/                       # Deterministic RCT allocations & clean-room dry-run qualification reports
+│   └── trials/                       # Deterministic RCT allocations, RCT-R1 config & clean-room dry-run qualification reports
 ├── experiments/
 │   ├── retrospective/                # Observational baseline census (STUDY-001)
-│   └── rct/                          # Pre-registered RCT templates & qualification baselines (DRYRUN-001, RCT-001)
+│   └── rct/                          # Pre-registered RCT templates & qualification protocols (DRYRUN-001, RCT-001, RCT-R1)
 ├── research/
 │   ├── papers/001-riemannian-formulary-and-reduction-architecture/  # IMRaD paper, guarded figure renderer + tests, PNGs, HTML
 │   └── upstream_reports/             # Upstream Swift swift-build ElapsedTimer SIGILL report & minimal patch
@@ -72,10 +73,11 @@ Each compartment runs independently with zero cross-language combo wrappers:
 
 ### 1. Lean (`v4.36.0`, `warningAsError = true`, `LEAN_ABORT_ON_PANIC=1`, zero `sorry` / `native_decide`)
 ```bash
-LEAN_ABORT_ON_PANIC=1 lake --dir compartments/lean build SCargoLean riem_lattice_test sz_lattice_test
+LEAN_ABORT_ON_PANIC=1 lake --dir compartments/lean build SCargoLean riem_lattice_test sz_lattice_test sweep_witness_test
 LEAN_ABORT_ON_PANIC=1 lake --dir compartments/lean exe riem_lattice_test
 LEAN_ABORT_ON_PANIC=1 lake --dir compartments/lean exe sz_lattice_test
-LEAN_PATH=compartments/lean/.lake/build/lib/lean leanchecker SCargoLean SCargoLean.Contract SCargoLean.RiemLattice SCargoLean.SchwartzZippel
+LEAN_ABORT_ON_PANIC=1 lake --dir compartments/lean exe sweep_witness_test
+LEAN_PATH=compartments/lean/.lake/build/lib/lean leanchecker SCargoLean SCargoLean.Contract SCargoLean.RiemLattice SCargoLean.SchwartzZippel SCargoLean.SweepWitness
 ```
 
 ### 2. Rust (`1.100.0`, zero external crates, `-D warnings`, `#![forbid(unsafe_code)]`)
@@ -88,6 +90,7 @@ compartments/rust/target/release/scargo-riem-lattice \
 compartments/rust/target/release/scargo-schwartz-zippel \
   --sz-vault data/sources/schwartz_zippel_research_v1.json \
   --rl-vault data/sources/riemann_lattice_graph_rh_v1.json
+compartments/rust/target/release/scargo-sweep all --root .
 ```
 
 ### 3. Open-Source Swift (`6.4.3`, `.treatAllWarnings(as: .error)`, guarded default `swiftbuild`)
@@ -99,6 +102,7 @@ compartments/swift/.build/release/scargo-riem-lattice \
 compartments/swift/.build/release/scargo-schwartz-zippel \
   --sz-vault data/sources/schwartz_zippel_research_v1.json \
   --rl-vault data/sources/riemann_lattice_graph_rh_v1.json
+compartments/swift/.build/release/scargo-sweep all --root .
 ```
 
 ---

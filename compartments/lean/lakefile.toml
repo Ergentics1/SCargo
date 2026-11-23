@@ -25,3 +25,7 @@ root = "SCargoLean.RiemLatticeTest"
 [[lean_exe]]
 name = "sz_lattice_test"
 root = "SCargoLean.SchwartzZippelTest"
+
+[[lean_exe]]
+name = "sweep_witness_test"
+root = "SCargoLean.SweepWitnessTest"

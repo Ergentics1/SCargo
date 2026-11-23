@@ -44,10 +44,11 @@ SCargo/
 │   ├── verification_methodology_model.md   # Deterministic / runtime / probabilistic SWE-sweep model
 │   ├── conflation_and_boolean_guard_analysis.md  # Helper-pathology taxonomy, AUD-01..07 & atomic guard spec
 │   ├── riemannian_disambiguation_model.md  # Authority-controlled RIEM-A / RIEM-B / RIEM-C / RIEM-LATTICE map
-│   └── riemann_lattice_graph_rh_model.md   # Euler 1735-1739 root & exact proof: G_PLR satisfies Graph RH
+│   ├── riemann_lattice_graph_rh_model.md   # Euler 1735-1739 root & exact proof: G_PLR satisfies Graph RH
+│   └── schwartz_zippel_lattice_model.md    # ODLSZ / Schwartz-Zippel lineage, 5 theorem families, ring bounds & G_PLR PIT bridge
 ├── data/
 │   ├── README.md                     # Code/data/policy/audit separation contract
-│   ├── sources/                      # 6 disjoint primary-source vaults (RIEM-A, RIEM-C [88 works], RIEM-LATTICE, SWE lit, lexicon, Paper 001 presentation)
+│   ├── sources/                      # 7 disjoint primary-source vaults (RIEM-A, RIEM-C [88 works], RIEM-LATTICE, PIT-SZ [38 works], SWE lit, lexicon, Paper 001 presentation)
 │   ├── manifests/                    # Normative policies (swe_sweep_policy_v1.json, transfer_zones_v1.json, upstream_requirements_v1.json)
 │   ├── audits/                       # Live self-audit ledger & remediation receipts (live_self_audit_v1.json)
 │   ├── baselines/                    # Read-only telemetry snapshots (riemannian_51d9b1a280_inventory.json)
@@ -100,6 +101,7 @@ compartments/swift/.build/release/scargo-riem-lattice \
 - Architecture & Zero-Trust Invariants: [`ARCHITECTURE.md`](ARCHITECTURE.md)
 - Disambiguation of Bernhard vs. Hugo Riemann: [`models/riemannian_disambiguation_model.md`](models/riemannian_disambiguation_model.md)
 - Euler 1730s Root & Neo-Riemannian *Tonnetz* Dual Graph-RH Proof: [`models/riemann_lattice_graph_rh_model.md`](models/riemann_lattice_graph_rh_model.md)
+- Schwartz–Zippel (ODLSZ) Lattice Module & PIT Integration: [`models/schwartz_zippel_lattice_model.md`](models/schwartz_zippel_lattice_model.md)
 - Verification Methodology & Conflation Guard Analysis: [`models/verification_methodology_model.md`](models/verification_methodology_model.md) · [`models/conflation_and_boolean_guard_analysis.md`](models/conflation_and_boolean_guard_analysis.md)
 - Interface Control Document (`Riemannian` airlock): [`transfer/ICD-RIEMANNIAN.md`](transfer/ICD-RIEMANNIAN.md)
 - Paper 001 (Formulary & Reduction Architecture): [`research/papers/001-riemannian-formulary-and-reduction-architecture/paper.md`](research/papers/001-riemannian-formulary-and-reduction-architecture/paper.md)

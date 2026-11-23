@@ -13,6 +13,7 @@
 
 This thesis governs every layer of `SCargo`:
 - **Mathematical foundations**: Passing from Euler/Oettingen/Hugo Riemann's infinite 5-limit just-intonation *Tonnetz* ($\mathbb{Z}^2$) to 12-TET ($\mathbb{T}^2$) exposes exact syntonic-comma ($81/80 \approx 21.506\text{ cents}$) and diesis ($128/125 \approx 41.059\text{ cents}$) bounds; refining $N$-TET toward flat $\mathbb{Z}^2$ crosses a quantifiable Alon–Boppana Graph-RH boundary (`models/riemann_lattice_graph_rh_model.md`).
+- **Probabilistic identity testing (`PIT-SZ`)**: The Schwartz–Zippel (ODLSZ) lattice (`models/schwartz_zippel_lattice_model.md`) links exact deterministic grid evaluation ($\varepsilon = 0$) smoothly to randomized PIT ($\varepsilon \le (d/|S|)^k$) over integral domains and pinpoints exact composite-ring breakdown unless grids satisfy Condition (D).
 - **Verification & reduction**: Every refactored or reduced proof module must preserve exact kernel statement/axiom equivalence (`epsilon = 0`) and explicitly bounded resource envelopes (`SCargoLean.Contract`).
 - **Visualization & telemetry**: Re-rendering Paper 001 figures on scaled synthetic corpora must preserve exact correspondence between plotted quantities and dynamic prose captions (`epsilon = 0`, verified in `test_render_figures.py`).
 
@@ -49,7 +50,7 @@ Our architectural philosophy synthesizes two primary aerospace systems-engineeri
 
 ### 3.1 Strict Separation of Code, Data, Policy, Audits & Presentation
 - **Code (`compartments/`, `render_figures.py`)** contains pure algorithms, parsers, graph analyzers, theorem harnesses, and figure renderers. It contains **no hardcoded dataset tables or baked empirical numerals** (remediated in `AUD-06` and `AUD-07`).
-- **Primary Sources (`data/sources/`)** hold immutable, schema-versioned archival registries strictly partitioned by tradition (`formulary_lineage_v1.json`, `hugo_riemann_works_v1.json`, `riemann_lattice_graph_rh_v1.json`, `methodology_literature_v1.json`, `standard_vocabulary_v1.json`, `paper_001_presentation_v1.json`). Zero crowdsourced encyclopedia URLs.
+- **Primary Sources (`data/sources/`)** hold immutable, schema-versioned archival registries strictly partitioned by tradition (`formulary_lineage_v1.json`, `hugo_riemann_works_v1.json`, `riemann_lattice_graph_rh_v1.json`, `schwartz_zippel_research_v1.json`, `methodology_literature_v1.json`, `standard_vocabulary_v1.json`, `paper_001_presentation_v1.json`). Zero crowdsourced encyclopedia URLs.
 - **Normative Policy (`data/manifests/`)** holds immutable acceptance contracts (`swe_sweep_policy_v1.json`, `transfer_zones_v1.json`, `upstream_requirements_v1.json`).
 - **Live Audit State (`data/audits/`)** holds live findings, remediation receipts, and time-bounded waivers (`live_self_audit_v1.json`) — strictly separated from normative policy so recording or closing a defect never mutates policy provenance (`AUD-01`).
 - **Measurements (`data/baselines/`, `data/traces/`, `data/trials/`)** hold immutable tool outputs tagged with `schema_version`, `generated_at_utc`, `source_repo_commit`, and `tool_version`.

@@ -9,6 +9,7 @@ This compartment targets **Open-Source Swift `6.4.3`** (`swift-tools-version: 6.
 - **`SCargoSweep`** & **`scargo-sweep`**: Standalone Rung 1 13-witness Proof-Carrying SWE-sweep (pure-Swift SHA-256), D/R/P/Seam blind-spot guards (Neumaier/Higham FP, Cholesky SPD, positive `isFinite`, conservation caps, Massart–DKW Calibration-PIT, Clopper–Pearson coverage, CRPS/Brier, OOD, typed `P -> D` admission, bit-exact `D -> P` replay), 21-poison + 5-clean out-of-tree fixture qualifier (`PRIN-06`), and Stratified `RCT-R1` engine (`SCargoSweepTests`).
 - **`SCargoGround`** & **`scargo-ground`**: Standalone Rung 2 shared ground codec (canonical JSON encode/decode, Kahn cycle check, exact fixed-point dominators + cut oracle, AST wrapper classifier), deterministic 1-edge-minimal QuickCheck shrinker, `MR-1`..`MR-3` metamorphic invariance suite, and seeded 384-case differential parity harness matching Rust SHA-256 byte-for-byte (`SCargoGroundTests`).
 - **`SCargoAirlock`** & **`scargo-airlock`**: Standalone Rung 3 reconciled proof-reduction & clean-room ICD airlock verifier (`AG-1`..`AG-5`, exact baseline/trace conservation, Pareto mass ratios $\rho_i$, deterministic `UP-07` $\le 8$-root batch schedules, RCT-001 Vargha–Delaney $\hat{A}_{12}$, synthetic clean-room transforms, and 7 adversarial airlock controls matching Rust SHA-256 byte-for-byte; `SCargoAirlockTests`).
+- **`SCargoCensus`** & **`scargo-census`**: Standalone Arc 4 high-mass zone census (`Z-C2`/`Z-C3`/`Z-C4`) & `UP-08` lexical provenance verifier (`HG-1`..`HG-5`, deterministic Pareto yield ranking, and 6 adversarial negative controls matching Rust SHA-256 byte-for-byte; `SCargoCensusTests`).
 
 ## Standalone Verification Commands (Guarded Default `swiftbuild`, 0 Warnings)
 
@@ -23,4 +24,5 @@ compartments/swift/.build/release/scargo-schwartz-zippel \
 compartments/swift/.build/release/scargo-sweep all --root .
 compartments/swift/.build/release/scargo-ground --root .
 compartments/swift/.build/release/scargo-airlock --root .
+compartments/swift/.build/release/scargo-census --root .
 ```

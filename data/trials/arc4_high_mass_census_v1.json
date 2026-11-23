@@ -1,0 +1,95 @@
+{
+  "schema_version": "1.0.0",
+  "copyright": "Copyright (c) 2026 Ergentics, LLC",
+  "organization": "Ergentics",
+  "tool": "scargo-census/0.1.0",
+  "census_id": "ARC4-HIGHMASS-CENSUS-V1",
+  "source_repo_commit": "51d9b1a28026d458aef9c9af3df8b083276e3d2d",
+  "target_repo_mutation_allowed": false,
+  "up08_clean_room_mode": "fingerprints_and_metrics_only_zero_copied_proof_bodies",
+  "zone_z_c2_explicit_dumps": {
+    "subtree": "Development/AutomorphicArithmetic/IntegralCasts/CapelliIdentities",
+    "total_files": 800,
+    "total_lines": 92058,
+    "total_bytes": 5789497,
+    "total_at_tokens": 63269,
+    "explicit_heavy_files": 24,
+    "explicit_heavy_lines": 19024,
+    "explicit_heavy_bytes": 1784073,
+    "defeq_sensitive_decls": 593,
+    "theorem_decls": 1678,
+    "conservative_reclaimable_lines": 14221,
+    "conservative_reclaimable_bytes": 1334494,
+    "top_explicit_files": [
+      {"path": "Development/AutomorphicArithmetic/IntegralCasts/CapelliIdentities/CovariantDegrees.lean", "lines": 6102, "bytes": 498418, "at_tokens": 15193, "explicit_heavy_lines": 5107, "defeq_sensitive_decls": 6},
+      {"path": "Development/AutomorphicArithmetic/IntegralCasts/CapelliIdentities/MemOfClosed.lean", "lines": 4231, "bytes": 349171, "at_tokens": 7335, "explicit_heavy_lines": 2153, "defeq_sensitive_decls": 2},
+      {"path": "Development/AutomorphicArithmetic/IntegralCasts/CapelliIdentities/SelectionLemmas.lean", "lines": 3496, "bytes": 248986, "at_tokens": 5248, "explicit_heavy_lines": 1982, "defeq_sensitive_decls": 11},
+      {"path": "Development/AutomorphicArithmetic/IntegralCasts/CapelliIdentities/MulMemIntA.lean", "lines": 4936, "bytes": 402482, "at_tokens": 6313, "explicit_heavy_lines": 1591, "defeq_sensitive_decls": 3},
+      {"path": "Development/AutomorphicArithmetic/IntegralCasts/CapelliIdentities/ImportsMoreExtra.lean", "lines": 1535, "bytes": 130885, "at_tokens": 3432, "explicit_heavy_lines": 1169, "defeq_sensitive_decls": 1},
+      {"path": "Development/AutomorphicArithmetic/IntegralCasts/CapelliIdentities/RootEquality.lean", "lines": 2337, "bytes": 158668, "at_tokens": 2535, "explicit_heavy_lines": 905, "defeq_sensitive_decls": 7},
+      {"path": "Development/AutomorphicArithmetic/IntegralCasts/CapelliIdentities/ConjInvariantCharacterMem.lean", "lines": 1721, "bytes": 125318, "at_tokens": 2546, "explicit_heavy_lines": 892, "defeq_sensitive_decls": 9},
+      {"path": "Development/AutomorphicArithmetic/IntegralCasts/CapelliIdentities/BorelApproximation.lean", "lines": 2154, "bytes": 167428, "at_tokens": 2721, "explicit_heavy_lines": 706, "defeq_sensitive_decls": 7},
+      {"path": "Development/AutomorphicArithmetic/IntegralCasts/CapelliIdentities/ZeroContDiffOnSupported.lean", "lines": 2164, "bytes": 165850, "at_tokens": 2721, "explicit_heavy_lines": 706, "defeq_sensitive_decls": 7},
+      {"path": "Development/AutomorphicArithmetic/IntegralCasts/CapelliIdentities/ComplexNormedInstanceCompat.lean", "lines": 3013, "bytes": 234084, "at_tokens": 2865, "explicit_heavy_lines": 657, "defeq_sensitive_decls": 14}
+    ]
+  },
+  "zone_z_c3_private_duplicates": {
+    "total_files": 50309,
+    "total_lines": 3820854,
+    "total_bytes": 239219985,
+    "private_blocks_ge4_lines": 2693,
+    "duplicate_cluster_count": 14,
+    "cross_subtree_cluster_count": 3,
+    "duplicate_block_instances": 33,
+    "reclaimable_lines": 524,
+    "reclaimable_bytes": 24220,
+    "subtrees": [
+      {"subtree": "Development/AbelianVarietyTheory/Proofs/DivisorProofs", "files": 29995, "lines": 2102002, "bytes": 133054815, "private_blocks": 1222},
+      {"subtree": "Development/AbelianVarietyTheory/Proofs/InertiaEigenvalues", "files": 8536, "lines": 687242, "bytes": 41305345, "private_blocks": 535},
+      {"subtree": "Development/AbelianVarietyTheory/Proofs/IwasawaDecomposition", "files": 5895, "lines": 505308, "bytes": 31515256, "private_blocks": 275},
+      {"subtree": "Development/AbelianVarietyTheory/Proofs/TwistedOperators", "files": 5883, "lines": 526302, "bytes": 33344569, "private_blocks": 661}
+    ],
+    "top_duplicate_clusters": [
+      {"fingerprint_sha256": "7db7d3e7e9bbbc3560d4e423c62e5428904f849988cba67fe5c5bc7108aeb89a", "multiplicity": 5, "block_lines": 59, "block_bytes": 2663, "reclaimable_lines": 236, "reclaimable_bytes": 10652, "cross_subtree": true, "sample_path": "Development/AbelianVarietyTheory/Proofs/DivisorProofs/ExistsHasLocalSmall.lean"},
+      {"fingerprint_sha256": "8f505844f61632258017f220be8750d86f131193d740568539c3efa807e8cc5e", "multiplicity": 3, "block_lines": 58, "block_bytes": 2636, "reclaimable_lines": 116, "reclaimable_bytes": 5272, "cross_subtree": true, "sample_path": "Development/AbelianVarietyTheory/Proofs/IwasawaDecomposition/WeilVacuumFiniteSelfDualLatticeSplitting.lean"},
+      {"fingerprint_sha256": "057af027d36b7dbc71948b42e3ce06e3e12b714cd81926b2568f4675ab2b050b", "multiplicity": 2, "block_lines": 64, "block_bytes": 2806, "reclaimable_lines": 64, "reclaimable_bytes": 2806, "cross_subtree": true, "sample_path": "Development/AbelianVarietyTheory/Proofs/DivisorProofs/UnitVacuumEqSmulArrowVacuaProduct.lean"},
+      {"fingerprint_sha256": "796d440ef54833445a0dec017756212b5201764ffffe8102aa00cbc0b0b9a140", "multiplicity": 3, "block_lines": 9, "block_bytes": 436, "reclaimable_lines": 18, "reclaimable_bytes": 872, "cross_subtree": false, "sample_path": "Development/AbelianVarietyTheory/Proofs/DivisorProofs/GoodMetricLocalTransgressionFormula.lean"},
+      {"fingerprint_sha256": "94d62dcd990733177201c4d8fe6c4edb7dec06bab528c3e6bff153af08a3950f", "multiplicity": 2, "block_lines": 16, "block_bytes": 724, "reclaimable_lines": 16, "reclaimable_bytes": 724, "cross_subtree": false, "sample_path": "Development/AbelianVarietyTheory/Proofs/InertiaEigenvalues/NatLogFloorExpLe.lean"},
+      {"fingerprint_sha256": "cb3da9fa699e027df1e66bb2db5c1859821d2b6ba6a1dd00011d6051e6dc34e9", "multiplicity": 2, "block_lines": 14, "block_bytes": 725, "reclaimable_lines": 14, "reclaimable_bytes": 725, "cross_subtree": false, "sample_path": "Development/AbelianVarietyTheory/Proofs/InertiaEigenvalues/NatLogFloorExpLe.lean"},
+      {"fingerprint_sha256": "b8f0367b26e50eb0d97714ca1eddfbefdd00f788d50a9980a4a46eacb6645512", "multiplicity": 2, "block_lines": 12, "block_bytes": 764, "reclaimable_lines": 12, "reclaimable_bytes": 764, "cross_subtree": false, "sample_path": "Development/AbelianVarietyTheory/Proofs/TwistedOperators/HoweDualityRealPlacesPolynomialVectorsSmallPair.lean"},
+      {"fingerprint_sha256": "dbccf8860314005ff95d0d211ea7c874eb9b068abeef810d7c2b451345583a66", "multiplicity": 2, "block_lines": 12, "block_bytes": 460, "reclaimable_lines": 12, "reclaimable_bytes": 460, "cross_subtree": false, "sample_path": "Development/AbelianVarietyTheory/Proofs/TwistedOperators/HoweDualityRealPlacesPolynomialVectorsSmallPair.lean"},
+      {"fingerprint_sha256": "73c08034a1dca1bd1475de92767f05ba1e81518c17eb306197d4f12bd8eef50c", "multiplicity": 2, "block_lines": 8, "block_bytes": 367, "reclaimable_lines": 8, "reclaimable_bytes": 367, "cross_subtree": false, "sample_path": "Development/AbelianVarietyTheory/Proofs/DivisorProofs/EncardSeminormBallMulLeConvexity.lean"},
+      {"fingerprint_sha256": "99b75789538825a5a01dc07b807bf7117d8a161806fcc389f9c10bfbc57dedb9", "multiplicity": 2, "block_lines": 7, "block_bytes": 342, "reclaimable_lines": 7, "reclaimable_bytes": 342, "cross_subtree": false, "sample_path": "Development/AbelianVarietyTheory/Proofs/TwistedOperators/HoweDualityRealPlacesPolynomialVectorsSmallPair.lean"},
+      {"fingerprint_sha256": "12aad80a1f98260be4dc2adbad1613d670508f3b16fedfc005a8e2d813d6710b", "multiplicity": 2, "block_lines": 6, "block_bytes": 288, "reclaimable_lines": 6, "reclaimable_bytes": 288, "cross_subtree": false, "sample_path": "Development/AbelianVarietyTheory/Proofs/IwasawaDecomposition/EvalTwSubK.lean"},
+      {"fingerprint_sha256": "9e71a24b15d3826606fda19aa868c33a3401e89e8c4eb10440a515a017c9ba90", "multiplicity": 2, "block_lines": 6, "block_bytes": 290, "reclaimable_lines": 6, "reclaimable_bytes": 290, "cross_subtree": false, "sample_path": "Development/AbelianVarietyTheory/Proofs/DivisorProofs/KummerReductionChernDefectRestrict.lean"},
+      {"fingerprint_sha256": "5aa23f98fcd44af18b4450df768e751ac205f6ca29b18ca08af8c307d9fe0cc1", "multiplicity": 2, "block_lines": 5, "block_bytes": 307, "reclaimable_lines": 5, "reclaimable_bytes": 307, "cross_subtree": false, "sample_path": "Development/AbelianVarietyTheory/Proofs/DivisorProofs/ExistsEtaleNeighbourhoodFinitePieceIsolatedPoint.lean"},
+      {"fingerprint_sha256": "1827fdd3326938f5d0e71fea5ee7db12c35c3c560f2f0335b4f821905e3109ce", "multiplicity": 2, "block_lines": 4, "block_bytes": 351, "reclaimable_lines": 4, "reclaimable_bytes": 351, "cross_subtree": false, "sample_path": "Development/AbelianVarietyTheory/Proofs/TwistedOperators/HoweDualityRealPlacesPolynomialVectorsSmallPair.lean"}
+    ]
+  },
+  "zone_z_c4_dominator_and_hub": {
+    "total_files": 2421,
+    "total_lines": 156346,
+    "total_bytes": 13125496,
+    "total_import_lines": 48033,
+    "structure_decls": 157,
+    "structure_fields": 1783,
+    "subtrees": [
+      {"subtree": "Development/AutomorphicArithmetic/Foundations/GaloisRepresentations/IntegralStructures", "files": 175, "lines": 15429, "bytes": 900606, "import_lines": 914, "structure_decls": 26, "structure_fields": 281},
+      {"subtree": "Development/AutomorphicArithmetic/ThetaCorrespondence/ThetaPairLifts/ThirdPlaceSeries", "files": 2246, "lines": 140917, "bytes": 12224890, "import_lines": 47119, "structure_decls": 131, "structure_fields": 1502}
+    ],
+    "fanout_hub": {
+      "path": "Development/AutomorphicArithmetic/ThetaCorrespondence/ThetaPairLifts/ThirdPlaceSeries/EveryCharacterOfLiteratureOfVWin.lean",
+      "total_lines": 5950,
+      "total_bytes": 614479,
+      "direct_import_lines": 5319,
+      "transitively_redundant_imports": 5054,
+      "transitively_redundant_bytes": 508718,
+      "bfs_nodes_explored": 127185
+    }
+  },
+  "pareto_zone_ranking": [
+    {"rank": 1, "zone_id": "Z-C2", "mechanism": "Explicit @-Term De-Expansion (CapelliIdentities)", "zone_total_lines": 92058, "reclaimable_lines": 14221, "rho_lines_ppm": 845521, "zone_total_bytes": 5789497, "reclaimable_bytes": 1334494, "rho_bytes_ppm": 769497, "semantic_risk": "medium_defeq_eq1"},
+    {"rank": 2, "zone_id": "Z-C4", "mechanism": "Transitively Redundant Import Pruning (EveryCharacterOfLiteratureOfVWin Hub)", "zone_total_lines": 156346, "reclaimable_lines": 5054, "rho_lines_ppm": 967674, "zone_total_bytes": 13125496, "reclaimable_bytes": 508718, "rho_bytes_ppm": 961241, "semantic_risk": "very_low_zero_semantic_drift"},
+    {"rank": 3, "zone_id": "Z-C3", "mechanism": "Exact Duplicate Private-Lemma Factoring (AbelianVarietyTheory/Proofs)", "zone_total_lines": 3820854, "reclaimable_lines": 524, "rho_lines_ppm": 999862, "zone_total_bytes": 239219985, "reclaimable_bytes": 24220, "rho_bytes_ppm": 999898, "semantic_risk": "low_local_visibility"}
+  ]
+}

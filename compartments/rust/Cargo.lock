@@ -11,6 +11,10 @@ name = "scargo-census"
 version = "0.1.0"
 
 [[package]]
+name = "scargo-emit"
+version = "0.1.0"
+
+[[package]]
 name = "scargo-ground"
 version = "0.1.0"
 

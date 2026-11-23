@@ -8,6 +8,7 @@ This directory defines the separation plane between `SCargo` and the target flig
 
 - [`ICD-RIEMANNIAN.md`](ICD-RIEMANNIAN.md): Interface Control Document (`ICD-SCARGO-RIEM-001`) defining Zone A (no-touch verification core), Zone B (documentation), Zone C0–C5 (qualified proof-reduction zones), Gates G1–G5, and retest triggers.
 - [`packages/rung3_airlock_manifest_v1.json`](packages/rung3_airlock_manifest_v1.json): Declarative Rung 3 clean-room airlock manifest staging `PKG-R3-Z0-DEAD-LEAVES`, `PKG-R3-Z1A-ALIAS-INPLACE`, and `PKG-R3-Z1B-WRAPPER-COLLAPSE`, along with `UP-07` batching constraints and 7 adversarial airlock negative controls.
+- [`bundles/arc5_preflight_bundles_v1.json`](bundles/arc5_preflight_bundles_v1.json): Declarative Arc 5 dual-route `UP-07` pre-flight shard and full-runner bundle receipt covering `Z-C0` (112 dead leaves), `Z-C1A` (46 Strategy A wrappers), `Z-C2` (24 explicit-heavy `CapelliIdentities` files), and `Z-C4` (`EveryCharacterOfLiteratureOfVWin.lean` transitive import hub prune) — 24 shards (`18` `quick_check`, `6` `full_rh_build`) + 4 full bundles with SHA-256 receipts, zero Zone A paths, and zero verbatim proof bodies (`target_repo_mutation_allowed = false`).
 
 ## Separation Invariant (`UP-08` & Flight-Article Protection)
 

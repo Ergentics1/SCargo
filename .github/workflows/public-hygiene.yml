@@ -1,0 +1,81 @@
+name: Public Repository Hygiene
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  hygiene-check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Verify zero symlinks, zero secrets, zero local paths, and valid JSON vaults
+        run: |
+          python3 - <<'PY'
+          import json, os, pathlib, re, subprocess, sys
+
+          root = pathlib.Path(".")
+          tracked = subprocess.check_output(["git", "ls-files"], text=True).splitlines()
+          errors = []
+
+          # 1. Zero tracked symlinks
+          ls_stage = subprocess.check_output(["git", "ls-files", "-s"], text=True).splitlines()
+          for row in ls_stage:
+              if row.startswith("120000 "):
+                  errors.append(f"Tracked symlink forbidden: {row}")
+
+          # 2. Scan text files for secrets, local host paths, file:// URIs, and external CDNs
+          rx_secret = re.compile(
+              r"(ghp_|gho_|ghu_|ghs_|github_pat_|AKIA[0-9A-Z]{16}|AIza[0-9A-Za-z_-]{35}|"
+              r"sk-[A-Za-z0-9]{20,}|BEGIN [A-Z ]*PRIVATE KEY|Bearer\s+[A-Za-z0-9._-]{16,})"
+          )
+          rx_local = re.compile(r"(file://|/home/[A-Za-z0-9_.-]+|/Users/[A-Za-z0-9_.-]+|/root/|/opt/[A-Za-z0-9_.-]+/tokens)", re.I)
+
+          for rel in tracked:
+              p = root / rel
+              if p.suffix.lower() in {".png", ".jpg", ".jpeg", ".pdf", ".ico"}:
+                  continue
+              if rel == ".github/workflows/public-hygiene.yml":
+                  continue
+              txt = p.read_text(encoding="utf-8", errors="ignore")
+              if rx_secret.search(txt):
+                  errors.append(f"Potential secret token in {rel}")
+              if rx_local.search(txt):
+                  errors.append(f"Local machine path or file:// URI in {rel}")
+              if rel.startswith("compartments/"):
+                  if p.suffix == ".rs":
+                      if "#![forbid(unsafe_code)]" not in txt:
+                          errors.append(f"Missing #![forbid(unsafe_code)] in {rel}")
+                      if "#[allow(" in txt:
+                          errors.append(f"Lint suppression #[allow( in {rel}")
+                  elif p.suffix == ".swift":
+                      code = "\n".join(ln for ln in txt.splitlines() if not ln.lstrip().startswith("//"))
+                      if "try?" in code:
+                          errors.append(f"Silent try? suppression in {rel}")
+                  elif p.suffix == ".lean":
+                      code = "\n".join(ln for ln in txt.splitlines() if not ln.lstrip().startswith("--"))
+                      code = re.sub(r"/-.*?-\/", "", code, flags=re.S)
+                      if re.search(r"\b(sorry|native_decide)\b", code):
+                          errors.append(f"Forbidden sorry/native_decide in {rel}")
+
+          # 3. Validate all JSON files under data/
+          for jf in sorted((root / "data").rglob("*.json")):
+              txt = jf.read_text(encoding="utf-8")
+              try:
+                  json.loads(txt)
+              except Exception as exc:
+                  errors.append(f"Invalid JSON in {jf}: {exc}")
+              if re.search(r"wiki(?:pedia|source)\.org", txt, re.I):
+                  errors.append(f"Banned wiki URL in {jf}")
+
+          if errors:
+              for e in errors:
+                  print(f"[FAIL] {e}", file=sys.stderr)
+              sys.exit(1)
+          print(f"[PASS] Public hygiene verified across {len(tracked)} tracked files.")
+          PY

@@ -1,0 +1,17 @@
+cff-version: 1.2.0
+title: "SCargo"
+message: "If you use SCargo models, data vaults, or verification tools, please cite this repository."
+type: software
+version: "0.1.0"
+date-released: "2026-11-23"
+license: MIT
+repository-code: "https://github.com/Ergentics1/SCargo"
+authors:
+  - name: "Ergentics, LLC"
+keywords:
+  - formal-verification
+  - lean4
+  - rust
+  - swift
+  - graph-zeta
+  - music-theory

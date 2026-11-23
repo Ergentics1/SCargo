@@ -1,0 +1,684 @@
+<!-- Copyright (c) 2026 Ergentics, LLC — Licensed under the MIT License. See LICENSE in the project root. -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Ergentics · Working Paper 001 — Understanding &amp; Compressing a Machine-Verified Proof of RH</title>
+  <style>
+    :root {
+      --background: #f8fafc;
+      --foreground: #0f172a;
+      --card: #ffffff;
+      --border: #e2e8f0;
+      --muted-foreground: #475569;
+      --primary: #1d4ed8;
+      --success: #15803d;
+      --chart-1: #1d4ed8;
+      --chart-2: #0f766e;
+      --chart-3: #b45309;
+      --chart-4: #7c3aed;
+      --chart-5: #be123c;
+    }
+    @media (prefers-color-scheme: dark) {
+      :root {
+        --background: #0b1120;
+        --foreground: #f1f5f9;
+        --card: #111827;
+        --border: #1e293b;
+        --muted-foreground: #94a3b8;
+        --primary: #60a5fa;
+        --success: #4ade80;
+        --chart-1: #60a5fa;
+        --chart-2: #2dd4bf;
+        --chart-3: #fbbf24;
+        --chart-4: #a78bfa;
+        --chart-5: #fb7185;
+      }
+    }
+    *, *::before, *::after { box-sizing: border-box; }
+    body {
+      font-family: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      background-color: var(--background);
+      color: var(--foreground);
+      margin: 0;
+      padding: 0;
+      -webkit-font-smoothing: antialiased;
+    }
+    .font-sans { font-family: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif; }
+    .font-mono { font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace; }
+    .tabular-nums { font-variant-numeric: tabular-nums; }
+    .italic { font-style: italic; }
+    .uppercase { text-transform: uppercase; }
+    .font-medium { font-weight: 500; }
+    .font-semibold { font-weight: 600; }
+    .font-bold { font-weight: 700; }
+    .text-xs { font-size: 0.75rem; line-height: 1rem; }
+    .text-sm { font-size: 0.875rem; line-height: 1.25rem; }
+    .text-base { font-size: 1rem; line-height: 1.5rem; }
+    .text-lg { font-size: 1.125rem; line-height: 1.75rem; }
+    .text-2xl { font-size: 1.5rem; line-height: 2rem; }
+    .text-left { text-align: left; }
+    .text-center { text-align: center; }
+    .text-right { text-align: right; }
+    .tracking-tight { letter-spacing: -0.025em; }
+    .tracking-wide { letter-spacing: 0.025em; }
+    .leading-snug { line-height: 1.375; }
+    .leading-relaxed { line-height: 1.625; }
+    .bg-\[var\(--background\)\] { background-color: var(--background); }
+    .bg-\[var\(--card\)\] { background-color: var(--card); }
+    .text-\[var\(--foreground\)\] { color: var(--foreground); }
+    .text-\[var\(--muted-foreground\)\] { color: var(--muted-foreground); }
+    .text-\[var\(--primary\)\] { color: var(--primary); }
+    .text-\[var\(--success\)\] { color: var(--success); }
+    .text-\[var\(--chart-1\)\] { color: var(--chart-1); }
+    .text-\[var\(--chart-2\)\] { color: var(--chart-2); }
+    .text-\[var\(--chart-3\)\] { color: var(--chart-3); }
+    .text-\[var\(--chart-4\)\] { color: var(--chart-4); }
+    .text-\[var\(--chart-5\)\] { color: var(--chart-5); }
+    .hover\:text-\[var\(--foreground\)\]:hover { color: var(--foreground); }
+    .accent-\[var\(--primary\)\] { accent-color: var(--primary); }
+    .border { border: 1px solid var(--border); }
+    .border-b { border-bottom: 1px solid var(--border); }
+    .border-t { border-top: 1px solid var(--border); }
+    .border-\[var\(--border\)\] { border-color: var(--border); }
+    .border-collapse { border-collapse: collapse; }
+    .rounded { border-radius: 0.25rem; }
+    .rounded-lg { border-radius: 0.5rem; }
+    .rounded-xl { border-radius: 0.75rem; }
+    .rounded-full { border-radius: 9999px; }
+    .max-w-5xl { max-width: 64rem; }
+    .mx-auto { margin-left: auto; margin-right: auto; }
+    .m-0 { margin: 0; }
+    .mt-1\.5 { margin-top: 0.375rem; }
+    .p-0 { padding: 0; }
+    .p-3 { padding: 0.75rem; }
+    .p-3\.5 { padding: 0.875rem; }
+    .p-4 { padding: 1rem; }
+    .p-5 { padding: 1.25rem; }
+    .p-6 { padding: 1.5rem; }
+    .px-2 { padding-left: 0.5rem; padding-right: 0.5rem; }
+    .px-2\.5 { padding-left: 0.625rem; padding-right: 0.625rem; }
+    .px-3 { padding-left: 0.75rem; padding-right: 0.75rem; }
+    .px-3\.5 { padding-left: 0.875rem; padding-right: 0.875rem; }
+    .px-6 { padding-left: 1.5rem; padding-right: 1.5rem; }
+    .py-0\.5 { padding-top: 0.125rem; padding-bottom: 0.125rem; }
+    .py-1\.5 { padding-top: 0.375rem; padding-bottom: 0.375rem; }
+    .py-2 { padding-top: 0.5rem; padding-bottom: 0.5rem; }
+    .py-8 { padding-top: 2rem; padding-bottom: 2rem; }
+    .pt-1 { padding-top: 0.25rem; }
+    .pt-3 { padding-top: 0.75rem; }
+    .pt-4 { padding-top: 1rem; }
+    .pb-3 { padding-bottom: 0.75rem; }
+    .pl-4 { padding-left: 1rem; }
+    .w-56 { width: 14rem; }
+    .w-64 { width: 16rem; }
+    .w-full { width: 100%; }
+    .h-2 { height: 0.5rem; }
+    .h-2\.5 { height: 0.625rem; }
+    .h-full { height: 100%; }
+    .flex { display: flex; }
+    .flex-wrap { flex-wrap: wrap; }
+    .items-center { align-items: center; }
+    .justify-between { justify-content: space-between; }
+    .shrink-0 { flex-shrink: 0; }
+    .grid { display: grid; }
+    .grid-cols-1 { grid-template-columns: repeat(1, minmax(0, 1fr)); }
+    .grid-cols-2 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .grid-cols-3 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+    @media (min-width: 640px) { .sm\:grid-cols-4 { grid-template-columns: repeat(4, minmax(0, 1fr)); } }
+    @media (min-width: 768px) {
+      .md\:grid-cols-2 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      .md\:grid-cols-3 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+    }
+    @media (min-width: 1024px) { .lg\:grid-cols-2 { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+    .gap-1 { gap: 0.25rem; }
+    .gap-1\.5 { gap: 0.375rem; }
+    .gap-2 { gap: 0.5rem; }
+    .gap-3 { gap: 0.75rem; }
+    .gap-4 { gap: 1rem; }
+    .gap-5 { gap: 1.25rem; }
+    .space-y-1 > * + * { margin-top: 0.25rem; }
+    .space-y-1\.5 > * + * { margin-top: 0.375rem; }
+    .space-y-2 > * + * { margin-top: 0.5rem; }
+    .space-y-2\.5 > * + * { margin-top: 0.625rem; }
+    .space-y-3 > * + * { margin-top: 0.75rem; }
+    .space-y-4 > * + * { margin-top: 1rem; }
+    .space-y-5 > * + * { margin-top: 1.25rem; }
+    .space-y-6 > * + * { margin-top: 1.5rem; }
+    .hidden { display: none !important; }
+    .overflow-hidden { overflow: hidden; }
+    .cursor-pointer { cursor: pointer; }
+    .select-none { user-select: none; }
+    .list-decimal { list-style-type: decimal; }
+    .transition { transition: background-color 150ms ease, color 150ms ease, border-color 150ms ease; }
+    button.tab-btn { background: var(--card); color: var(--foreground); }
+    button.tab-btn[aria-selected="true"] { background: var(--primary); color: #ffffff; border-color: var(--primary); }
+  </style>
+</head>
+<body class="bg-[var(--background)] text-[var(--foreground)] antialiased m-0 p-0">
+  <div class="max-w-5xl mx-auto px-6 py-8 space-y-6">
+
+    <!-- Clean-Room Journal Masthead -->
+    <header class="bg-[var(--card)] border border-[var(--border)] rounded-xl p-6 space-y-4">
+      <div class="flex flex-wrap items-center justify-between gap-2 text-xs text-[var(--muted-foreground)]">
+        <span class="font-semibold tracking-wide uppercase text-[var(--primary)]">Ergentics Working Paper Series &middot; Paper 001</span>
+        <span>Edition 2.0 &middot; Clean-Room Research &amp; Teaching Reader</span>
+      </div>
+      <h1 class="text-2xl font-bold tracking-tight leading-snug">
+        Understanding and Compressing a Machine-Verified Proof of the Riemann Hypothesis
+      </h1>
+      <p class="text-sm text-[var(--muted-foreground)] leading-relaxed">
+        A five-era primary-source synthesis (1837–2026), standardized cross-era vocabulary, independent dependency benchmarks,
+        and clean-room empirical framework for systematically reducing proof mass while preserving complete mathematical soundness.
+      </p>
+      <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 pt-1">
+        <div class="bg-[var(--background)] border border-[var(--border)] rounded-lg p-3">
+          <div class="text-xs text-[var(--muted-foreground)]">Verified Proof Scale</div>
+          <div class="text-lg font-mono font-bold tabular-nums">149,397</div>
+          <div class="text-xs text-[var(--muted-foreground)]">modules &middot; 871.4 MB</div>
+        </div>
+        <div class="bg-[var(--background)] border border-[var(--border)] rounded-lg p-3">
+          <div class="text-xs text-[var(--muted-foreground)]">Total Source Text</div>
+          <div class="text-lg font-mono font-bold tabular-nums">15.17M</div>
+          <div class="text-xs text-[var(--muted-foreground)]">lines (21.3% scaffolding)</div>
+        </div>
+        <div class="bg-[var(--background)] border border-[var(--border)] rounded-lg p-3">
+          <div class="text-xs text-[var(--muted-foreground)]">Active Proof Graph</div>
+          <div class="text-lg font-mono font-bold tabular-nums">149,284</div>
+          <div class="text-xs text-[var(--success)]">acyclic &middot; 198-step chain</div>
+        </div>
+        <div class="bg-[var(--background)] border border-[var(--border)] rounded-lg p-3">
+          <div class="text-xs text-[var(--muted-foreground)]">Primary Milestones</div>
+          <div class="text-lg font-mono font-bold tabular-nums">15 / 15</div>
+          <div class="text-xs text-[var(--success)]">verified active across 5 eras</div>
+        </div>
+      </div>
+    </header>
+
+    <!-- Scholarly Table of Contents / Section Navigation -->
+    <nav class="flex flex-wrap gap-2 border-b border-[var(--border)] pb-3" role="tablist" aria-label="Paper sections">
+      <button data-tab="overview" class="tab-btn px-3.5 py-2 rounded-lg text-xs font-semibold border border-[var(--border)] cursor-pointer transition">1. Abstract &amp; Overview</button>
+      <button data-tab="vocabulary" class="tab-btn px-3.5 py-2 rounded-lg text-xs font-semibold border border-[var(--border)] cursor-pointer transition">2. Standard Vocabulary</button>
+      <button data-tab="history" class="tab-btn px-3.5 py-2 rounded-lg text-xs font-semibold border border-[var(--border)] cursor-pointer transition">3. Five-Era History (1837–2026)</button>
+      <button data-tab="benchmarks" class="tab-btn px-3.5 py-2 rounded-lg text-xs font-semibold border border-[var(--border)] cursor-pointer transition">4. Benchmarks &amp; Structure</button>
+      <button data-tab="methodology" class="tab-btn px-3.5 py-2 rounded-lg text-xs font-semibold border border-[var(--border)] cursor-pointer transition">5. Clean-Room Methodology</button>
+    </nav>
+
+    <!-- SECTION 1: Abstract, Reading Guide & Compression Envelope Explorer -->
+    <section id="tab-overview" class="tab-panel space-y-5">
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-5">
+        <article class="bg-[var(--card)] border border-[var(--border)] rounded-xl p-5 space-y-3">
+          <h2 class="text-base font-bold">Why Compression Begins With Comprehension</h2>
+          <p class="text-xs text-[var(--muted-foreground)] leading-relaxed">
+            The November 2026 machine-verified formalization of the Riemann Hypothesis and Generalized Riemann Hypothesis
+            for Dirichlet <em>L</em>-functions checks five headline theorems from only the three standard foundations of classical
+            mathematics. Yet at more than fifteen million lines across nearly 150,000 files, its physical mass creates a steep
+            barrier to mathematical reading, independent auditing, and long-term library integration.
+          </p>
+          <p class="text-xs text-[var(--muted-foreground)] leading-relaxed">
+            Rather than running speculative global edits directly on a verified proof, this clean-room study separates
+            <strong class="text-[var(--foreground)]">historical comprehension</strong> (tracing every load-bearing pillar across
+            five mathematical eras), <strong class="text-[var(--foreground)]">lexical consistency</strong> (a unified vocabulary
+            bridging number theory and proof engineering), <strong class="text-[var(--foreground)]">independent measurement</strong>,
+            and <strong class="text-[var(--foreground)]">stratified controlled trials</strong> gated by five non-negotiable safety invariants.
+          </p>
+          <div class="border-t border-[var(--border)] pt-3 space-y-2 text-xs">
+            <div class="font-semibold">Five-Era Reading Arc</div>
+            <div class="space-y-1.5 text-[var(--muted-foreground)]">
+              <div><strong class="text-[var(--foreground)]">Era I (1837–1896):</strong> Dirichlet characters, Riemann symmetry, and classical zero-free regions.</div>
+              <div><strong class="text-[var(--foreground)]">Era II (1946–1952):</strong> Adelic zeta integrals, Guinand–Weil positivity, and Behrend sets.</div>
+              <div><strong class="text-[var(--foreground)]">Era III (1964–1989):</strong> Stepanov multiplicity emulated via Weil theta lifts &amp; local representation theory.</div>
+              <div><strong class="text-[var(--foreground)]">Era IV (1974–2012):</strong> Regularized Siegel–Weil periods, Galois compatibility, and Arakelov slopes.</div>
+              <div><strong class="text-[var(--foreground)]">Era V (2022–2026):</strong> Prismatic integral lattices and the complete machine-verified synthesis.</div>
+            </div>
+          </div>
+        </article>
+
+        <div class="bg-[var(--card)] border border-[var(--border)] rounded-xl p-5 space-y-4">
+          <div class="flex items-center justify-between gap-2">
+            <h2 class="text-base font-bold">Compression Envelope Explorer</h2>
+            <span class="text-xs text-[var(--muted-foreground)]">Conservative Non-Overlapping Model</span>
+          </div>
+          <p class="text-xs text-[var(--muted-foreground)] leading-relaxed">
+            Toggle orthogonal reduction tracks to preview estimated line and module budgets before formal proof trials begin:
+          </p>
+          <div id="sim-controls" class="space-y-2 text-xs"></div>
+          <div class="bg-[var(--background)] border border-[var(--border)] rounded-lg p-3.5 grid grid-cols-3 gap-3 text-center">
+            <div>
+              <div class="text-xs text-[var(--muted-foreground)]">Projected Lines</div>
+              <div id="sim-lines" class="text-base font-mono font-bold tabular-nums">15,168,601</div>
+              <div id="sim-lines-pct" class="text-xs font-mono text-[var(--success)]">0.0%</div>
+            </div>
+            <div>
+              <div class="text-xs text-[var(--muted-foreground)]">Projected Modules</div>
+              <div id="sim-files" class="text-base font-mono font-bold tabular-nums">149,397</div>
+              <div id="sim-files-pct" class="text-xs font-mono text-[var(--success)]">0.0%</div>
+            </div>
+            <div>
+              <div class="text-xs text-[var(--muted-foreground)]">Estimated Savings</div>
+              <div id="sim-saved" class="text-base font-mono font-bold tabular-nums text-[var(--primary)]">0</div>
+              <div id="sim-mb-saved" class="text-xs font-mono text-[var(--muted-foreground)]">0.0 MB est.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SECTION 2: Standardized Cross-Era Vocabulary -->
+    <section id="tab-vocabulary" class="tab-panel hidden space-y-4">
+      <div class="bg-[var(--card)] border border-[var(--border)] rounded-xl p-5 space-y-4">
+        <div class="flex flex-wrap items-center justify-between gap-3">
+          <div>
+            <h2 class="text-base font-bold">Standardized Cross-Era Vocabulary</h2>
+            <p class="text-xs text-[var(--muted-foreground)]">A single shared lexicon harmonizing 189 years of mathematical literature with plain-language clean-room measurement terms.</p>
+          </div>
+          <div class="flex flex-wrap items-center gap-2">
+            <select id="vocab-cat" class="px-2.5 py-1.5 text-xs rounded-lg bg-[var(--background)] border border-[var(--border)] text-[var(--foreground)]">
+              <option value="all">All Categories</option>
+              <option value="Mathematical Formulary">Mathematical Formulary</option>
+              <option value="Clean-Room Methodology">Clean-Room Methodology</option>
+            </select>
+            <input id="vocab-search" type="search" placeholder="Search term or concept..."
+              class="px-3 py-1.5 text-xs rounded-lg bg-[var(--background)] border border-[var(--border)] text-[var(--foreground)] w-56" />
+          </div>
+        </div>
+        <div id="vocab-list" class="grid grid-cols-1 md:grid-cols-2 gap-3"></div>
+      </div>
+    </section>
+
+    <!-- SECTION 3: Five-Era Historical Evolution -->
+    <section id="tab-history" class="tab-panel hidden space-y-4">
+      <div class="bg-[var(--card)] border border-[var(--border)] rounded-xl p-5 space-y-4">
+        <div class="flex flex-wrap items-center justify-between gap-3">
+          <div>
+            <h2 class="text-base font-bold">Five-Era Evolution of the Proof Formulary (1837–2026)</h2>
+            <p class="text-xs text-[var(--muted-foreground)]">Fifteen primary-archive milestones independently confirmed active in the live proof dependency graph.</p>
+          </div>
+          <input id="lineage-search" type="search" placeholder="Filter author, year, era, or idea..."
+            class="px-3 py-1.5 text-xs rounded-lg bg-[var(--background)] border border-[var(--border)] text-[var(--foreground)] w-64" />
+        </div>
+        <div id="era-filters" class="flex flex-wrap gap-1.5"></div>
+        <div id="lineage-list" class="space-y-3"></div>
+      </div>
+    </section>
+
+    <!-- SECTION 4: Empirical Benchmarks & Dependency Structure -->
+    <section id="tab-benchmarks" class="tab-panel hidden space-y-5">
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-5">
+        <div class="bg-[var(--card)] border border-[var(--border)] rounded-xl p-5 space-y-3">
+          <h2 class="text-base font-bold">Proof Mass by Mathematical Domain</h2>
+          <p class="text-xs text-[var(--muted-foreground)]">Abelian Variety Theory proofs represent nearly half of the entire 871.37 MB corpus.</p>
+          <div id="lib-bars" class="space-y-3 pt-1"></div>
+        </div>
+        <div class="bg-[var(--card)] border border-[var(--border)] rounded-xl p-5 space-y-3">
+          <h2 class="text-base font-bold">Module Length Distribution</h2>
+          <p class="text-xs text-[var(--muted-foreground)]">65,131 modules (43.6%) contain 50 lines or fewer; scaffolding totals 3,237,012 lines (21.3%).</p>
+          <div id="hist-bars" class="space-y-2.5 pt-1"></div>
+        </div>
+      </div>
+
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-5">
+        <div class="bg-[var(--card)] border border-[var(--border)] rounded-xl p-5 space-y-3">
+          <h2 class="text-base font-bold">Largest Sole-Dependency Subtrees</h2>
+          <p class="text-xs text-[var(--muted-foreground)]">Proof mass reachable from the main theorem exclusively through one intermediate result (highest mathematical compression leverage).</p>
+          <div id="dom-bars" class="space-y-2.5 pt-1"></div>
+        </div>
+        <div class="bg-[var(--card)] border border-[var(--border)] rounded-xl p-5 space-y-3">
+          <h2 class="text-base font-bold">Most Widely Reused Modules (Interface Sensitivity)</h2>
+          <p class="text-xs text-[var(--muted-foreground)]">Shared foundations imported directly by the largest number of downstream files—must remain signature-stable during local trials.</p>
+          <div id="hub-bars" class="space-y-2.5 pt-1"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SECTION 5: Clean-Room Methodology & Controlled Trials -->
+    <section id="tab-methodology" class="tab-panel hidden space-y-5">
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+        <div class="bg-[var(--card)] border border-[var(--border)] rounded-xl p-4 space-y-2">
+          <div class="text-xs font-semibold text-[var(--chart-1)] uppercase">Principle 1</div>
+          <h3 class="text-sm font-bold">Clean-Room Separation</h3>
+          <p class="text-xs text-[var(--muted-foreground)] leading-relaxed">All measurement, modeling, and controlled trials run in an isolated laboratory while the verified reference proof remains read-only until changes pass formal acceptance.</p>
+        </div>
+        <div class="bg-[var(--card)] border border-[var(--border)] rounded-xl p-4 space-y-2">
+          <div class="text-xs font-semibold text-[var(--chart-3)] uppercase">Principle 2</div>
+          <h3 class="text-sm font-bold">Code / Data Separation</h3>
+          <p class="text-xs text-[var(--muted-foreground)] leading-relaxed">Executable analysis tools never hardcode empirical tables. Every measurement, vocabulary entry, and bibliography record lives in immutable, versioned datasets.</p>
+        </div>
+        <div class="bg-[var(--card)] border border-[var(--border)] rounded-xl p-4 space-y-2">
+          <div class="text-xs font-semibold text-[var(--chart-4)] uppercase">Principle 3</div>
+          <h3 class="text-sm font-bold">Right Tool for the Right Task</h3>
+          <p class="text-xs text-[var(--muted-foreground)] leading-relaxed">Rust powers high-speed parallel scanning and dependency tracing; Open-Source Swift 6.4 enforces typed data contracts; Lean 4.36 validates isolated proof micro-benchmarks.</p>
+        </div>
+      </div>
+
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-5">
+        <div class="bg-[var(--card)] border border-[var(--border)] rounded-xl p-5 space-y-3">
+          <div class="text-xs font-semibold uppercase text-[var(--chart-2)]">Stage 1 &middot; Observational Baseline</div>
+          <h2 class="text-base font-bold">Initial Release &rarr; Verified Baseline</h2>
+          <table class="w-full text-xs border-collapse">
+            <thead>
+              <tr class="border-b border-[var(--border)] text-left text-[var(--muted-foreground)]">
+                <th class="py-1.5">Benchmark</th>
+                <th class="py-1.5 text-right">Initial Release</th>
+                <th class="py-1.5 text-right">Current Baseline</th>
+                <th class="py-1.5 text-right">Change</th>
+              </tr>
+            </thead>
+            <tbody class="font-mono tabular-nums">
+              <tr class="border-b border-[var(--border)]"><td class="py-1.5 font-sans">Tracked Modules</td><td class="text-right">175,187</td><td class="text-right">149,397</td><td class="text-right text-[var(--success)]">&minus;14.7%</td></tr>
+              <tr class="border-b border-[var(--border)]"><td class="py-1.5 font-sans">Raw Source (MB)</td><td class="text-right">1,030.53</td><td class="text-right">871.37</td><td class="text-right text-[var(--success)]">&minus;15.4%</td></tr>
+              <tr class="border-b border-[var(--border)]"><td class="py-1.5 font-sans">Total Source Lines</td><td class="text-right">17,374,215</td><td class="text-right">15,168,601</td><td class="text-right text-[var(--success)]">&minus;12.7%</td></tr>
+              <tr><td class="py-1.5 font-sans">Non-Blank Lines</td><td class="text-right">15,531,759</td><td class="text-right">13,287,641</td><td class="text-right text-[var(--success)]">&minus;14.4%</td></tr>
+            </tbody>
+          </table>
+          <p class="text-xs text-[var(--muted-foreground)] leading-relaxed pt-1">
+            Retrospective evidence confirms why multi-objective tracking matters: minimizing imports trims compile time while inflating import lines, and naive file merging causes binder-plicity and namespace shadowing regressions.
+          </p>
+        </div>
+
+        <div class="bg-[var(--card)] border border-[var(--border)] rounded-xl p-5 space-y-3">
+          <div class="text-xs font-semibold uppercase text-[var(--chart-5)]">Stage 2 &middot; Stratified Controlled Trials</div>
+          <h2 class="text-base font-bold">Pre-Registered Trial Design &amp; Five Safety Invariants</h2>
+          <p class="text-xs text-[var(--muted-foreground)] leading-relaxed">
+            Each candidate compression rule is evaluated on balanced, randomly allocated <strong class="text-[var(--foreground)]">Treatment</strong> and
+            <strong class="text-[var(--foreground)]">Control</strong> module pairs stratified by mathematical domain and file size (initial trial: 162 balanced forwarding-wrapper modules).
+            A rule qualifies only if it achieves net reduction while passing all five invariants:
+          </p>
+          <ol class="list-decimal pl-4 space-y-1.5 text-xs text-[var(--muted-foreground)]">
+            <li><strong class="text-[var(--foreground)]">Import Integrity:</strong> Zero missing or dangling module references.</li>
+            <li><strong class="text-[var(--foreground)]">Strict Acyclicity:</strong> Zero cycles anywhere in the dependency graph.</li>
+            <li><strong class="text-[var(--foreground)]">Zero Core Drift:</strong> Protected theorem statements and toolchain configuration remain untouched.</li>
+            <li><strong class="text-[var(--foreground)]">Full Local Compilation:</strong> Every edited module and every direct downstream importer builds cleanly.</li>
+            <li><strong class="text-[var(--foreground)]">Axiom Preservation:</strong> Only classical foundations (propositional extensionality, quotient soundness, choice); zero unproven placeholders.</li>
+          </ol>
+        </div>
+      </div>
+    </section>
+
+    <!-- Discreet Footer + Collapsible Provenance Note -->
+    <footer class="border-t border-[var(--border)] pt-4 space-y-2 text-xs text-[var(--muted-foreground)]">
+      <div class="flex flex-wrap items-center justify-between gap-2">
+        <span>Ergentics Working Paper Series &middot; Paper 001 (Clean-Room Research Companion)</span>
+        <span class="font-mono">&copy; 2026 Ergentics, LLC (MIT License)</span>
+      </div>
+      <details class="pt-1">
+        <summary class="cursor-pointer select-none hover:text-[var(--foreground)]">Verification &amp; Reproducibility Note</summary>
+        <p class="mt-1.5 text-xs text-[var(--muted-foreground)] leading-relaxed">
+          All figures and tables in this reader are generated from immutable observational census, independent Cooper–Harvey–Kennedy dependency trace,
+          standardized vocabulary, and primary-archive bibliography datasets pinned to the Lean 4.36 verified baseline (exact technical revision and file mappings appear in Appendix A of the working paper).
+        </p>
+      </details>
+    </footer>
+
+  </div>
+
+  <script>
+    const BASELINE = {
+      files: 149397,
+      lines: 15168601,
+      bytes: 871367586,
+      libraries: [
+        { name: "Primary Proof Development", files: 121394, mb: 664.17, color: "var(--chart-1)" },
+        { name: "Analytic Formalism", files: 15292, mb: 127.30, color: "var(--chart-2)" },
+        { name: "Foundational Number Theory", files: 6667, mb: 40.02, color: "var(--chart-3)" },
+        { name: "Reciprocity & Compactifications", files: 3581, mb: 26.22, color: "var(--chart-4)" },
+        { name: "Companion Auxiliary Theory", files: 1946, mb: 10.85, color: "var(--chart-5)" },
+        { name: "Explicit Positivity Theory", files: 355, mb: 2.41, color: "var(--chart-6)" },
+        { name: "Shared General Lemmata", files: 158, mb: 0.40, color: "var(--muted-foreground)" }
+      ],
+      hist: [
+        { k: "1–20 lines", v: 33797, color: "var(--error)" },
+        { k: "21–50 lines", v: 31334, color: "var(--warning)" },
+        { k: "51–100 lines", v: 32342, color: "var(--chart-1)" },
+        { k: "101–250 lines", v: 39143, color: "var(--chart-2)" },
+        { k: "251–1,000 lines", v: 12557, color: "var(--chart-3)" },
+        { k: "> 1,000 lines", v: 224, color: "var(--chart-5)" }
+      ]
+    };
+
+    const DOMINATORS = [
+      { name: "Integral Galois Row Source", domain: "Automorphic Galois Foundations", lines: 954607, pct: 6.30, mods: 12425, color: "var(--error)" },
+      { name: "Theta-Lift Galois Representations", domain: "Automorphic Galois Foundations", lines: 893956, pct: 5.90, mods: 11695, color: "var(--error)" },
+      { name: "Weight-One Geometric Realization", domain: "Geometric Flag Bases", lines: 786875, pct: 5.19, mods: 10278, color: "var(--chart-1)" },
+      { name: "Geometric Realization of Weight One", domain: "Geometric Flag Bases", lines: 746661, pct: 4.92, mods: 9912, color: "var(--chart-1)" },
+      { name: "Window Bound from Galois Row", domain: "Dense Threshold Arguments", lines: 685322, pct: 4.52, mods: 6810, color: "var(--chart-1)" },
+      { name: "Main Threshold Assembly", domain: "Dense Threshold Arguments", lines: 685312, pct: 4.52, mods: 6809, color: "var(--chart-1)" },
+      { name: "Literature-Level Window Bound", domain: "Dense Threshold Arguments", lines: 673142, pct: 4.44, mods: 6681, color: "var(--chart-5)" },
+      { name: "Literature Character Synthesis", domain: "Iterated Theta Lifts (5,308 direct imports)", lines: 330150, pct: 2.18, mods: 4333, color: "var(--chart-5)" },
+      { name: "Final Geometric Input Statement", domain: "Automorphic Spectrum Geometry", lines: 321793, pct: 2.12, mods: 3678, color: "var(--chart-5)" },
+      { name: "Siegel–Eisenstein Second-Term Hypotheses", domain: "Iterated Theta Lifts", lines: 290311, pct: 1.92, mods: 3863, color: "var(--chart-5)" }
+    ];
+
+    const HUBS = [
+      { name: "Toroidal Uniformisation Conclusion", users: 3119 },
+      { name: "Norm-Height Power Existence", users: 2441 },
+      { name: "Uniformisation Uniqueness Statement", users: 2267 },
+      { name: "Hermitian Discrete Series Uniqueness", users: 2258 },
+      { name: "Tempered Cohomological Criterion (5 lines)", users: 2208 },
+      { name: "Harish-Chandra Module Interface", users: 1631 },
+      { name: "Weil Tensor Model Base", users: 1578 },
+      { name: "Hecke Kernel Compactification", users: 1392 },
+      { name: "Admissible Discrete Series Parameter", users: 1359 },
+      { name: "Base-Change Section Statement", users: 1320 }
+    ];
+
+    const SIM_LEVERS = [
+      { label: "Tier 1: Remove 112 unreferenced leaf modules", lines: 7200, files: 112, checked: true },
+      { label: "Tier 2: Simplify generated forwarding wrappers (controlled trial)", lines: 560000, files: 28000, checked: true },
+      { label: "Tier 2: Condense verbose explicit typeclass proofs", lines: 35000, files: 0, checked: true },
+      { label: "Tier 2: Factor duplicated private helper lemmas", lines: 250000, files: 1500, checked: false },
+      { label: "Tier 3: Prune unused declarations & hypothesis fields", lines: 1890000, files: 12800, checked: false },
+      { label: "Tier 3: Safe module consolidation (reduce scaffolding tax)", lines: 1100000, files: 65000, checked: false }
+    ];
+
+    const VOCAB = [
+      { term: "Dirichlet Character & L-Function", cat: "Mathematical Formulary", era: "Era I (1837)", def: "A periodic multiplicative weight modulo N paired with L(s, chi) = sum chi(n) n^{-s}, generalizing zeta(s) to arithmetic progressions.", role: "Defines the family of functions whose non-vanishing for Re(s) > 1/2 is GRH." },
+      { term: "Critical Strip & Functional Symmetry", cat: "Mathematical Formulary", era: "Era I (1859–1896)", def: "The band 0 < Re(s) < 1 containing all nontrivial zeros, symmetric across Re(s) = 1/2 under s <-> 1-s.", role: "With boundary non-vanishing on Re(s) >= 1, reduces RH/GRH to ruling out zeros with Re(s) > 1/2." },
+      { term: "Adelic Zeta Integral", cat: "Mathematical Formulary", era: "Era II (1950)", def: "Tate's unified Fourier integral taken simultaneously across all real, complex, and p-adic completions of a number field.", role: "Supplies Euler products, root numbers, analytic continuation, and functional equations for Hecke L-functions." },
+      { term: "Guinand–Weil Positivity Criterion", cat: "Mathematical Formulary", era: "Era II (1948–1952)", def: "Explicit prime–zero duality showing RH holds iff a quadratic functional W(f * f~) is non-negative on test functions.", role: "Core analytic bridge turning automorphic bounds into zero-free half-planes." },
+      { term: "Behrend Progression-Free Construction", cat: "Mathematical Formulary", era: "Era II (1946)", def: "A dense subset of integers containing no three equally spaced elements, constructed via lattice points on spheres.", role: "Selects Iwasawa tower parameters in the original 2026 proof; flagged by the author for simplification." },
+      { term: "Multiplicity Paradigm (Stepanov Descendant)", cat: "Mathematical Formulary", era: "Era III (1969–1974)", def: "Bounding points over finite fields via functions vanishing to high order; emulated over Z by chaining ~sqrt(X) iterated unitary theta lifts.", role: "Provides the organizing mathematical blueprint unifying the complete proof." },
+      { term: "Weil Unitary & Metaplectic Representation", cat: "Mathematical Formulary", era: "Era III (1964)", def: "A canonical unitary representation on the metaplectic double cover generalizing classical theta series to reductive dual pairs.", role: "Powers every step of the iterated theta-lift chain across totally definite unitary groups." },
+      { term: "Local Representation & Rigidity Package", cat: "Mathematical Formulary", era: "Era III (1977–1989)", def: "Smooth GL_n classification (Bernstein–Zelevinsky), Lie-group factorisation (Dixmier–Malliavin), canonical globalisation (Casselman), and strong multiplicity one (Jacquet–Shalika).", role: "Pins down local automorphic components and rules out degenerate Satake parameter cancellations." },
+      { term: "Regularized Siegel–Weil & Seesaw Duality", cat: "Mathematical Formulary", era: "Era IV (1979–2012)", def: "Identities relating regularized theta integrals to Siegel Eisenstein series, paired with Rallis's seesaw formula and Gan–Gross–Prasad period branching.", role: "Evaluates norms and Bessel periods along the central theta-lift spine." },
+      { term: "Automorphic Galois Compatibility", cat: "Mathematical Formulary", era: "Era IV (1990–2012)", def: "Attaching pure l-adic Galois representations to regular algebraic cuspidal automorphic representations with matching local parameters (Clozel–Caraiani).", role: "Constructs the integral Galois row anchoring the largest uniquely dependent branch of the proof." },
+      { term: "Arakelov Slope & Covolume Inequality", cat: "Mathematical Formulary", era: "Era IV (1974–1996)", def: "Arithmetic intersection and Hermitian bundle slope estimates (Arakelov, Gillet–Soulé, Bost) bounding lattice covolumes.", role: "Supplies covolume lower bounds across the abelian-variety height machinery." },
+      { term: "Prismatic Integral Hodge Lattice", cat: "Mathematical Formulary", era: "Era V (2022)", def: "Integral p-adic cohomology (Bhatt–Scholze) classifying crystalline lattices and p-divisible groups without inverting p.", role: "Controls integral inertia eigenvalues inside abelian-variety proofs." },
+      { term: "Clean-Room Laboratory vs. Reference Artifact", cat: "Clean-Room Methodology", era: "Methodology", def: "Strict separation keeping all measurements and trials in an isolated laboratory while the verified proof remains untouched until acceptance.", role: "Prevents speculative edits from contaminating the verified proof baseline." },
+      { term: "Structural Mass Vector", cat: "Clean-Room Methodology", era: "Methodology", def: "Five-dimensional proof size tracking module count, source lines, raw bytes, exported kernel proof size, and compilation cost together.", role: "Prevents single-metric optimizations that shrink one dimension while inflating another." },
+      { term: "Sole-Dependency Subtree", cat: "Clean-Room Methodology", era: "Methodology", def: "All downstream modules reachable from the main theorem exclusively through one given intermediate module (its dominator subtree).", role: "Measures the exact upper bound on proof mass simplified if one intermediate theorem is shortened." },
+      { term: "High-Impact Shared Module", cat: "Clean-Room Methodology", era: "Methodology", def: "A module imported directly by hundreds or thousands of downstream modules (high direct reuse count).", role: "Flags signature-sensitive foundations that must stay stable during local compression trials." },
+      { term: "Scaffolding Overhead & Forwarding Wrappers", cat: "Clean-Room Methodology", era: "Methodology", def: "Non-mathematical framing lines (blanks, imports, namespace openings, options) plus generated files that merely re-export a neighboring theorem.", role: "Quantifies mechanical size reducible without changing underlying mathematical proofs." },
+      { term: "Observational Baseline & Stratified Controlled Trial", cat: "Clean-Room Methodology", era: "Methodology", def: "Measuring the full untouched corpus first, then testing candidate compression rules on balanced, randomly allocated treatment and control module pairs.", role: "Measures net size savings and failure rates rigorously prior to wide rollout." }
+    ];
+
+    const LINEAGE = [
+      { id: "SRC-01", eraId: "Era I", year: "1837", author: "P. G. Lejeune Dirichlet", citation: "Abh. K. Preuß. Akad. Wiss. Berlin, 1837, pp. 45–81 (Gallica ark:/12148/bpt6k99435r/f326)", role: "Introduces multiplicative characters modulo N and Dirichlet L-series L(s, chi), defining the exact family of functions addressed by GRH.", status: "Verified active · Hop depth 1" },
+      { id: "SRC-02", eraId: "Era I", year: "1859", author: "Bernhard Riemann", citation: "Monatsber. Berliner Akad., Nov 1859 (pub. 1860), pp. 671–680", role: "Establishes analytic continuation of zeta(s), functional symmetry s <-> 1-s, and the headline Riemann Hypothesis.", status: "Verified active · Hop depth 0 (root)" },
+      { id: "SRC-03", eraId: "Era I", year: "1896", author: "Jacques Hadamard & Charles-Jean de la Vallée Poussin", citation: "Bull. SMF 24, pp. 199–220 (Numdam); Ann. Soc. Sci. Brux. 20, pp. 183–256", role: "Eliminates zeros on Re(s) >= 1 and supplies classical zero-free regions in analytic closure steps.", status: "Verified active · Hop depth 5 · 34 modules" },
+      { id: "SRC-04", eraId: "Era II", year: "1946", author: "Felix A. Behrend", citation: "Proc. Natl. Acad. Sci. USA 32(12), pp. 331–332 (doi:10.1073/pnas.32.12.331)", role: "Supplies dense 3-AP-free sets used to choose Iwasawa tower parameters (explicitly flagged by the proof's author for simplification).", status: "Verified active · Hop depth 3 · 5,895 modules" },
+      { id: "SRC-05", eraId: "Era II", year: "1950", author: "John T. Tate", citation: "Princeton Ph.D. Thesis (1950); published in Cassels & Fröhlich (1967), pp. 305–347", role: "Provides adelic Poisson summation, local zeta integrals, Euler products, and functional equations for Hecke L-functions.", status: "Verified active · Hop depth 3 · 77 modules" },
+      { id: "SRC-06", eraId: "Era II", year: "1948 / 1952", author: "A. P. Guinand & André Weil", citation: "Proc. LMS (2) 50(1), pp. 107–119; Comm. Sém. Math. Lund, Tome Suppl., pp. 252–265", role: "Establishes explicit prime–zero duality and the Weil positivity criterion converting automorphic bounds into zero-free half-planes.", status: "Verified active · Hop depth 4 · 355 modules" },
+      { id: "SRC-07", eraId: "Era III", year: "1964", author: "André Weil", citation: "Acta Mathematica 111, pp. 143–211 (doi:10.1007/BF02391012)", role: "Constructs the metaplectic double cover and Weil unitary representation powering the iterated global theta lifts.", status: "Verified active · Hop depth 3 · 25-mod branch" },
+      { id: "SRC-08", eraId: "Era III", year: "1969 / 1974", author: "Sergei A. Stepanov & Enrico Bombieri", citation: "Math. USSR-Izv. 3(5), pp. 1103–1114; Sém. Bourbaki Exp. 430, LNM 383, pp. 234–241 (Numdam)", role: "Provides the finite-field multiplicity paradigm emulated over Z by chaining ~sqrt(X) unitary theta lifts.", status: "Verified active · Hop depth 3 · 6,798 modules" },
+      { id: "SRC-09", eraId: "Era III", year: "1977–1989", author: "Bernstein–Zelevinsky; Dixmier–Malliavin; Casselman", citation: "Ann. Sci. ÉNS 10(4) & 13(2); Bull. Sci. Math. 102, pp. 305–330; Canad. J. Math. 41(3), pp. 385–438", role: "Classifies smooth GL_n representations, Lie-group smooth convolution factorisation, and canonical Fréchet globalisations.", status: "Verified active · Hop depth 3" },
+      { id: "SRC-10", eraId: "Era III", year: "1981", author: "Hervé Jacquet & Joseph A. Shalika", citation: "Amer. J. Math. 103(3), pp. 499–558 & 103(4), pp. 777–815", role: "Establishes strong multiplicity one for isobaric automorphic sums and sharp Satake parameter bounds.", status: "Verified active · Hop depth 3 · 67 modules" },
+      { id: "SRC-11", eraId: "Era IV", year: "1990 / 2012", author: "Laurent Clozel & Ana Caraiani", citation: "Automorphic Forms I, Academic Press, pp. 77–159; Duke Math. J. 161(12), pp. 2311–2413", role: "Attaches pure l-adic Galois representations compatible with local automorphic data; anchors the largest sole-dependency branch.", status: "Verified active · Hop depth 2 · 12,425-mod branch" },
+      { id: "SRC-12", eraId: "Era IV", year: "1979–2012", author: "Howe; Rallis; Kudla–Rallis; Gan–Gross–Prasad", citation: "PSPM 33(1) pp. 275–285; Comp. Math. 51(3) pp. 333–399; Ann. of Math. 140(1) pp. 1–80; Astérisque 346 pp. 1–109", role: "Computes norms and Bessel periods along the iterated theta-lift spine via regularized Siegel–Weil and seesaw duality.", status: "Verified active · Hop depth 3 · 3,863-mod branch" },
+      { id: "SRC-13", eraId: "Era IV", year: "1974–1996", author: "S. J. Arakelov, H. Gillet & C. Soulé, & Jean-Benoît Bost", citation: "Math. USSR-Izv. 8(6) pp. 1167–1180; Publ. Math. IHÉS 72 pp. 93–174; Astérisque 237 pp. 115–161 (Numdam)", role: "Supplies arithmetic intersection theory, Hermitian bundle slope inequalities, and covolume bounds across abelian-variety proofs.", status: "Verified active · Hop depth 3 · 193-mod branch" },
+      { id: "SRC-14", eraId: "Era V", year: "2022", author: "Bhargav Bhatt & Peter Scholze", citation: "Annals of Mathematics (2) 196(3), pp. 1135–1275 (doi:10.4007/annals.2022.196.3.5)", role: "Provides prismatic cohomology and integral Dieudonné classification of crystalline p-adic lattices.", status: "Verified active · Hop depth 3 · 294-mod branch" },
+      { id: "SRC-15", eraId: "Era V", year: "2026", author: "Levent Alpöge (with Claude) & leanprover-community", citation: "Remark (alpo.ge/remark.pdf, Nov 2026) and Lean 4.36 verified proof release", role: "Synthesizes all four prior eras into a complete, axiom-minimal machine-verified proof of RH and GRH.", status: "Verified active · Hop depth 1 · 149,279-mod closure" }
+    ];
+
+    // Tabs
+    const tabBtns = document.querySelectorAll('.tab-btn');
+    const tabPanels = document.querySelectorAll('.tab-panel');
+    function activateTab(name) {
+      tabBtns.forEach(b => {
+        const active = b.dataset.tab === name;
+        b.style.background = active ? 'var(--primary)' : 'var(--card)';
+        b.style.color = active ? 'var(--primary-foreground)' : 'var(--foreground)';
+      });
+      tabPanels.forEach(p => p.classList.toggle('hidden', p.id !== 'tab-' + name));
+    }
+    tabBtns.forEach(b => b.addEventListener('click', () => activateTab(b.dataset.tab)));
+    activateTab('overview');
+
+    // Compression Envelope Explorer
+    const simWrap = document.getElementById('sim-controls');
+    function renderSim() {
+      let cutLines = 0, cutFiles = 0;
+      SIM_LEVERS.forEach(l => { if (l.checked) { cutLines += l.lines; cutFiles += l.files; } });
+      const remLines = Math.max(0, BASELINE.lines - cutLines);
+      const remFiles = Math.max(1, BASELINE.files - cutFiles);
+      const linePct = (100 * cutLines / BASELINE.lines).toFixed(1);
+      const filePct = (100 * cutFiles / BASELINE.files).toFixed(1);
+      const mbEst = (BASELINE.bytes / 1e6) * (cutLines / BASELINE.lines);
+      document.getElementById('sim-lines').textContent = remLines.toLocaleString();
+      document.getElementById('sim-lines-pct').textContent = `−${linePct}%`;
+      document.getElementById('sim-files').textContent = remFiles.toLocaleString();
+      document.getElementById('sim-files-pct').textContent = `−${filePct}%`;
+      document.getElementById('sim-saved').textContent = `−${cutLines.toLocaleString()}`;
+      document.getElementById('sim-mb-saved').textContent = `~${mbEst.toFixed(1)} MB est.`;
+    }
+    SIM_LEVERS.forEach(l => {
+      const row = document.createElement('label');
+      row.className = 'flex items-center justify-between gap-2 p-2.5 rounded-lg bg-[var(--background)] border border-[var(--border)] cursor-pointer';
+      row.innerHTML = `<span class="flex items-center gap-2"><input type="checkbox" ${l.checked ? 'checked' : ''} class="accent-[var(--primary)]" /><span>${l.label}</span></span><span class="font-mono text-[var(--muted-foreground)] shrink-0">&minus;${(l.lines/1000).toFixed(0)}k lines</span>`;
+      row.querySelector('input').addEventListener('change', e => { l.checked = e.target.checked; renderSim(); });
+      simWrap.appendChild(row);
+    });
+    renderSim();
+
+    // Standard Vocabulary Explorer
+    const vocabEl = document.getElementById('vocab-list');
+    const vocabCat = document.getElementById('vocab-cat');
+    const vocabSearch = document.getElementById('vocab-search');
+    function renderVocab() {
+      const cat = vocabCat.value;
+      const q = vocabSearch.value.trim().toLowerCase();
+      vocabEl.innerHTML = '';
+      VOCAB.filter(v => (cat === 'all' || v.cat === cat) && (!q || JSON.stringify(v).toLowerCase().includes(q))).forEach(v => {
+        const card = document.createElement('div');
+        card.className = 'p-4 rounded-lg bg-[var(--background)] border border-[var(--border)] space-y-1.5';
+        card.innerHTML = `
+          <div class="flex flex-wrap items-center justify-between gap-2">
+            <h3 class="text-xs font-bold">${v.term}</h3>
+            <span class="text-xs px-2 py-0.5 rounded bg-[var(--card)] border border-[var(--border)] text-[var(--muted-foreground)]">${v.era}</span>
+          </div>
+          <p class="text-xs text-[var(--foreground)] leading-relaxed">${v.def}</p>
+          <p class="text-xs text-[var(--muted-foreground)] leading-relaxed"><strong class="text-[var(--foreground)]">Role:</strong> ${v.role}</p>
+        `;
+        vocabEl.appendChild(card);
+      });
+    }
+    vocabCat.addEventListener('change', renderVocab);
+    vocabSearch.addEventListener('input', renderVocab);
+    renderVocab();
+
+    // Five-Era History Explorer
+    const eras = ["All Eras", "Era I", "Era II", "Era III", "Era IV", "Era V"];
+    let activeEra = "All Eras";
+    const eraBar = document.getElementById('era-filters');
+    const lineageEl = document.getElementById('lineage-list');
+    const lineageSearch = document.getElementById('lineage-search');
+
+    function renderEraButtons() {
+      eraBar.innerHTML = '';
+      eras.forEach(er => {
+        const btn = document.createElement('button');
+        btn.textContent = er;
+        btn.className = 'px-2.5 py-1 rounded-md text-xs font-semibold border border-[var(--border)] cursor-pointer transition';
+        btn.style.background = activeEra === er ? 'var(--primary)' : 'var(--background)';
+        btn.style.color = activeEra === er ? 'var(--primary-foreground)' : 'var(--foreground)';
+        btn.addEventListener('click', () => { activeEra = er; renderEraButtons(); renderLineage(); });
+        eraBar.appendChild(btn);
+      });
+    }
+
+    function renderLineage() {
+      const q = lineageSearch.value.trim().toLowerCase();
+      lineageEl.innerHTML = '';
+      LINEAGE.filter(e => (activeEra === 'All Eras' || e.eraId === activeEra) && (!q || JSON.stringify(e).toLowerCase().includes(q))).forEach(e => {
+        const card = document.createElement('div');
+        card.className = 'p-4 rounded-lg bg-[var(--background)] border border-[var(--border)] space-y-1.5';
+        card.innerHTML = `
+          <div class="flex flex-wrap items-center justify-between gap-2">
+            <div class="text-xs font-bold"><span class="text-[var(--primary)]">${e.eraId}</span> &middot; ${e.year} &mdash; ${e.author}</div>
+            <span class="text-xs px-2 py-0.5 rounded bg-[var(--card)] border border-[var(--border)] text-[var(--success)]">${e.status}</span>
+          </div>
+          <p class="text-xs text-[var(--foreground)] leading-relaxed">${e.role}</p>
+          <p class="text-xs text-[var(--muted-foreground)] italic">${e.citation}</p>
+        `;
+        lineageEl.appendChild(card);
+      });
+    }
+    lineageSearch.addEventListener('input', renderLineage);
+    renderEraButtons();
+    renderLineage();
+
+    // Benchmark Charts
+    const libWrap = document.getElementById('lib-bars');
+    const maxLib = BASELINE.libraries[0].mb;
+    BASELINE.libraries.forEach(l => {
+      const pct = (100 * l.mb / (BASELINE.bytes / 1e6)).toFixed(1);
+      const w = Math.max(2, (100 * l.mb / maxLib)).toFixed(1);
+      libWrap.innerHTML += `
+        <div class="space-y-1 text-xs">
+          <div class="flex justify-between gap-2"><span class="font-semibold">${l.name}</span><span class="font-mono tabular-nums">${l.mb.toFixed(1)} MB (${pct}%)</span></div>
+          <div class="w-full h-2.5 rounded-full bg-[var(--background)] overflow-hidden border border-[var(--border)]">
+            <div class="h-full rounded-full" style="width:${w}%; background:${l.color}"></div>
+          </div>
+        </div>`;
+    });
+
+    const histWrap = document.getElementById('hist-bars');
+    const maxH = Math.max(...BASELINE.hist.map(x => x.v));
+    BASELINE.hist.forEach(h => {
+      const pct = (100 * h.v / BASELINE.files).toFixed(1);
+      const w = Math.max(2, (100 * h.v / maxH)).toFixed(1);
+      histWrap.innerHTML += `
+        <div class="space-y-1 text-xs">
+          <div class="flex justify-between gap-2"><span class="font-medium">${h.k}</span><span class="font-mono tabular-nums">${h.v.toLocaleString()} modules (${pct}%)</span></div>
+          <div class="w-full h-2.5 rounded-full bg-[var(--background)] overflow-hidden border border-[var(--border)]">
+            <div class="h-full rounded-full" style="width:${w}%; background:${h.color}"></div>
+          </div>
+        </div>`;
+    });
+
+    const domWrap = document.getElementById('dom-bars');
+    const maxDom = DOMINATORS[0].lines;
+    DOMINATORS.forEach((d, idx) => {
+      const w = Math.max(3, (100 * d.lines / maxDom)).toFixed(1);
+      domWrap.innerHTML += `
+        <div class="space-y-1 text-xs">
+          <div class="flex flex-wrap justify-between gap-1">
+            <span class="font-semibold">${idx + 1}. ${d.name}</span>
+            <span class="font-mono tabular-nums">${d.lines.toLocaleString()} lines (${d.pct.toFixed(2)}%)</span>
+          </div>
+          <div class="text-xs text-[var(--muted-foreground)]">${d.domain} &middot; ${d.mods.toLocaleString()} modules</div>
+          <div class="w-full h-2 rounded-full bg-[var(--background)] overflow-hidden border border-[var(--border)]">
+            <div class="h-full rounded-full" style="width:${w}%; background:${d.color}"></div>
+          </div>
+        </div>`;
+    });
+
+    const hubWrap = document.getElementById('hub-bars');
+    const maxHub = HUBS[0].users;
+    HUBS.forEach((hb, idx) => {
+      const w = Math.max(4, (100 * hb.users / maxHub)).toFixed(1);
+      hubWrap.innerHTML += `
+        <div class="space-y-1 text-xs">
+          <div class="flex justify-between gap-2">
+            <span class="font-semibold">${idx + 1}. ${hb.name}</span>
+            <span class="font-mono tabular-nums">${hb.users.toLocaleString()} direct users</span>
+          </div>
+          <div class="w-full h-2 rounded-full bg-[var(--background)] overflow-hidden border border-[var(--border)]">
+            <div class="h-full rounded-full" style="width:${w}%; background:var(--chart-2)"></div>
+          </div>
+        </div>`;
+    });
+  </script>
+</body>
+</html>

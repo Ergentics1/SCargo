@@ -1,0 +1,15 @@
+# Copyright (c) 2026 Ergentics, LLC
+# Licensed under the MIT License. See LICENSE in the project root.
+
+[package]
+name = "scargo-trace"
+version = "0.1.0"
+edition = "2021"
+authors = ["Ergentics, LLC"]
+description = "Independent module-DAG, Cooper-Harvey-Kennedy dominator tree, and critical-path tracer for Lean 4 trees"
+license = "MIT"
+
+[dependencies]
+
+[lints]
+workspace = true

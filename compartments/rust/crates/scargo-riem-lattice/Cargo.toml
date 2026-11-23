@@ -1,0 +1,15 @@
+# Copyright (c) 2026 Ergentics, LLC
+# Licensed under the MIT License. See LICENSE in the project root.
+
+[package]
+name = "scargo-riem-lattice"
+version = "0.1.0"
+edition = "2021"
+authors = ["Ergentics, LLC"]
+description = "Zero-dependency exact Z/Q Import-Style Riemann Lattice machine layer & Graph-RH verifier for SCargo"
+license = "MIT"
+
+[dependencies]
+
+[lints]
+workspace = true

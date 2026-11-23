@@ -1,0 +1,246 @@
+{
+  "schema_version": "1.0.0",
+  "copyright": "Copyright (c) 2026 Ergentics, LLC",
+  "organization": "Ergentics",
+  "vault_id": "RL-GRAPH-RH-V1",
+  "tradition_id": "RIEM-LATTICE",
+  "title": "Euler's Late-1730s Common Root & Exact Graph Riemann Hypothesis Proof Data for the Neo-Riemannian Tonnetz Dual (Chicken-Wire Torus)",
+  "verified_date_utc": "2026-11-23",
+  "purpose": "Grounds SCargo's import-style Riemann Lattice in primary archival sources tracing both Bernhard Riemann (RIEM-A) and Hugo Riemann (RIEM-C) back to Leonhard Euler's 1735-1739 St. Petersburg papers, and records the exact integer/rational spectral & Bass-Ihara verification data proving that the 12-TET Neo-Riemannian Tonnetz Dual (G_PLR) satisfies the Graph Riemann Hypothesis while high-N equal-temperament refinements cross a quantifiable Correspondence-Principle boundary into Graph-RH violation.",
+  "anti_conflation_guard": {
+    "shared_historical_root": "Leonhard Euler (St. Petersburg, 1735-1739): E53 (graph topology, 1735/1741), E72 (Euler product for zeta, 1737/1744), and E33 (5-limit prime pitch lattice / Speculum Musicum, 1739).",
+    "finite_graph_rh_scope": "The Graph Riemann Hypothesis proved here applies strictly to the finite Ihara zeta function zeta_{G_PLR}(u) (Euler product over primitive non-backtracking cycles in G_PLR = Cay(D_12, {P, L, R})). It is an exact algebraic theorem verified over Z and Q.",
+    "classical_rh_separation": "The Classical Riemann Hypothesis for zeta(s) (RIEM-A, infinite Euler product over rational primes in Ergentics1/Riemannian) is a completely distinct theorem; no claim here conflates finite-graph Ihara RH with classical analytic RH."
+  },
+  "primary_sources": [
+    {
+      "id": "RL-01",
+      "lineage_role": "euler_common_root_graph_topology",
+      "year": 1735,
+      "published_year": 1741,
+      "authors": "Leonhard Euler",
+      "title": "Solutio problematis ad geometriam situs pertinentis (Enestroem E53)",
+      "venue": "Commentarii academiae scientiarum Petropolitanae, Vol. 8 (1741, presented Aug. 26, 1735), pp. 128-140; Opera Omnia Ser. I, Vol. 7, pp. 1-10",
+      "reference_url": "https://scholarlycommons.pacific.edu/euler-works/53/",
+      "verification_status": "verified_primary_archive",
+      "contribution": "Founded graph theory and combinatorial topology (geometria situs) by reducing traversal problems to vertex-degree and cycle invariants."
+    },
+    {
+      "id": "RL-02",
+      "lineage_role": "euler_common_root_analytic_zeta",
+      "year": 1737,
+      "published_year": 1744,
+      "authors": "Leonhard Euler",
+      "title": "Variae observationes circa series infinitas (Enestroem E72)",
+      "venue": "Commentarii academiae scientiarum Petropolitanae, Vol. 9 (1744, presented Apr. 25, 1737), pp. 160-188; Opera Omnia Ser. I, Vol. 14, pp. 217-244",
+      "reference_url": "https://scholarlycommons.pacific.edu/euler-works/72/",
+      "verification_status": "verified_primary_archive",
+      "contribution": "Introduced the Euler product sum_{n>=1} n^{-s} = prod_p (1 - p^{-s})^{-1}, establishing the analytic prime-product paradigm directly extended by Bernhard Riemann (1859, RIEM-A) and mirrored in graph prime-cycle Euler products (Ihara 1966)."
+    },
+    {
+      "id": "RL-03",
+      "lineage_role": "euler_common_root_harmonic_lattice",
+      "year": 1739,
+      "published_year": 1739,
+      "authors": "Leonhard Euler",
+      "title": "Tentamen novae theoriae musicae (Enestroem E33) & De harmoniae veris principiis per speculum musicum repraesentatis (Enestroem E457, 1774)",
+      "venue": "St. Petersburg: Imperial Academy of Sciences, 1739 (263 pp.); Novi Commentarii Acad. Sci. Petrop. 18 (1774, presented Mar. 22, 1773), pp. 330-353",
+      "reference_url": "https://scholarlycommons.pacific.edu/euler-works/33/",
+      "verification_status": "verified_primary_archive",
+      "contribution": "Introduced prime-factor harmonic lattices (powers of 3 and 5 modulo octaves 2^k, Speculum Musicum), the direct mathematical ancestor of Oettingen's (1866) and Hugo Riemann's (1877-1916, RIEM-C) Tonnetz."
+    },
+    {
+      "id": "RL-04",
+      "lineage_role": "ihara_zeta_foundation",
+      "year": 1966,
+      "published_year": 1966,
+      "authors": "Yasutaka Ihara",
+      "title": "On discrete subgroups of the two by two projective linear group over p-adic fields",
+      "venue": "Journal of the Mathematical Society of Japan, 18(3), pp. 219-235",
+      "reference_url": "https://www.jstage.jst.go.jp/article/jmath1948/18/3/18_3_219/_article/-char/en",
+      "verification_status": "verified_primary_archive",
+      "contribution": "Defined the Selberg-type zeta function as an Euler product over primitive conjugacy classes (closed geodesics) in p-adic tree quotients and proved its rationality via a determinant identity."
+    },
+    {
+      "id": "RL-05",
+      "lineage_role": "graph_rh_ramanujan_equivalence",
+      "year": 1986,
+      "published_year": 1986,
+      "authors": "Toshikazu Sunada",
+      "title": "L-functions in geometry and some applications",
+      "venue": "In K. Shiohama, T. Sakai, & T. Sunada (eds.), Curvature and Topology of Riemannian Manifolds (Katata, 1985), Lecture Notes in Mathematics 1201, Springer, pp. 266-284. doi:10.1007/BFb0075662",
+      "reference_url": "https://doi.org/10.1007/BFb0075662",
+      "verification_status": "verified_primary_archive",
+      "contribution": "Interpreted Ihara's zeta function via closed non-backtracking geodesics and adjacency matrices of finite regular graphs, establishing that the Graph Riemann Hypothesis is equivalent to the Ramanujan bound |lambda| <= 2*sqrt(q)."
+    },
+    {
+      "id": "RL-06",
+      "lineage_role": "ramanujan_graphs_definition",
+      "year": 1988,
+      "published_year": 1988,
+      "authors": "Alexander Lubotzky, Ralph Phillips, and Peter Sarnak",
+      "title": "Ramanujan graphs",
+      "venue": "Combinatorica, 8(3), pp. 261-277. doi:10.1007/BF02126799",
+      "reference_url": "https://doi.org/10.1007/BF02126799",
+      "verification_status": "verified_primary_archive",
+      "contribution": "Coined and constructed explicit (q+1)-regular Ramanujan graphs saturating the optimal spectral expansion bound |lambda_nontriv| <= 2*sqrt(q)."
+    },
+    {
+      "id": "RL-07",
+      "lineage_role": "edge_operator_determinant",
+      "year": 1989,
+      "published_year": 1989,
+      "authors": "Ki-ichiro Hashimoto",
+      "title": "Zeta functions of finite graphs and representations of p-adic groups",
+      "venue": "Advanced Studies in Pure Mathematics, Vol. 15, Academic Press, pp. 211-280. doi:10.2969/aspm/01510211",
+      "reference_url": "https://projecteuclid.org/ebooks/advanced-studies-in-pure-mathematics/Automorphic-Forms-and-Geometry-of-Arithmetic-Varieties/chapter/Zeta-Functions-of-Finite-Graphs-and-Representations-of-p-Adic/10.2969/aspm/01510211.pdf",
+      "verification_status": "verified_primary_archive",
+      "contribution": "Introduced the directed-edge non-backtracking matrix T (Hashimoto operator) and established zeta_X(u)^{-1} = det(I - u*T)."
+    },
+    {
+      "id": "RL-08",
+      "lineage_role": "asymptotic_alon_boppana_regime_limit",
+      "year": 1991,
+      "published_year": 1991,
+      "authors": "Alon Nilli",
+      "title": "On the second eigenvalue of a graph",
+      "venue": "Discrete Mathematics, 91(2), pp. 207-210. doi:10.1016/0012-365X(91)90112-F",
+      "reference_url": "https://doi.org/10.1016/0012-365X(91)90112-F",
+      "verification_status": "verified_primary_archive",
+      "contribution": "Proved the sharp Alon-Boppana lower bound lambda_1 >= 2*sqrt(d-1) - o(1) as diameter grows, explaining why amenable infinite lattices (like flat Z^2) and high-N N-TET Tonnetz refinements exit the Graph RH regime."
+    },
+    {
+      "id": "RL-09",
+      "lineage_role": "ihara_bass_determinant_formula",
+      "year": 1992,
+      "published_year": 1992,
+      "authors": "Hyman Bass",
+      "title": "The Ihara-Selberg zeta function of a tree lattice",
+      "venue": "International Journal of Mathematics, 3(6), pp. 717-797. doi:10.1142/S0129167X92000357",
+      "reference_url": "https://www.worldscientific.com/doi/10.1142/S0129167X92000357",
+      "verification_status": "verified_primary_archive",
+      "contribution": "Proved the general Ihara-Bass determinant theorem zeta_X(u)^{-1} = (1 - u^2)^{r - 1} * det(I - u*A + u^2*Q) for arbitrary finite graphs."
+    },
+    {
+      "id": "RL-10",
+      "lineage_role": "graph_zeta_coverings_and_pnt",
+      "year": 1996,
+      "published_year": 1996,
+      "authors": "Harold M. Stark & Audrey A. Terras (1996, 2000) and Motoko Kotani & Toshikazu Sunada (2000)",
+      "title": "Zeta functions of finite graphs and coverings (Adv. Math. 121, 1996; 154, 2000) & Zeta functions of finite graphs (J. Math. Sci. Univ. Tokyo 7, 2000)",
+      "venue": "Advances in Mathematics 121(1), pp. 124-165 (doi:10.1006/aima.1996.0050); J. Math. Sci. Univ. Tokyo 7(1), pp. 7-25",
+      "reference_url": "https://www.ms.u-tokyo.ac.jp/journal/pdf/jms070102.pdf",
+      "verification_status": "verified_primary_archive",
+      "contribution": "Developed elementary proofs of the Ihara-Bass formula, Artin-Ihara L-functions for graph Galois coverings, pole-location geometry, and Graph Prime Number Theorem."
+    },
+    {
+      "id": "RL-11",
+      "lineage_role": "comprehensive_monograph",
+      "year": 2011,
+      "published_year": 2011,
+      "authors": "Audrey Terras",
+      "title": "Zeta Functions of Graphs: A Stroll through the Garden",
+      "venue": "Cambridge Studies in Advanced Mathematics, Vol. 128, Cambridge University Press, 2011. doi:10.1017/CBO9780511760426",
+      "reference_url": "https://doi.org/10.1017/CBO9780511760426",
+      "verification_status": "verified_primary_archive",
+      "contribution": "Definitive synthesis unifying Riemann, Ihara, Selberg, and Ruelle zeta functions, regular-graph functional equations, Graph RH <-> Ramanujan equivalence, and the Graph Prime Number Theorem."
+    }
+  ],
+  "tonnetz_dual_exact_invariants": {
+    "graph_name": "Neo-Riemannian Tonnetz Dual (Chicken-Wire Torus, G_PLR = Cay(D_12, {P, L, R}))",
+    "reference_source_ids": ["HR-T06", "HR-B08", "HR-B12", "HR-B16", "RL-05", "RL-09", "RL-11"],
+    "vertices_count": 24,
+    "edges_count": 36,
+    "degree_d": 3,
+    "ihara_parameter_q": 2,
+    "bipartite": true,
+    "bipartition_sizes": [12, 12],
+    "cyclomatic_rank_r": 13,
+    "r_minus_1": 12,
+    "girth": 6,
+    "diameter": 5,
+    "circulant_biadjacency_shifts_mod_12": {
+      "P_parallel": 0,
+      "L_leittonwechsel": 4,
+      "R_relative": 9
+    },
+    "exact_charpoly_B_BT_descending_y": [1, -36, 558, -4916, 27303, -100056, 245924, -404088, 435183, -295684, 118446, -24660, 2025],
+    "exact_charpoly_factorization": {
+      "in_y_for_B_BT": "(y - 9) * (y - 5)^2 * (y - 3)^2 * (y - 1)^3 * (y^2 - 4y + 1)^2",
+      "in_x_for_A_24": "(x^2 - 9) * (x^2 - 5)^2 * (x^2 - 3)^2 * (x^2 - 1)^3 * (x^4 - 4x^2 + 1)^2"
+    },
+    "exact_ihara_determinant_factorization": {
+      "D_u": "(1 - u^2)(1 - 4u^2) * (1 - u^2 + 4u^4)^2 * (1 + u^2 + 4u^4)^2 * (1 + 3u^2 + 4u^4)^3 * (1 + 4u^2 + 9u^4 + 16u^6 + 16u^8)^2",
+      "zeta_inverse_u": "(1 - u^2)^12 * D(u)",
+      "degree_in_u": 72,
+      "completed_functional_equation": "Xi(u) = 2^12 * u^24 * (1 - u^2)^12 * zeta(u) = 2^12 * u^24 / D(u) satisfies Xi(1/(2u)) = Xi(u), i.e., Xi(2^{-s}) = Xi(2^{-(1-s)})"
+    },
+    "exact_spectrum_pairs": [
+      {"fourier_modes_k": [0], "lambda_squared_exact": "9", "lambda_squared_approx": 9.0, "multiplicity_per_sign": 1, "trivial": true, "discriminant_lambda2_minus_8": "1"},
+      {"fourier_modes_k": [3, 9], "lambda_squared_exact": "5", "lambda_squared_approx": 5.0, "multiplicity_per_sign": 2, "trivial": false, "discriminant_lambda2_minus_8": "-3"},
+      {"fourier_modes_k": [5, 7], "lambda_squared_exact": "2 + sqrt(3)", "lambda_squared_approx": 3.732050807569, "multiplicity_per_sign": 2, "trivial": false, "discriminant_lambda2_minus_8": "-6 + sqrt(3)"},
+      {"fourier_modes_k": [4, 8], "lambda_squared_exact": "3", "lambda_squared_approx": 3.0, "multiplicity_per_sign": 2, "trivial": false, "discriminant_lambda2_minus_8": "-5"},
+      {"fourier_modes_k": [2, 6, 10], "lambda_squared_exact": "1", "lambda_squared_approx": 1.0, "multiplicity_per_sign": 3, "trivial": false, "discriminant_lambda2_minus_8": "-7"},
+      {"fourier_modes_k": [1, 11], "lambda_squared_exact": "2 - sqrt(3)", "lambda_squared_approx": 0.267949192431, "multiplicity_per_sign": 2, "trivial": false, "discriminant_lambda2_minus_8": "-6 - sqrt(3)"}
+    ],
+    "graph_rh_verdict": {
+      "satisfies_graph_riemann_hypothesis": true,
+      "is_ramanujan": true,
+      "ramanujan_bound_squared_4q": 8,
+      "max_nontrivial_lambda_squared": 5,
+      "exact_integer_squared_margin": 3,
+      "critical_circle_radius_u": "1 / sqrt(2)",
+      "critical_line_re_s": 0.5,
+      "all_nontrivial_poles_on_critical_line": true
+    },
+    "minimal_prime_hexagons_length_6": {
+      "total_unoriented": 16,
+      "total_oriented": 32,
+      "decomposition": {
+        "LPRLPR_pitch_class_dual_faces": 12,
+        "LPLPLP_hexatonic_cycles": 4
+      }
+    },
+    "exact_prime_cycle_table": [
+      {"length_m": 2, "closed_nb_walks_N_m": 0, "oriented_primes": 0, "unoriented_primes": 0},
+      {"length_m": 4, "closed_nb_walks_N_m": 0, "oriented_primes": 0, "unoriented_primes": 0},
+      {"length_m": 6, "closed_nb_walks_N_m": 192, "oriented_primes": 32, "unoriented_primes": 16},
+      {"length_m": 8, "closed_nb_walks_N_m": 624, "oriented_primes": 78, "unoriented_primes": 39},
+      {"length_m": 10, "closed_nb_walks_N_m": 2400, "oriented_primes": 240, "unoriented_primes": 120},
+      {"length_m": 12, "closed_nb_walks_N_m": 7104, "oriented_primes": 576, "unoriented_primes": 288},
+      {"length_m": 14, "closed_nb_walks_N_m": 33600, "oriented_primes": 2400, "unoriented_primes": 1200},
+      {"length_m": 16, "closed_nb_walks_N_m": 131760, "oriented_primes": 8196, "unoriented_primes": 4098},
+      {"length_m": 18, "closed_nb_walks_N_m": 520032, "oriented_primes": 28880, "unoriented_primes": 14440},
+      {"length_m": 20, "closed_nb_walks_N_m": 2104320, "oriented_primes": 105096, "unoriented_primes": 52548}
+    ]
+  },
+  "primal_12tet_tonnetz_summary": {
+    "vertices_count": 12,
+    "edges_count": 36,
+    "degree_d": 6,
+    "ihara_parameter_q": 5,
+    "ramanujan_bound_2sqrt5": 4.472135955,
+    "max_nontrivial_abs_lambda_exact": "1 + sqrt(3)",
+    "max_nontrivial_abs_lambda_approx": 2.7320508076,
+    "satisfies_graph_riemann_hypothesis": true
+  },
+  "ntet_correspondence_regime_sweep": [
+    {"N": 5, "vertices": 10, "P5": 3, "M3": 2, "m3": 1, "connected": true, "max_lambda_sq": 2.61803, "satisfies_graph_rh": true},
+    {"N": 7, "vertices": 14, "P5": 4, "M3": 2, "m3": 2, "connected": true, "max_lambda_sq": 5.04892, "satisfies_graph_rh": true},
+    {"N": 12, "vertices": 24, "P5": 7, "M3": 4, "m3": 3, "connected": true, "max_lambda_sq": 5.0, "satisfies_graph_rh": true},
+    {"N": 15, "vertices": 30, "P5": 9, "M3": 5, "m3": 4, "connected": true, "max_lambda_sq": 6.23607, "satisfies_graph_rh": true},
+    {"N": 17, "vertices": 34, "P5": 10, "M3": 5, "m3": 5, "connected": true, "max_lambda_sq": 8.20791, "satisfies_graph_rh": false},
+    {"N": 19, "vertices": 38, "P5": 11, "M3": 6, "m3": 5, "connected": true, "max_lambda_sq": 6.4765, "satisfies_graph_rh": true},
+    {"N": 22, "vertices": 44, "P5": 13, "M3": 7, "m3": 6, "connected": true, "max_lambda_sq": 6.27686, "satisfies_graph_rh": true},
+    {"N": 24, "vertices": 48, "P5": 14, "M3": 8, "m3": 6, "connected": false, "max_lambda_sq": null, "satisfies_graph_rh": false, "note": "Disconnected: gcd(8, 6, 24) = 2 (splits into two disjoint 12-TET components)"},
+    {"N": 27, "vertices": 54, "P5": 16, "M3": 9, "m3": 7, "connected": true, "max_lambda_sq": 8.06418, "satisfies_graph_rh": false},
+    {"N": 29, "vertices": 58, "P5": 17, "M3": 9, "m3": 8, "connected": true, "max_lambda_sq": 7.34415, "satisfies_graph_rh": true},
+    {"N": 31, "vertices": 62, "P5": 18, "M3": 10, "m3": 8, "connected": true, "max_lambda_sq": 7.97852, "satisfies_graph_rh": true},
+    {"N": 34, "vertices": 68, "P5": 20, "M3": 11, "m3": 9, "connected": true, "max_lambda_sq": 7.23444, "satisfies_graph_rh": true},
+    {"N": 37, "vertices": 74, "P5": 22, "M3": 12, "m3": 10, "connected": true, "max_lambda_sq": 7.95313, "satisfies_graph_rh": true},
+    {"N": 41, "vertices": 82, "P5": 24, "M3": 13, "m3": 11, "connected": true, "max_lambda_sq": 8.05346, "satisfies_graph_rh": false},
+    {"N": 43, "vertices": 86, "P5": 25, "M3": 14, "m3": 11, "connected": true, "max_lambda_sq": 8.45758, "satisfies_graph_rh": false},
+    {"N": 46, "vertices": 92, "P5": 27, "M3": 15, "m3": 12, "connected": true, "max_lambda_sq": 7.99978, "satisfies_graph_rh": true},
+    {"N": 53, "vertices": 106, "P5": 31, "M3": 17, "m3": 14, "connected": true, "max_lambda_sq": 8.1598, "satisfies_graph_rh": false}
+  ]
+}

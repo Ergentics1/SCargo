@@ -1,0 +1,171 @@
+{
+  "schema_version": "1.0.0",
+  "copyright": "Copyright (c) 2026 Ergentics, LLC",
+  "organization": "Ergentics",
+  "title": "Declarative Presentation Metadata for Ergentics Research Paper 001 Figures",
+  "note": "Pure human-readable naming, editorial taxonomy, and visual palette strictly decoupled from empirical corpus counts. All numbers, file totals, line counts, fan-in/fan-out metrics, and historical year spans are computed dynamically from immutable baseline, trace, and lineage JSON datasets.",
+  "palette": {
+    "bg": [254, 254, 252],
+    "panel": [247, 248, 250],
+    "panel_alt": [239, 243, 248],
+    "border": [212, 220, 232],
+    "ink": [20, 30, 48],
+    "muted": [86, 98, 118],
+    "track": [228, 234, 242],
+    "accents": [
+      [29, 78, 216],
+      [14, 116, 144],
+      [4, 120, 87],
+      [180, 83, 9],
+      [109, 40, 217],
+      [185, 28, 28],
+      [71, 85, 105]
+    ]
+  },
+  "lib_labels": {
+    "Development": "Primary Proof Development",
+    "Formalism": "Analytic Formalism",
+    "GroundTheory": "Foundational Number Theory",
+    "ReciprocityTheory": "Reciprocity & Compactifications",
+    "CompanionTheory": "Companion Auxiliary Theory",
+    "PositivityTheory": "Explicit Positivity Theory",
+    "Lemmata": "Shared General Lemmata"
+  },
+  "subtree_labels": {
+    "Development/AbelianVarietyTheory/Proofs": "Abelian Variety Theory — Proofs",
+    "Development/AutomorphicSpectrum/Proofs": "Automorphic Spectrum — Proofs",
+    "Development/AutomorphicArithmetic/AutomorphicVarieties": "Automorphic Varieties & Modularity",
+    "Development/WeilBound/CoreStatements": "Weil Bound — Core Statements",
+    "Development/AutomorphicArithmetic/Foundations": "Galois & Local Langlands Foundations",
+    "GroundTheory/HeightsAndTheta/Heights": "Heights & Theta Foundations",
+    "Formalism/HermitianCurvature/HermitianCurvatureProofs": "Hermitian Curvature Proofs",
+    "Development/AutomorphicArithmetic/ThetaCorrespondence": "Theta Correspondence & Lifts",
+    "Development/AbelianVarietyTheory/Definitions": "Abelian Variety Theory — Definitions",
+    "Formalism/LocalToGlobal/SiegelLatticeTheory": "Local-to-Global Siegel Lattice Theory"
+  },
+  "dominator_labels": {
+    "RowSrc": {
+      "title": "Integral Galois Row Source",
+      "domain": "Automorphic Galois Foundations"
+    },
+    "GaloisRepresentationsOfThetaLift": {
+      "title": "Theta-Lift Galois Representations",
+      "domain": "Automorphic Galois Foundations"
+    },
+    "WeightOneGeometricRealization": {
+      "title": "Weight-One Geometric Realization",
+      "domain": "Geometric Flag Bases"
+    },
+    "GeometricRealizationOfWeightOne": {
+      "title": "Geometric Realization of Weight One",
+      "domain": "Geometric Flag Bases"
+    },
+    "VwinOfRow": {
+      "title": "Window Bound from Galois Row",
+      "domain": "Dense Threshold Arguments"
+    },
+    "TopMainZj": {
+      "title": "Main Threshold Assembly",
+      "domain": "Dense Threshold Arguments"
+    },
+    "WindowBoundOfLiteratureLevel": {
+      "title": "Literature-Level Window Bound",
+      "domain": "Dense Threshold Arguments"
+    },
+    "EveryCharacterOfLiteratureOfVWin": {
+      "title": "Literature Character Synthesis",
+      "domain": "Iterated Theta Lifts"
+    },
+    "FinalTheoremOfInputsRightStatement": {
+      "title": "Final Geometric Input Statement",
+      "domain": "Automorphic Spectrum Geometry"
+    },
+    "FinalTheoremOfInputsRight": {
+      "title": "Final Geometric Input Proof",
+      "domain": "Automorphic Spectrum Geometry"
+    },
+    "SiegelEisensteinSecondTermHypotheses": {
+      "title": "Siegel–Eisenstein Second-Term Hypotheses",
+      "domain": "Iterated Theta Lifts"
+    }
+  },
+  "hub_labels": {
+    "UniformisationConclusion": "Toroidal Uniformisation Conclusion",
+    "ExistsNormLeHeightPow": "Norm-Height Power Existence",
+    "UnifUniqSt": "Uniformisation Uniqueness Statement",
+    "DiscreteSeriesHermitianUnique": "Hermitian Discrete Series Uniqueness",
+    "CohomologicalCsdTempered": "Tempered Cohomological Criterion",
+    "HarishChandraModulesOn": "Harish-Chandra Module Interface",
+    "WeilTensorModels": "Weil Tensor Model Base",
+    "HeckeKer": "Hecke Kernel Compactification",
+    "AdmissibleDiscreteSeriesOfHasParam": "Admissible Discrete Series Parameter",
+    "SecBaseChangeAnySt": "Base-Change Section Statement"
+  },
+  "era_badges": {
+    "Classical Analytic Inception": {
+      "tag": "Era I",
+      "accent_index": 0
+    },
+    "Combinatorial & Explicit Formula Foundations": {
+      "tag": "Era II",
+      "accent_index": 1
+    },
+    "Adelic & Explicit Formula Foundations": {
+      "tag": "Era II",
+      "accent_index": 1
+    },
+    "Theta Correspondence & Automorphic Representation Theory": {
+      "tag": "Era III",
+      "accent_index": 4
+    },
+    "Multiplicity & Function-Field Analogy": {
+      "tag": "Era III",
+      "accent_index": 4
+    },
+    "p-adic & Real Representation Theory": {
+      "tag": "Era III",
+      "accent_index": 4
+    },
+    "Automorphic L-functions & Rigidity": {
+      "tag": "Era III",
+      "accent_index": 4
+    },
+    "Automorphic Galois Representations & Purity": {
+      "tag": "Era IV",
+      "accent_index": 3
+    },
+    "Regularized Siegel-Weil & Seesaw Duality": {
+      "tag": "Era IV",
+      "accent_index": 3
+    },
+    "Arakelov Geometry, Slopes & Covolume Bounds": {
+      "tag": "Era IV",
+      "accent_index": 3
+    },
+    "Integral p-adic Hodge Theory": {
+      "tag": "Era V",
+      "accent_index": 2
+    },
+    "Formalized Machine-Assisted Synthesis": {
+      "tag": "Era V",
+      "accent_index": 2
+    }
+  },
+  "lineage_display_roles": {
+    "SRC-01": "Defines the Dirichlet L-functions L(s, chi) whose non-vanishing for Re(s) > 1/2 is proved.",
+    "SRC-02": "Establishes functional symmetry s <-> 1-s and states the headline Riemann Hypothesis.",
+    "SRC-03": "Rules out zeros on Re(s) >= 1 and supplies classical zero-free regions.",
+    "SRC-04": "Selects Iwasawa tower parameters via dense arithmetic-progression-free sets (author-flagged simplification target).",
+    "SRC-05": "Supplies adelic Fourier duality, Euler products, and Hecke L-function functional equations.",
+    "SRC-06": "Bridges prime-power sums and zeros via the Weil positivity criterion W(f * f~) >= 0.",
+    "SRC-07": "Constructs the metaplectic double cover and Weil unitary representation for global theta series.",
+    "SRC-08": "Provides the multiplicity paradigm: ~sqrt(X) iterated unitary theta lifts emulate vanishing order.",
+    "SRC-09": "Classifies smooth GL_n representations, Lie-group convolution factorisation, and Fréchet globalisations.",
+    "SRC-10": "Establishes strong multiplicity one for isobaric automorphic sums and Satake bounds.",
+    "SRC-11": "Attaches pure l-adic Galois representations compatible with local automorphic data.",
+    "SRC-12": "Evaluates norms and Bessel periods along the theta-lift spine via regularized Siegel–Weil & seesaws.",
+    "SRC-13": "Provides Hermitian bundle slope inequalities and arithmetic covolume lower bounds.",
+    "SRC-14": "Classifies integral crystalline p-adic lattices via prismatic Dieudonné cohomology.",
+    "SRC-15": "Assembles the complete axiom-minimal machine-verified proof of RH and GRH."
+  }
+}

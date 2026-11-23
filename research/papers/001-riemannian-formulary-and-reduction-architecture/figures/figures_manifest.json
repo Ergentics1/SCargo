@@ -1,0 +1,178 @@
+{
+  "schema_version": "1.0.0",
+  "copyright": "Copyright (c) 2026 Ergentics, LLC",
+  "organization": "Ergentics",
+  "source_repo_commit": "51d9b1a28026d458aef9c9af3df8b083276e3d2d",
+  "renderer_sha256": "443c38dfad1fc31863029cf05259c76f31c54265fb397096975287febb1cf682",
+  "inputs": {
+    "baseline": {
+      "path": "data/baselines/riemannian_51d9b1a280_inventory.json",
+      "sha256": "98284f3bc6572dc2698bb7cf44861c52e2e55647d04781fbcd67fd82211dfdc5"
+    },
+    "trace": {
+      "path": "data/traces/riemannian_51d9b1a280_trace.json",
+      "sha256": "918ad1bf1baaa65542da504b389d9a1d0f9996417c5876a8f2a387d153e1e352"
+    },
+    "lineage": {
+      "path": "data/sources/formulary_lineage_v1.json",
+      "sha256": "2fddf6c4a8f495c3232a72cf9052bdac6dba39a5d3e4df4541e6c87ea3e7f7ab"
+    },
+    "presentation": {
+      "path": "data/sources/paper_001_presentation_v1.json",
+      "sha256": "3f6f22cd0fcf6d9633c26b23dc0a0dac649d8f766320c1068a8ae29112a5d727"
+    }
+  },
+  "guards": [
+    {
+      "guard_id": "cli_explicit_inputs",
+      "passed": true,
+      "detail": "all 4 explicit JSON inputs present and parsed",
+      "healing_action": null
+    },
+    {
+      "guard_id": "commit_sha_correspondence",
+      "passed": true,
+      "detail": "baseline == trace == lineage == 51d9b1a28026d458aef9c9af3df8b083276e3d2d",
+      "healing_action": null
+    },
+    {
+      "guard_id": "presentation_anti_baked_metrics",
+      "passed": true,
+      "detail": "0 baked empirical numerals found across all presentation label tables",
+      "healing_action": null
+    },
+    {
+      "guard_id": "presentation_label_coverage",
+      "passed": true,
+      "detail": "100% of rendered libraries, subtrees, dominators, hubs, and lineage eras mapped",
+      "healing_action": null
+    },
+    {
+      "guard_id": "portable_font_resolution",
+      "passed": true,
+      "detail": "resolved 5 TTF fonts from /usr/share/fonts/truetype/dejavu",
+      "healing_action": null
+    }
+  ],
+  "outputs": {
+    "fig1_library_mass_budget.png": {
+      "sha256": "fecf8ae3584732b07425d1c34d48f29fd38166b32f72d02047b837854554356c",
+      "bytes": 125726
+    },
+    "fig2_bloat_taxonomy.png": {
+      "sha256": "ddfbecb260ea6650cefc30041e4ce59d0d1e0da59aa00dd7d1059800e52a3b5a",
+      "bytes": 84752
+    },
+    "fig3_historical_lineage.png": {
+      "sha256": "ad7156a86024a736866d1b863fb06395ed4ec22f74490a5bff39661bb6a5a07c",
+      "bytes": 243950
+    },
+    "fig4_scargo_trace_dominators.png": {
+      "sha256": "e6182b02d995e871a9f1eddb4512775a087b8b4bb502500f60e1e1ea8d4ba17a",
+      "bytes": 165910
+    }
+  },
+  "rendered_claims": {
+    "fig1": {
+      "subtitle": "Complete observational baseline: 149,397 modules  |  871.37 MB source text  |  15,168,601 total lines",
+      "caption": "Source: Independent observational census of commit 51d9b1a280 (see Appendix A for verification provenance).",
+      "panel_b_subtitle": "Abelian Variety Theory — Proofs alone represents 46.6% of all source bytes.",
+      "libraries": [
+        "Primary Proof Development: 121,394 modules · 11,000,403 lines | 664.17 MB (76.2%)",
+        "Analytic Formalism: 15,292 modules · 2,552,535 lines | 127.30 MB (14.6%)",
+        "Foundational Number Theory: 6,667 modules · 845,643 lines | 40.02 MB ( 4.6%)",
+        "Reciprocity & Compactifications: 3,581 modules · 523,963 lines | 26.22 MB ( 3.0%)",
+        "Companion Auxiliary Theory: 1,946 modules · 192,779 lines | 10.85 MB ( 1.2%)",
+        "Explicit Positivity Theory: 355 modules · 44,392 lines | 2.41 MB ( 0.3%)",
+        "Shared General Lemmata: 158 modules · 8,797 lines | 0.40 MB ( 0.0%)"
+      ],
+      "subtrees": [
+        "1. Abelian Variety Theory — Proofs: 405.8 MB (78,548 mod)",
+        "2. Automorphic Spectrum — Proofs: 64.6 MB (13,432 mod)",
+        "3. Automorphic Varieties & Modularity: 50.5 MB (7,764 mod)",
+        "4. Weil Bound — Core Statements: 25.3 MB (3,581 mod)",
+        "5. Galois & Local Langlands Foundations: 24.8 MB (4,341 mod)",
+        "6. Heights & Theta Foundations: 22.4 MB (4,859 mod)",
+        "7. Hermitian Curvature Proofs: 20.4 MB (1,733 mod)",
+        "8. Theta Correspondence & Lifts: 19.0 MB (3,096 mod)",
+        "9. Abelian Variety Theory — Definitions: 16.9 MB (1,862 mod)",
+        "10. Local-to-Global Siegel Lattice Theory: 16.8 MB (1,972 mod)"
+      ]
+    },
+    "fig2": {
+      "subtitle": "Non-mathematical scaffolding, generated forwarding wrappers, and module-length distribution across 149,397 modules",
+      "caption": "Source: Independent observational baseline measurements; percentages relative to 15,168,601 total source lines.",
+      "categories": [
+        "Blank & whitespace formatting lines: 1,880,960 (12.4%)",
+        "Module import declarations (all visibilities): 841,871 ( 5.6%)",
+        "Generated forwarding wrapper modules (36,255 files): 709,446 ( 4.7%)",
+        "Namespace opening directives: 416,521 ( 2.7%)",
+        "Compiler & elaborator option directives: 97,660 ( 0.6%)"
+      ],
+      "summary_lines": [
+        "Combined scaffolding overhead: 3,237,012 lines (21.3% of the corpus).",
+        "Unreferenced leaf modules outside the main theorem closure: 112 modules.",
+        "Broad library imports: 115,739 files  |  Private helper lemmas: 57,625."
+      ],
+      "key_findings": [
+        "Key Finding: 65,131 modules (43.6%) contain 50 lines or fewer.",
+        "Only 224 modules (0.15%) exceed 1,000 lines—overhead scales with file count."
+      ]
+    },
+    "fig3": {
+      "title": "5-Era Evolution of the Proof Formulary (1837–2026)",
+      "subtitle": "15 primary-archive milestones bridging 189 years of number theory, independently confirmed active in the proof dependency graph",
+      "caption": "Source: Archive-verified primary bibliography (Section 7) and dependency audit of commit 51d9b1a280 (exact mapping in Appendix A).",
+      "rows": [
+        "SRC-01 (Era I, 1837): Active group: 1 mod (20 lines)",
+        "SRC-02 (Era I, 1859): Sole-dependency branch: 149,284 mod (15.16M lines)",
+        "SRC-03 (Era I, 1896): Sole-dependency branch: 12 mod (1.2k lines)",
+        "SRC-04 (Era II, 1946): Sole-dependency branch: 346 mod (28.2k lines)",
+        "SRC-05 (Era II, 1950): Sole-dependency branch: 6 mod (726 lines)",
+        "SRC-06 (Era II, 1952): Sole-dependency branch: 81 mod (13.0k lines)",
+        "SRC-07 (Era III, 1964): Sole-dependency branch: 25 mod (1.0k lines)",
+        "SRC-08 (Era III, 1969): Sole-dependency branch: 719 mod (71.6k lines)",
+        "SRC-09 (Era III, 1977): Active group: 2 mod (30 lines)",
+        "SRC-10 (Era III, 1981): Sole-dependency branch: 89 mod (15.0k lines)",
+        "SRC-11 (Era IV, 1990): Sole-dependency branch: 12,425 mod (954.6k lines)",
+        "SRC-12 (Era IV, 1994): Sole-dependency branch: 3,863 mod (290.3k lines)",
+        "SRC-13 (Era IV, 1996): Sole-dependency branch: 193 mod (11.8k lines)",
+        "SRC-14 (Era V, 2022): Sole-dependency branch: 294 mod (14.9k lines)",
+        "SRC-15 (Era V, 2026): Sole-dependency branch: 149,279 mod (15.16M lines)"
+      ]
+    },
+    "fig4": {
+      "subtitle": "Active proof graph: 149,284 modules  |  725,094 dependency links  |  Strictly acyclic  |  Longest chain: 198 steps",
+      "caption": "Source: Independent dominator and reuse analysis (Cooper-Harvey-Kennedy iterative dominators + Kahn DAG longest-path; commit 51d9b1a280; see Appendix A).",
+      "dominators": [
+        "1. Integral Galois Row Source — Automorphic Galois Foundations: 954,607 lines (6.30%) · 12,425 mod",
+        "2. Theta-Lift Galois Representations — Automorphic Galois Foundations: 893,956 lines (5.90%) · 11,695 mod",
+        "3. Weight-One Geometric Realization — Geometric Flag Bases: 786,875 lines (5.19%) · 10,278 mod",
+        "4. Geometric Realization of Weight One — Geometric Flag Bases: 746,661 lines (4.92%) · 9,912 mod",
+        "5. Window Bound from Galois Row — Dense Threshold Arguments: 685,322 lines (4.52%) · 6,810 mod",
+        "6. Main Threshold Assembly — Dense Threshold Arguments: 685,312 lines (4.52%) · 6,809 mod",
+        "7. Literature-Level Window Bound — Dense Threshold Arguments: 673,142 lines (4.44%) · 6,681 mod",
+        "8. Literature Character Synthesis — Iterated Theta Lifts (5,308 direct imports): 330,150 lines (2.18%) · 4,333 mod",
+        "9. Final Geometric Input Statement — Automorphic Spectrum Geometry: 321,793 lines (2.12%) · 3,678 mod",
+        "10. Final Geometric Input Proof — Automorphic Spectrum Geometry: 321,769 lines (2.12%) · 3,677 mod"
+      ],
+      "hubs": [
+        "1. Toroidal Uniformisation Conclusion: 3,119 direct users",
+        "2. Norm-Height Power Existence: 2,441 direct users",
+        "3. Uniformisation Uniqueness Statement: 2,267 direct users",
+        "4. Hermitian Discrete Series Uniqueness: 2,258 direct users",
+        "5. Tempered Cohomological Criterion (5 lines): 2,208 direct users",
+        "6. Harish-Chandra Module Interface: 1,631 direct users",
+        "7. Weil Tensor Model Base: 1,578 direct users",
+        "8. Hecke Kernel Compactification: 1,392 direct users",
+        "9. Admissible Discrete Series Parameter: 1,359 direct users",
+        "10. Base-Change Section Statement: 1,320 direct users"
+      ],
+      "takeaways": [
+        "• The top two sole-dependency branches alone account for 1.85M uniquely dependent lines.",
+        "• Peak synthesis module directly merges 5,308 upstream files, explaining wide reuse.",
+        "• Top shared interfaces (1,320–3,119 users) must remain signature-stable during trials."
+      ]
+    }
+  }
+}

@@ -1,0 +1,311 @@
+{
+  "schema_version": "1.1.0",
+  "copyright": "Copyright (c) 2026 Ergentics, LLC",
+  "organization": "Ergentics",
+  "title": "1:1 Primary-Source Historical Lineage of the Riemannian Proof Formulary (1837-2026)",
+  "verification_method": "Every entry independently verified against primary archival records (Numdam, Project Euclid, Oxford Academic, PNAS, Annals of Mathematics, Gallica, AMS) and matched 1:1 against live Lean declarations, line numbers, and scargo-trace DAG reachability in Ergentics1/Riemannian.",
+  "source_repo_commit": "51d9b1a28026d458aef9c9af3df8b083276e3d2d",
+  "entries": [
+    {
+      "id": "SRC-01",
+      "year": 1837,
+      "era": "Classical Analytic Inception",
+      "author": "P. G. Lejeune Dirichlet",
+      "primary_citation": "Dirichlet, P. G. L. (1837). Beweis des Satzes, dass jede unbegrenzte arithmetische Progression, deren erstes Glied und Differenz ganze Zahlen ohne gemeinschaftlichen Factor sind, unendlich viele Primzahlen enthält. Abhandlungen der Königlichen Preußischen Akademie der Wissenschaften zu Berlin, 1837, pp. 45-81 (Gallica ark:/12148/bpt6k99435r/f326).",
+      "verification_status": "verified_primary_archive",
+      "mathematical_contribution": "Introduced multiplicative characters modulo N and Dirichlet L-series L(s, chi) to prove infinitude of primes in arithmetic progressions.",
+      "trace_module_prefix": "Statements",
+      "riemannian_paths": [
+        "src/Statements.lean:10-20",
+        "src/Challenge.lean:6-16",
+        "src/Development/AutomorphicArithmetic/CharacterBoxes/ClaimStrip.lean:11-61"
+      ],
+      "lean_symbols": [
+        "DirichletCharacter.LFunction",
+        "DirichletLNonvanishingRightOfHalf",
+        "DirichletLZerosOnLine",
+        "PrimitiveDirichletLZerosOnLine"
+      ],
+      "role_in_formulary": "Target statements of GRH proved by Main.lean: nonvanishing of L(chi, s) for Re(s) > 1/2 across every modulus and every character."
+    },
+    {
+      "id": "SRC-02",
+      "year": 1859,
+      "era": "Classical Analytic Inception",
+      "author": "Bernhard Riemann",
+      "primary_citation": "Riemann, B. (1859). Ueber die Anzahl der Primzahlen unter einer gegebenen Grösse. Monatsberichte der Königlichen Preußischen Akademie der Wissenschaften zu Berlin, November 1859 (pub. 1860), pp. 671-680.",
+      "verification_status": "verified_primary_archive",
+      "mathematical_contribution": "Analytic continuation of zeta(s), completed zeta functional equation s <-> 1-s, explicit prime-counting formula, and statement of the Riemann Hypothesis.",
+      "trace_module_prefix": "Main",
+      "riemannian_paths": [
+        "src/Main.lean:13-16",
+        "src/Challenge.lean:19-21",
+        "src/Development/AutomorphicArithmetic/CharacterBoxes/ClaimStrip.lean:63-88"
+      ],
+      "lean_symbols": [
+        "riemannHypothesis",
+        "riemannZeta_eq_zero_re",
+        "Claim.zeta",
+        "Claim.strip"
+      ],
+      "role_in_formulary": "Headline theorem statement (`RiemannHypothesis`) and functional-equation reflection reducing critical-strip zeros to Re(s) > 1/2."
+    },
+    {
+      "id": "SRC-03",
+      "year": 1896,
+      "era": "Classical Analytic Inception",
+      "author": "Jacques Hadamard & Charles-Jean de la Vallée Poussin",
+      "primary_citation": "Hadamard, J. (1896). Sur la distribution des zéros de la fonction zeta(s) et ses conséquences arithmétiques. Bull. Soc. Math. France 24, pp. 199-220 (Numdam BSMF_1896__24__199_1); de la Vallée Poussin, C.-J. (1896). Recherches analytiques sur la théorie des nombres premiers, Première partie. Ann. Soc. Sci. Bruxelles 20, pp. 183-256.",
+      "verification_status": "verified_primary_archive",
+      "mathematical_contribution": "Independent proofs of non-vanishing on Re(s) = 1, classical zero-free regions, and the Prime Number Theorem.",
+      "trace_module_prefix": "Formalism.ZeroFreeRegion",
+      "riemannian_paths": [
+        "src/Formalism/ZeroFreeRegion",
+        "src/Development/AutomorphicArithmetic/CharacterBoxes/ClaimStrip.lean:71-88",
+        "src/Formalism/LandauZeroFreeBounds"
+      ],
+      "lean_symbols": [
+        "riemannZeta_ne_zero_of_one_le_re",
+        "Claim.zeta"
+      ],
+      "role_in_formulary": "Eliminates zeros on Re(s) >= 1 and supplies classical zero-free regions in analytic closure steps."
+    },
+    {
+      "id": "SRC-04",
+      "year": 1946,
+      "era": "Combinatorial & Explicit Formula Foundations",
+      "author": "Felix A. Behrend",
+      "primary_citation": "Behrend, F. A. (1946). On sets of integers which contain no three terms in arithmetical progression. Proc. Natl. Acad. Sci. USA 32(12), pp. 331-332. doi:10.1073/pnas.32.12.331.",
+      "verification_status": "verified_primary_archive",
+      "mathematical_contribution": "Dense sphere-packing construction of 3-AP-free integer sets of cardinality N * exp(-c * sqrt(log N)).",
+      "trace_module_prefix": "Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition",
+      "riemannian_paths": [
+        "src/Development/AbelianVarietyTheory/Proofs/IwasawaDecomposition"
+      ],
+      "lean_symbols": [
+        "UpperTheory.Top.every_character_of_green_v_win"
+      ],
+      "role_in_formulary": "Cited directly in Alpöge (2026, Step 19) for selecting the Iwasawa tower parameters, explicitly flagged by the author as a simplification candidate."
+    },
+    {
+      "id": "SRC-05",
+      "year": 1950,
+      "era": "Adelic & Explicit Formula Foundations",
+      "author": "John T. Tate",
+      "primary_citation": "Tate, J. T. (1950). Fourier Analysis in Number Fields and Hecke's Zeta-Functions. Ph.D. thesis, Princeton University; published in J. W. S. Cassels & A. Fröhlich (eds.), Algebraic Number Theory, Academic Press (1967), pp. 305-347.",
+      "verification_status": "verified_primary_archive",
+      "mathematical_contribution": "Adelic Poisson summation and local-global harmonic analysis deriving analytic continuation and functional equations for Hecke L-functions.",
+      "trace_module_prefix": "GroundTheory.GlobalFields.TateThesis",
+      "riemannian_paths": [
+        "src/GroundTheory/GlobalFields/TateThesis/HeckeLFunction.lean:390-443",
+        "src/Development/AbelianVarietyTheory/Proofs/DivisorProofs/HeckeTateFE.lean:9"
+      ],
+      "lean_symbols": [
+        "HeckeCharacter.LFunction_hasProd_all",
+        "GlobalTheory.Top.heckeTateFE"
+      ],
+      "role_in_formulary": "Provides local zeta integrals, Euler products, archimedean/finite root numbers, and Hecke L-function continuation."
+    },
+    {
+      "id": "SRC-06",
+      "year": 1952,
+      "era": "Adelic & Explicit Formula Foundations",
+      "author": "A. P. Guinand (1948) & André Weil (1952)",
+      "primary_citation": "Guinand, A. P. (1948). A summation formula in the theory of prime numbers. Proc. London Math. Soc. (2) 50(1), pp. 107-119. doi:10.1112/plms/s2-50.2.107; Weil, A. (1952). Sur les 'formules explicites' de la théorie des nombres premiers. Comm. Sém. Math. Univ. Lund (Medd. Lunds Univ. Mat. Sem.), Tome Supplémentaire, pp. 252-265.",
+      "verification_status": "verified_primary_archive",
+      "mathematical_contribution": "Explicit summation duality and the Weil positivity criterion: RH holds iff W(f * f~) >= 0 on test functions.",
+      "trace_module_prefix": "PositivityTheory",
+      "riemannian_paths": [
+        "src/PositivityTheory",
+        "src/Development/AutomorphicArithmetic/ThetaCorrespondence/ThetaPairLifts/ThirdPlaceSeries/SiegelEisensteinSecondTermHypotheses.lean:58-87"
+      ],
+      "lean_symbols": [
+        "UpperTheory.Lit.nonempty_hyps_definite_side_of_closed_bound"
+      ],
+      "role_in_formulary": "Core analytic bridge (Alpöge Steps 4-7) converting positivity of Weil test functionals W(1_S) >= 0 on von Mangoldt sums into zero-free half-planes."
+    },
+    {
+      "id": "SRC-07",
+      "year": 1964,
+      "era": "Theta Correspondence & Automorphic Representation Theory",
+      "author": "André Weil",
+      "primary_citation": "Weil, A. (1964). Sur certains groupes d'opérateurs unitaires. Acta Mathematica 111, pp. 143-211. doi:10.1007/BF02391012.",
+      "verification_status": "verified_primary_archive",
+      "mathematical_contribution": "Construction of the metaplectic double cover and Weil unitary representation underlying global theta series.",
+      "trace_module_prefix": "Development.AbelianVarietyTheory.Proofs.DivisorProofs.MetaplecticRepresentationHolds",
+      "riemannian_paths": [
+        "src/Development/AbelianVarietyTheory/Proofs/DivisorProofs/MetaplecticRepresentationHolds.lean:22",
+        "src/Development/AutomorphicArithmetic/ThetaCorrespondence/WeilRepresentation/WeilTheta.lean"
+      ],
+      "lean_symbols": [
+        "metaplecticRepresentation_holds",
+        "GlobalTheory.Published.MetaplecticRepresentation"
+      ],
+      "role_in_formulary": "Enables iterated theta lifts U(X_0) -> U(X_1) -> ... -> U(X_m) of length ~sqrt(X) across totally definite unitary groups."
+    },
+    {
+      "id": "SRC-08",
+      "year": 1969,
+      "era": "Multiplicity & Function-Field Analogy",
+      "author": "Sergei A. Stepanov (1969) & Enrico Bombieri (1974)",
+      "primary_citation": "Stepanov, S. A. (1969). On the number of points of a hyperelliptic curve over a finite prime field. Izv. Akad. Nauk SSSR Ser. Mat. 33 / Math. USSR-Izv. 3(5), pp. 1103-1114. doi:10.1070/IM1969v003n05ABEH000834; Bombieri, E. (1974). Counting points on curves over finite fields (d'après S. A. Stepanov). Séminaire Bourbaki 1972/73, Exp. 430, LNM 383, pp. 234-241 (Numdam SB_1972-1973__15__234_0).",
+      "verification_status": "verified_primary_archive",
+      "mathematical_contribution": "Elementary proof of RH for curves over finite fields by constructing auxiliary functions vanishing to high multiplicity at rational points.",
+      "trace_module_prefix": "Development.WeilBound",
+      "riemannian_paths": [
+        "src/Development/WeilBound",
+        "src/Development/AutomorphicArithmetic/ThetaCorrespondence/ThetaPairLifts/ThirdPlaceSeries/EveryCharacterOfLiteratureOfVWin.lean:5943"
+      ],
+      "lean_symbols": [
+        "UpperTheory.LiteratureTheorems.every_character_of_literature_of_vWin"
+      ],
+      "role_in_formulary": "Organizing mathematical paradigm of Alpöge (2026): chaining m ~ sqrt(X) unitary theta lifts simulates vanishing multiplicity over Z."
+    },
+    {
+      "id": "SRC-09",
+      "year": 1977,
+      "era": "p-adic & Real Representation Theory",
+      "author": "I. N. Bernstein & A. V. Zelevinsky (1977/1980); J. Dixmier & P. Malliavin (1978); W. Casselman (1989)",
+      "primary_citation": "Bernstein, I. N., & Zelevinsky, A. V. (1977). Induced representations of reductive p-adic groups I. Ann. Sci. ÉNS (4) 10(4), pp. 441-472 (Numdam ASENS_1977_4_10_4_441_0); Zelevinsky (1980), II, Ann. Sci. ÉNS (4) 13(2), pp. 165-210; Dixmier, J., & Malliavin, P. (1978). Factorisations de fonctions et de vecteurs indéfiniment différentiables. Bull. Sci. Math. (2) 102, pp. 305-330; Casselman, W. (1989). Canonical extensions of Harish-Chandra modules to representations of G. Canad. J. Math. 41(3), pp. 385-438. doi:10.4153/CJM-1989-019-5.",
+      "verification_status": "verified_primary_archive",
+      "mathematical_contribution": "Classification of smooth irreducible GL_n representations via multisegments, Lie-group smooth convolution factorisation, and canonical Fréchet globalisations.",
+      "trace_module_prefix": "Development.WeilBound.CoreStatements.TemperedRepresentationTheory.BernsteinZelevinskyGL",
+      "riemannian_paths": [
+        "src/Development/WeilBound/CoreStatements/TemperedRepresentationTheory/BernsteinZelevinskyGL/TopAdm.lean:10",
+        "src/Development/AbelianVarietyTheory/Proofs/DivisorProofs/DixmierMalliavinFactorisationFromLibrary.lean:11",
+        "src/Development/WeilBound/CoreStatements/PublishedTheorems/CasselmanWallach/FinalB.lean:10"
+      ],
+      "lean_symbols": [
+        "irreducibleAdmissibleGL_top",
+        "dixmierMalliavinFactorisation_fromLibrary",
+        "casselmanWallach"
+      ],
+      "role_in_formulary": "Controls local automorphic components, finite-length filtrations, and archimedean Fréchet globalisation for U(p,q) and GL_n."
+    },
+    {
+      "id": "SRC-10",
+      "year": 1981,
+      "era": "Automorphic L-functions & Rigidity",
+      "author": "Hervé Jacquet & Joseph A. Shalika",
+      "primary_citation": "Jacquet, H., & Shalika, J. A. (1981). On Euler products and the classification of automorphic representations I & II. Amer. J. Math. 103(3), pp. 499-558 & 103(4), pp. 777-815.",
+      "verification_status": "verified_primary_archive",
+      "mathematical_contribution": "Strong multiplicity one for isobaric sums on GL_n and Satake parameter bounds q^{-1/2} < |alpha| < q^{1/2}.",
+      "trace_module_prefix": "Development.WeilBound.CoreStatements.PublishedTheorems.JacquetShalikaRigidity",
+      "riemannian_paths": [
+        "src/Development/WeilBound/CoreStatements/PublishedTheorems/JacquetShalikaRigidity/JacquetShalikaRigidity.lean:17-19"
+      ],
+      "lean_symbols": [
+        "jacquetShalikaRigidity",
+        "jacquetShalika"
+      ],
+      "role_in_formulary": "Pins down isobaric automorphic transfers and rules out degenerate cancellations in Satake parameter comparisons."
+    },
+    {
+      "id": "SRC-11",
+      "year": 1990,
+      "era": "Automorphic Galois Representations & Purity",
+      "author": "Laurent Clozel (1990) & Ana Caraiani (2012)",
+      "primary_citation": "Clozel, L. (1990). Motifs et formes automorphes: applications du principe de fonctorialité. In Automorphic Forms, Shimura Varieties, and L-functions, Vol. I, Academic Press, pp. 77-159; Caraiani, A. (2012). Local-global compatibility and the action of monodromy on nearby cycles. Duke Math. J. 161(12), pp. 2311-2413. doi:10.1215/00127094-1723706.",
+      "verification_status": "verified_primary_archive",
+      "mathematical_contribution": "Regular algebraic cuspidal purity, (g,K)-cohomology nonvanishing, and local-global compatibility for l-adic Galois representations.",
+      "trace_module_prefix": "Development.AutomorphicArithmetic.Foundations.GaloisRepresentations.IntegralStructures.RowSrc",
+      "riemannian_paths": [
+        "src/Development/AutomorphicArithmetic/Foundations/GaloisRepresentations/IntegralStructures/RowSrc.lean:10",
+        "src/Development/AbelianVarietyTheory/Proofs/SatakeParameters/RegularAlgebraicPurityOfClozel.lean:12",
+        "src/Development/AbelianVarietyTheory/PublishedTheorems/GaloisGeometry₂/CaraianiLocalGlobal.lean:19"
+      ],
+      "lean_symbols": [
+        "galoisLocalGlobalStrong_recParameter",
+        "regularAlgebraicPurity_of_clozel",
+        "CaraianiLocalGlobal"
+      ],
+      "role_in_formulary": "Supplies the Galois-row input (`Row0b`) feeding MainConclusion.lean; RowSrc.lean uniquely dominates 12,425 modules / 954,607 lines (6.30%) in Ergentics scargo-trace."
+    },
+    {
+      "id": "SRC-12",
+      "year": 1994,
+      "era": "Regularized Siegel-Weil & Seesaw Duality",
+      "author": "Roger Howe (1979/1989), Stephen Rallis (1984), Stephen S. Kudla & Stephen Rallis (1994), & W. T. Gan, B. H. Gross, D. Prasad (2012)",
+      "primary_citation": "Howe, R. (1979). Theta-series and invariant theory. Proc. Sympos. Pure Math. 33(1), AMS, pp. 275-285; Rallis, S. (1984). On the Howe duality conjecture. Compositio Math. 51(3), pp. 333-399 (Numdam CM_1984__51_3_333_0); Kudla, S. S., & Rallis, S. (1994). A regularized Siegel-Weil formula: the first term identity. Ann. of Math. (2) 140(1), pp. 1-80; Gan, W. T., Gross, B. H., & Prasad, D. (2012). Symplectic local root numbers, central critical L-values, and restriction problems in the representation theory of classical groups. Astérisque 346, pp. 1-109.",
+      "verification_status": "verified_primary_archive",
+      "mathematical_contribution": "Dual reductive pairs, Howe duality, regularized Siegel-Weil identity, Rallis seesaw inner-product formula, and GGP Bessel period branching.",
+      "trace_module_prefix": "Development.AutomorphicArithmetic.ThetaCorrespondence.ThetaPairLifts.ThirdPlaceSeries.SiegelEisensteinSecondTermHypotheses",
+      "riemannian_paths": [
+        "src/Development/AutomorphicArithmetic/ThetaCorrespondence/ThetaPairLifts/ThirdPlaceSeries/SiegelEisensteinSecondTermHypotheses.lean:58",
+        "src/Development/AbelianVarietyTheory/Proofs/DivisorProofs/HoweDualityRealHolds.lean:22",
+        "src/Development/AbelianVarietyTheory/Proofs/DivisorProofs/KudlaSplittingSplitUnitary.lean:21",
+        "src/Development/WeilBound/CoreStatements/AutomorphicKernels/SiegelWeilFormula/SiegelWeilStandard/SiegelWeilStd.lean:12"
+      ],
+      "lean_symbols": [
+        "nonempty_hyps_definite_side_of_closed_bound",
+        "howeDualityReal_holds",
+        "kudlaSplittingSplitUnitary",
+        "siegelWeilStd"
+      ],
+      "role_in_formulary": "Computes norms and seesaw Bessel periods of the m-fold iterated unitary theta lift; SiegelEisensteinSecondTermHypotheses.lean uniquely dominates 3,863 modules / 290,311 lines (1.92%) in scargo-trace."
+    },
+    {
+      "id": "SRC-13",
+      "year": 1996,
+      "era": "Arakelov Geometry, Slopes & Covolume Bounds",
+      "author": "S. J. Arakelov (1974), H. Gillet & C. Soulé (1990), & Jean-Benoît Bost (1996)",
+      "primary_citation": "Arakelov, S. J. (1974). Intersection theory of divisors on an arithmetic surface. Math. USSR-Izv. 8(6), pp. 1167-1180; Gillet, H., & Soulé, C. (1990). Arithmetic intersection theory. Publ. Math. IHÉS 72, pp. 93-174. doi:10.1007/BF02699132; Bost, J.-B. (1996). Périodes et isogénies des variétés abéliennes sur les corps de nombres. Séminaire Bourbaki 1994/95, Exp. 795, Astérisque 237, pp. 115-161 (Numdam SB_1994-1995__37__115_0).",
+      "verification_status": "verified_primary_archive",
+      "mathematical_contribution": "Arithmetic intersection theory, Hermitian vector bundle slope inequalities, and arithmetic Hilbert-Samuel volume bounds.",
+      "trace_module_prefix": "Development.AutomorphicArithmetic.ThetaCorrespondence.ThetaPairLifts.ThirdPlaceSeries.TopCovolSlim2Use",
+      "riemannian_paths": [
+        "src/Development/AutomorphicArithmetic/ThetaCorrespondence/ThetaPairLifts/ThirdPlaceSeries/TopCovolSlim2Use.lean:388",
+        "src/Formalism/LatticeSlopes",
+        "src/Development/AbelianVarietyTheory/Proofs/DivisorProofs/ArithHilbertSamuelOfPrincipalisation.lean:15",
+        "src/Development/AbelianVarietyTheory/Proofs/DivisorProofs/KawamataViehwegOfNadelVanishingPair.lean:66"
+      ],
+      "lean_symbols": [
+        "topCovolSlim2_use_alt_alt",
+        "arithHilbertSamuel_of_principalisation",
+        "kawamataViehweg_of_nadelVanishingPair"
+      ],
+      "role_in_formulary": "Controls covolumes, theta-series indices, and divisibility lower bounds across the abelian-variety height machinery (427.80 MB subtree); TopCovolSlim2Use uniquely dominates 193 modules / 11,831 lines."
+    },
+    {
+      "id": "SRC-14",
+      "year": 2022,
+      "era": "Integral p-adic Hodge Theory",
+      "author": "Bhargav Bhatt & Peter Scholze",
+      "primary_citation": "Bhatt, B., & Scholze, P. (2022). Prisms and prismatic cohomology. Annals of Mathematics (2) 196(3), pp. 1135-1275. doi:10.4007/annals.2022.196.3.5.",
+      "verification_status": "verified_primary_archive",
+      "mathematical_contribution": "Prisms, prismatic cohomology, and integral p-adic Hodge / prismatic Dieudonné classification of crystalline lattices.",
+      "trace_module_prefix": "Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.BhattScholzeIntegral",
+      "riemannian_paths": [
+        "src/Development/AbelianVarietyTheory/Proofs/InertiaEigenvalues/BhattScholzeIntegral.lean:18",
+        "src/Development/AutomorphicArithmetic/ThetaCorrespondence/PrismaticDieudonne/PrismaticDieudonneHodge.lean:23-31"
+      ],
+      "lean_symbols": [
+        "bhattScholzeIntegral",
+        "prismaticDieudonneHodge",
+        "farguesExact"
+      ],
+      "role_in_formulary": "Controls integral crystalline lattices and p-adic comparison structures inside the abelian-variety height and Galois modules; BhattScholzeIntegral dominates 294 modules / 14,901 lines."
+    },
+    {
+      "id": "SRC-15",
+      "year": 2026,
+      "era": "Formalized Machine-Assisted Synthesis",
+      "author": "Levent Alpöge (with Claude) & leanprover-community",
+      "primary_citation": "Alpöge, L. (2026-11-20). Remark (https://alpo.ge/remark.pdf, sha256 3fc97784b71ddd44ff8aa0a177e99622a1c61b13cfa843a0989ee4a7a0cfeb8d) and Lean archive lean.tar.gz.part01..14 (commit 40e56bab, 175,187 files); leanprover-community/riemann-hypothesis Lean v4.36.0 port (commit 51d9b1a280, 149,397 files).",
+      "verification_status": "verified_primary_archive",
+      "mathematical_contribution": "Complete axiom-minimal Lean 4 formalization of RH and GRH for Dirichlet L-functions via sqrt(X)-length iterated unitary theta lifts simulating Stepanov multiplicity.",
+      "trace_module_prefix": "Development.AutomorphicArithmetic.CharacterBoxes.MainConclusion",
+      "riemannian_paths": [
+        "src/Development/AutomorphicArithmetic/CharacterBoxes/MainConclusion.lean:10-20",
+        "src/Main.lean:10-23",
+        "verification/NOTES.md"
+      ],
+      "lean_symbols": [
+        "UpperTheory.FinalTheorems.everyCharacter",
+        "riemannHypothesis",
+        "LFunction_ne_zero_of_half_lt_re"
+      ],
+      "role_in_formulary": "Current flight article under reduction in SCargo; MainConclusion.lean anchors 149,279 reachable modules (99.997%) with substantial author-noted simplification slack."
+    }
+  ]
+}

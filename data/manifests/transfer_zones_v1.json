@@ -1,0 +1,129 @@
+{
+  "schema_version": "1.0.0",
+  "copyright": "Copyright (c) 2026 Ergentics, LLC",
+  "organization": "Ergentics",
+  "icd_id": "ICD-SCARGO-RIEM-001",
+  "baseline_commit": "51d9b1a28026d458aef9c9af3df8b083276e3d2d",
+  "toolchain": "leanprover/lean4:v4.36.0",
+  "protected_axioms": [
+    "propext",
+    "Quot.sound",
+    "Classical.choice"
+  ],
+  "target_theorems": [
+    "riemannHypothesis",
+    "riemannZeta_eq_zero_re",
+    "LFunction_ne_zero_of_half_lt_re",
+    "LFunction_eq_zero_re",
+    "LFunction_eq_zero_re_of_isPrimitive"
+  ],
+  "zones": [
+    {
+      "id": "Z-A",
+      "name": "Protected Verification Core",
+      "policy": "protected_core_no_touch",
+      "paths": [
+        "src/Main.lean",
+        "src/Challenge.lean",
+        "src/Statements.lean",
+        "comparator.json",
+        "export-targets.txt",
+        "lean-toolchain",
+        "lakefile.toml",
+        "lake-manifest.json"
+      ],
+      "required_gates": [
+        "WRITTEN_WAIVER_ONLY"
+      ]
+    },
+    {
+      "id": "Z-B",
+      "name": "Documentation & Attribution Provenance",
+      "policy": "documentation_low_risk",
+      "paths": [
+        "verification/",
+        "README.md"
+      ],
+      "required_gates": [
+        "G1_STATIC_INTEGRITY"
+      ]
+    },
+    {
+      "id": "Z-C0",
+      "name": "Unreachable Project Modules",
+      "policy": "qualified_proof_reduction",
+      "paths": [
+        "src/Development/AbelianVarietyTheory/Proofs/FlagMeasures/"
+      ],
+      "required_gates": [
+        "G1_STATIC_INTEGRITY",
+        "G2_CONTRACT_PRESERVATION",
+        "G4_LEAN_ELABORATION"
+      ]
+    },
+    {
+      "id": "Z-C1",
+      "name": "Generated Statement Fallback Wrappers",
+      "policy": "qualified_proof_reduction",
+      "paths": [
+        "src/Development/AbelianVarietyTheory/Proofs/"
+      ],
+      "required_gates": [
+        "G1_STATIC_INTEGRITY",
+        "G2_CONTRACT_PRESERVATION",
+        "G3_RCT_EFFICACY",
+        "G4_LEAN_ELABORATION",
+        "G5_COMPARATOR"
+      ]
+    },
+    {
+      "id": "Z-C2",
+      "name": "Machine-Dumped Explicit Typeclass Terms",
+      "policy": "qualified_proof_reduction",
+      "paths": [
+        "src/Development/AutomorphicArithmetic/IntegralCasts/CapelliIdentities/"
+      ],
+      "required_gates": [
+        "G1_STATIC_INTEGRITY",
+        "G2_CONTRACT_PRESERVATION",
+        "G3_RCT_EFFICACY",
+        "G4_LEAN_ELABORATION",
+        "G5_COMPARATOR"
+      ]
+    },
+    {
+      "id": "Z-C3",
+      "name": "Cross-Tree & Private-Lemma Duplication",
+      "policy": "qualified_proof_reduction",
+      "paths": [
+        "src/Development/AbelianVarietyTheory/Proofs/DivisorProofs/",
+        "src/Development/AbelianVarietyTheory/Proofs/InertiaEigenvalues/",
+        "src/Development/AbelianVarietyTheory/Proofs/TwistedOperators/",
+        "src/Development/AbelianVarietyTheory/Proofs/IwasawaDecomposition/"
+      ],
+      "required_gates": [
+        "G1_STATIC_INTEGRITY",
+        "G2_CONTRACT_PRESERVATION",
+        "G3_RCT_EFFICACY",
+        "G4_LEAN_ELABORATION",
+        "G5_COMPARATOR"
+      ]
+    },
+    {
+      "id": "Z-C4",
+      "name": "Dominator Spine & Unused Hypothesis Fields",
+      "policy": "qualified_proof_reduction",
+      "paths": [
+        "src/Development/AutomorphicArithmetic/ThetaCorrespondence/ThetaPairLifts/ThirdPlaceSeries/",
+        "src/Development/AutomorphicArithmetic/Foundations/GaloisRepresentations/IntegralStructures/"
+      ],
+      "required_gates": [
+        "G1_STATIC_INTEGRITY",
+        "G2_CONTRACT_PRESERVATION",
+        "G3_RCT_EFFICACY",
+        "G4_LEAN_ELABORATION",
+        "G5_COMPARATOR"
+      ]
+    }
+  ]
+}

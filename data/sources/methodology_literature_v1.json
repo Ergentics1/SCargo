@@ -1,0 +1,536 @@
+{
+  "schema_version": "1.2.0",
+  "copyright": "Copyright (c) 2026 Ergentics, LLC",
+  "organization": "Ergentics",
+  "title": "Primary-Archive Verified Methodology Literature for Clean-Room Parity, Zero-Trust Compartments & Correspondence Verification",
+  "verified_date_utc": "2026-11-23",
+  "purpose": "Grounds SCargo's Core Thesis (The Correspondence Principle), zero-trust helper-pathology defenses (truth independent of non-copying/non-modification, no monolithic gates), tri-regime SWE-sweep verification, code-data separation, anti-suppression policy, reproducible scientific visualization, virtualized clock discipline, and three-language parity in 44 peer-reviewed primary sources and standards (1883-2026).",
+  "pillars": [
+    {
+      "id": "PIL-I",
+      "name": "Modular Separation & Clean-Room Software Engineering",
+      "focus": "Minimizing conflation between code, data, and specifications; formal specification prior to coding; statistical quality control."
+    },
+    {
+      "id": "PIL-II",
+      "name": "Cross-Language Parity & Differential Verification",
+      "focus": "Using independent N-language implementations as cross-referencing semantic oracles without shared bias."
+    },
+    {
+      "id": "PIL-III",
+      "name": "Trusting Trust, Proof Kernels & Independent Re-Verification",
+      "focus": "Eliminating hidden compiler/toolchain backdoors and verifying mathematical proofs via minimal independent checkers."
+    },
+    {
+      "id": "PIL-IV",
+      "name": "Static Integrity, Warnings-as-Errors & Anti-Suppression",
+      "focus": "Preventing warning blindness, stale/useless suppressions, hidden deprecations, and silent semantic compromises."
+    },
+    {
+      "id": "PIL-V",
+      "name": "Supply-Chain, Hidden Dependency, Symlink & Invisible-Code Hygiene",
+      "focus": "Hermetic reproducible builds, zero ambient dependencies, symlink/path-escape defenses, and Unicode Trojan Source detection."
+    },
+    {
+      "id": "PIL-VI",
+      "name": "Probabilistic, Property-Based, Metamorphic & Adversarial Audit Testing",
+      "focus": "Randomized property checking, oracle-free metamorphic invariants, nonparametric statistical power, and adversarial red-teaming against shortcutting."
+    },
+    {
+      "id": "PIL-VII",
+      "name": "Zero-Trust Helper Pathology, Confinement & Proof-Carrying Compartments",
+      "focus": "Building nothing whose truth depends on non-copying or non-modification; eliminating monolithic gates, leakers, covert exfiltration holes, and sloppy/rationalizing helper shortcuts."
+    },
+    {
+      "id": "PIL-VIII",
+      "name": "The Correspondence Principle & Quantifiable Intertheoretic Error Bounds",
+      "focus": "Requiring every deeper theory or layer to smoothly contain the proven older theory inside its dimensionless regime with an explicit, quantifiable mismatch bound and singular-limit boundary guardrails."
+    }
+  ],
+  "sources": [
+    {
+      "id": "METH-01",
+      "pillar": "PIL-I",
+      "year": 1972,
+      "authors": "David L. Parnas",
+      "title": "On the Criteria To Be Used in Decomposing Systems into Modules",
+      "venue": "Communications of the ACM, 15(12), pp. 1053-1058",
+      "reference_url": "https://dl.acm.org/doi/10.1145/361598.361623",
+      "core_finding": "Module boundaries should isolate design decisions and data representations rather than execution stages; hidden cross-module assumptions create brittle coupling.",
+      "scargo_application": "Governs the strict separation between immutable data vaults (data/), formal models (models/), and language compartments (compartments/{rust,swift,lean}/)."
+    },
+    {
+      "id": "METH-02",
+      "pillar": "PIL-I",
+      "year": 1987,
+      "authors": "Harlan D. Mills, Michael Dyer, and Richard C. Linger",
+      "title": "Cleanroom Software Engineering",
+      "venue": "IEEE Software, 4(5), pp. 19-25",
+      "reference_url": "https://www.computer.org/csdl/magazine/so/1987/05/01695817/13rRUwI5TVB",
+      "core_finding": "Combines mathematical specification and formal verification before execution with independent statistical usage testing under strict statistical quality control, preventing defects rather than debugging them downstream.",
+      "scargo_application": "Establishes SCargo's research-and-model-first discipline: specify models and verification invariants before implementing engines or kernels."
+    },
+    {
+      "id": "METH-03",
+      "pillar": "PIL-II",
+      "year": 1985,
+      "authors": "Algirdas Avizienis",
+      "title": "The N-Version Approach to Fault-Tolerant Software",
+      "venue": "IEEE Transactions on Software Engineering, SE-11(12), pp. 1491-1501",
+      "reference_url": "https://www.computer.org/csdl/journal/ts/1985/12/01701972/13rRUEgarCS",
+      "core_finding": "Independent implementations derived from a shared formal specification across distinct toolchains dramatically lower correlated design faults when cross-checked at canonical decision points.",
+      "scargo_application": "Motivates building independent Rust, Swift 6.4, and Lean 4.36 compartments against shared declarative JSON schemas and canonical parity test fixtures."
+    },
+    {
+      "id": "METH-04",
+      "pillar": "PIL-II",
+      "year": 1998,
+      "authors": "William M. McKeeman",
+      "title": "Differential Testing for Software",
+      "venue": "Digital Technical Journal, 10(1), pp. 100-107",
+      "reference_url": "https://www.semanticscholar.org/paper/Differential-Testing-for-Software-McKeeman/fc881e8d0432ea8e4dd5fda4979243cac5e4b9e3",
+      "core_finding": "Feeding identical inputs to two or more independent implementations turns silent semantic discrepancies into immediate, oracle-free defect signals.",
+      "scargo_application": "Defines SCargo's cross-language parity oracle: any disagreement between Rust, Swift, and Lean outputs on identical canonical inputs is a hard parity failure."
+    },
+    {
+      "id": "METH-05",
+      "pillar": "PIL-II",
+      "year": 2014,
+      "authors": "Vu Le, Mehrdad Afshari, and Zhendong Su",
+      "title": "Compiler Validation via Equivalence Modulo Inputs",
+      "venue": "Proceedings of the 35th ACM SIGPLAN Conference on Programming Language Design and Implementation (PLDI '14), pp. 216-226",
+      "reference_url": "https://people.inf.ethz.ch/suz/publications/emi.pdf",
+      "core_finding": "Generating semantically equivalent program variants modulo an observed input set exposes deep compiler and transformer bugs (1,000+ bugs found in GCC and LLVM) where static representations diverge while behavior must remain invariant.",
+      "scargo_application": "Directly informs proof-reduction parity testing: reduced/refactored proof variants must remain semantically equivalent to baseline artifacts under kernel verification and invariant checks."
+    },
+    {
+      "id": "METH-06",
+      "pillar": "PIL-III",
+      "year": 1984,
+      "authors": "Ken Thompson",
+      "title": "Reflections on Trusting Trust",
+      "venue": "Communications of the ACM, 27(8), pp. 761-763",
+      "reference_url": "https://www.cs.cmu.edu/~rdriley/487/papers/Thompson_1984_ReflectionsonTrustingTrust.pdf",
+      "core_finding": "A compromised compiler or build tool can inject invisible backdoors into compiled binaries with zero trace in source code; source inspection alone is insufficient without toolchain provenance.",
+      "scargo_application": "Mandates official PGP-verified or source-built toolchains (Rust 1.100, Swift 6.4.3 via official swiftly --verify, Lean v4.36.0 built from official tag) and prohibits dirty clones or unofficial mirrors."
+    },
+    {
+      "id": "METH-07",
+      "pillar": "PIL-III",
+      "year": 2009,
+      "authors": "David A. Wheeler",
+      "title": "Fully Countering Trusting Trust through Diverse Double-Compiling (DDC)",
+      "venue": "PhD Dissertation, George Mason University (extending ACSAC 2005); arXiv:1004.5534",
+      "reference_url": "https://arxiv.org/abs/1004.5534",
+      "core_finding": "Formally proves and demonstrates that recompiling source with diverse independent toolchains and comparing outputs counters self-propagating compiler backdoors.",
+      "scargo_application": "Supports diverse multi-verifier validation: official Lean kernel + leanchecker + nanoda_bin + independent Rust/Swift structural verifiers."
+    },
+    {
+      "id": "METH-08",
+      "pillar": "PIL-III",
+      "year": 1998,
+      "authors": "Robert Pollack",
+      "title": "How to Believe a Machine-Checked Proof",
+      "venue": "In G. Sambin and J. Smith (eds.), Twenty-Five Years of Constructive Type Theory, Oxford Logic Guides 36, Oxford University Press, pp. 205-220",
+      "reference_url": "https://doi.org/10.1093/oso/9780198501275.003.0013",
+      "core_finding": "Identifies parser/pretty-printer mismatches ('Pollack inconsistency'), unverified axiom assumptions, and monolithic trusted computing bases as primary threats to trusting formal proofs.",
+      "scargo_application": "Justifies sweeping for hidden notation/coercion tricks, inspecting exported kernel terms via leanexport, verifying strict axiom allowlists (UP-02), and keeping theorem statements immutable (UP-01)."
+    },
+    {
+      "id": "METH-09",
+      "pillar": "PIL-III",
+      "year": 2005,
+      "authors": "Henk Barendregt and Freek Wiedijk",
+      "title": "The Challenge of Computer Mathematics",
+      "venue": "Philosophical Transactions of the Royal Society A, 363(1835), pp. 2351-2375",
+      "reference_url": "https://royalsocietypublishing.org/rsta/article/363/1835/2351/52142/The-challenge-of-computer-mathematics",
+      "core_finding": "Codifies the de Bruijn criterion: a proof system is trustworthy only when its proofs can be exported and independently verified by a small, human-inspectable checking kernel.",
+      "scargo_application": "Grounds SCargo's acceptance boundary on leanexport -> leanchecker --from-export and upstream nanoda_bin replay (UP-03)."
+    },
+    {
+      "id": "METH-10",
+      "pillar": "PIL-III",
+      "year": 2024,
+      "authors": "Mario Carneiro",
+      "title": "Lean4Lean: Towards a Verified Typechecker for Lean, in Lean",
+      "venue": "arXiv:2403.14064v2 [cs.PL]",
+      "reference_url": "https://arxiv.org/abs/2403.14064",
+      "core_finding": "Demonstrates a complete independent external typechecker for Lean 4 capable of verifying all of Mathlib, isolating kernel soundness from the C++ reference implementation and elaborator.",
+      "scargo_application": "Reinforces separating elaborator-level tactics and analysis tooling from kernel-verified proof terms, and aligns with UP-03 independent checker requirements."
+    },
+    {
+      "id": "METH-11",
+      "pillar": "PIL-IV",
+      "year": 2010,
+      "authors": "Al Bessey, Ken Block, Ben Chelf, Andy Chou, Bryan Fulton, Seth Hallem, Charles Henri-Gros, Asya Kamsky, Scott McPeak, and Dawson Engler",
+      "title": "A Few Billion Lines of Code Later: Using Static Analysis to Find Bugs in the Real World",
+      "venue": "Communications of the ACM, 53(2), pp. 66-75",
+      "reference_url": "https://web.stanford.edu/~engler/BLOC-coverity.pdf",
+      "core_finding": "Industrial static analysis fails when high false-positive noise induces warning blindness and ad-hoc ignoring; sound, crisp, high-signal checks integrated directly into the build are required.",
+      "scargo_application": "Drives deterministic, zero-noise SWE-sweep rules whose findings map cleanly to explicit defect classes rather than noisy heuristics."
+    },
+    {
+      "id": "METH-12",
+      "pillar": "PIL-IV",
+      "year": 2018,
+      "authors": "Caitlin Sadowski, Edward Aftandilian, Alex Eagle, Liam Miller-Cushon, and Ciera Jaspan",
+      "title": "Lessons from Building Static Analysis Tools at Google",
+      "venue": "Communications of the ACM, 61(4), pp. 58-66",
+      "reference_url": "https://research.google/pubs/lessons-from-building-static-analysis-tools-at-google/",
+      "core_finding": "Offline bug dashboards are ignored (84% unfixed in early trials); checks integrated as compiler errors that fail the build prevent backsliding, enforce API deprecation hygiene, and eliminate warning blindness.",
+      "scargo_application": "Establishes warnings-as-errors across all three compartments (Rust -D warnings, Swift -warnings-as-errors, Lean warningAsError = true) as a hard build gate."
+    },
+    {
+      "id": "METH-13",
+      "pillar": "PIL-IV",
+      "year": 2025,
+      "authors": "Huimin Hu, Yingying Wang, Julia Rubin, and Michael Pradel",
+      "title": "An Empirical Study of Suppressed Static Analysis Warnings",
+      "venue": "Proceedings of the ACM on Software Engineering, 2 (FSE 2025), pp. 290-311",
+      "reference_url": "https://conf.researchr.org/details/fse-2025/fse-2025-research-papers/42/An-Empirical-Study-of-Suppressed-Static-Analysis-Warnings",
+      "core_finding": "In an empirical study across three languages and four static analyzers, warning suppressions monotonically accumulate over time, 50.8% of suppressions affect zero active warnings (stale/useless), and broad suppressions silently mask future real defects.",
+      "scargo_application": "Directly grounds SCargo's zero-suppression SWE-sweep rule: forbid blanket warning suppressions, audit every suppression marker across Rust/Swift/Lean, and surface any unavoidable external platform issue in an explicit expiring waiver file."
+    },
+    {
+      "id": "METH-14",
+      "pillar": "PIL-IV",
+      "year": 2024,
+      "authors": "Doug Gregor and Dmitrii Galimzianov (Swift Evolution)",
+      "title": "SE-0443: Precise Control Flags over Compiler Warnings (paired with SE-0414 Region-Based Isolation)",
+      "venue": "Swift Evolution Proposal SE-0443 (Implemented in Swift 6.1+); SE-0414 (Swift 6.0)",
+      "reference_url": "https://github.com/swiftlang/swift-evolution/blob/main/proposals/0443-warning-control-flags.md",
+      "core_finding": "Defines stable diagnostic groups (-print-diagnostic-groups), explicit last-flag-wins escalation (-warnings-as-errors, -Werror <group>), deliberately excludes -Wsuppress, and forbids mixing -suppress-warnings with fine-grained warning controls.",
+      "scargo_application": "Defines Swift 6.4 compartment build discipline: require -warnings-as-errors and -print-diagnostic-groups, forbid -suppress-warnings and -Wwarning Deprecated, and audit @unchecked Sendable / nonisolated(unsafe) escapes."
+    },
+    {
+      "id": "METH-15",
+      "pillar": "PIL-V",
+      "year": 2020,
+      "authors": "Marc Ohm, Henrik Plate, Arnold Sykosch, and Michael Meier",
+      "title": "Backstabber's Knife Collection: A Review of Open Source Software Supply Chain Attacks",
+      "venue": "Detection of Intrusions and Malware, and Vulnerability Assessment (DIMVA 2020), LNCS 12223, pp. 23-43; arXiv:2005.09535",
+      "reference_url": "https://arxiv.org/abs/2005.09535",
+      "core_finding": "Analyzes 174 real-world malicious packages and models supply-chain attack trees showing that build-time/install-time scripts and transitive hidden dependencies are primary vectors for code injection.",
+      "scargo_application": "Mandates zero unpinned or undeclared dependencies across Cargo.lock, Package.swift, and lake-manifest.json, plus static detection of build-time execution hooks (build.rs, SwiftPM plugins, Lean IO macros)."
+    },
+    {
+      "id": "METH-16",
+      "pillar": "PIL-V",
+      "year": 2022,
+      "authors": "Chris Lamb and Stefano Zacchiroli",
+      "title": "Reproducible Builds: Increasing the Integrity of Software Supply Chains",
+      "venue": "IEEE Software, 39(2), pp. 62-70 (IEEE Software Best Paper Award 2022)",
+      "reference_url": "https://arxiv.org/abs/2104.06020",
+      "core_finding": "Bit-for-bit reproducible builds link audited source trees to executable artifacts by eliminating ambient environment leakage, timestamps, unpinned paths, and hidden filesystem dependencies.",
+      "scargo_application": "Establishes deterministic offline builds, canonical sorting of file/graph traversals, symlink rejection, and explicit runtime environment isolation checks."
+    },
+    {
+      "id": "METH-17",
+      "pillar": "PIL-V",
+      "year": 2023,
+      "authors": "Nicholas Boucher and Ross Anderson",
+      "title": "Trojan Source: Invisible Vulnerabilities",
+      "venue": "32nd USENIX Security Symposium (USENIX Security '23), pp. 6507-6524; arXiv:2111.00169",
+      "reference_url": "https://www.usenix.org/conference/usenixsecurity23/presentation/boucher",
+      "core_finding": "Demonstrates how Unicode bidirectional (BiDi) control characters and homoglyphs cause code to render differently to human reviewers than to compilers across Rust, C/C++, Python, and other languages.",
+      "scargo_application": "Adds mandatory deterministic byte/codepoint scanning for BiDi overrides (U+202A-U+202E, U+2066-U+2069, U+200E-U+200F, U+061C), zero-width invisibles, and suspicious non-ASCII control codes in all source and data files."
+    },
+    {
+      "id": "METH-18",
+      "pillar": "PIL-V",
+      "year": 2022,
+      "authors": "Murugiah Souppaya, Karen Scarfone, and Donna Dodson (NIST)",
+      "title": "Secure Software Development Framework (SSDF) Version 1.1: Recommendations for Mitigating the Risk of Software Vulnerabilities",
+      "venue": "NIST Special Publication 800-218 (DOI: 10.6028/NIST.SP.800-218)",
+      "reference_url": "https://csrc.nist.gov/pubs/sp/800/218/final",
+      "core_finding": "Standardizes secure build toolchains, automated compiler warning/hardening enforcement, third-party component integrity verification, and verifiable build provenance across the software lifecycle.",
+      "scargo_application": "Governs SCargo's compiler-flag enforcement, provenance metadata headers, and third-party dependency hygiene."
+    },
+    {
+      "id": "METH-19",
+      "pillar": "PIL-V",
+      "year": 2023,
+      "authors": "OpenSSF SLSA Community",
+      "title": "Supply-chain Levels for Software Artifacts (SLSA) Specification v1.0 / v1.1",
+      "venue": "Open Source Security Foundation (OpenSSF), Linux Foundation",
+      "reference_url": "https://slsa.dev/",
+      "core_finding": "Defines progressive build-integrity levels requiring isolated, parameter-controlled, non-falsifiable build provenance separating build inputs from untrusted runtime tampering.",
+      "scargo_application": "Shapes SCargo's isolated compartment build envelopes, offline execution gates, and immutable JSON provenance receipts."
+    },
+    {
+      "id": "METH-20",
+      "pillar": "PIL-VI",
+      "year": 2000,
+      "authors": "Koen Claessen and John Hughes",
+      "title": "QuickCheck: A Lightweight Tool for Random Testing of Haskell Programs",
+      "venue": "Proceedings of the 5th ACM SIGPLAN International Conference on Functional Programming (ICFP '00), pp. 268-279",
+      "reference_url": "https://www.cs.tufts.edu/~nr/cs257/archive/john-hughes/quick.pdf",
+      "core_finding": "Introduces executable algebraic specification checking via custom random generators paired with deterministic counterexample shrinking.",
+      "scargo_application": "Grounds SCargo's seeded property-based generators for synthetic import DAGs, wrapper ASTs, and schema payloads tested simultaneously across Rust, Swift, and Lean."
+    },
+    {
+      "id": "METH-21",
+      "pillar": "PIL-VI",
+      "year": 2014,
+      "authors": "Andrea Arcuri and Lionel Briand",
+      "title": "A Hitchhiker's Guide to Statistical Tests for Assessing Randomized Algorithms in Software Engineering",
+      "venue": "Software Testing, Verification and Reliability (STVR), 24(3), pp. 219-250",
+      "reference_url": "https://cms.simula.no/sites/default/files/publications/Simula.simula.670.pdf",
+      "core_finding": "Demonstrates that randomized software verification requires repeated trials (recommended n >= 30), nonparametric two-tailed Wilcoxon-Mann-Whitney U tests, and Vargha-Delaney A12 effect sizes to prevent false claims from lucky single runs.",
+      "scargo_application": "Defines SCargo's mandatory statistical testing protocol for all probabilistic sweeps, randomized sampling trials, and performance comparisons."
+    },
+    {
+      "id": "METH-22",
+      "pillar": "PIL-VI",
+      "year": 2016,
+      "authors": "Sergio Segura, Gordon Fraser, Ana B. Sánchez, and Antonio Ruiz-Cortés",
+      "title": "A Survey on Metamorphic Testing",
+      "venue": "IEEE Transactions on Software Engineering, 42(9), pp. 805-824 (DOI: 10.1109/TSE.2016.2532875)",
+      "reference_url": "https://eprints.whiterose.ac.uk/id/eprint/110335/1/segura16-tse.pdf",
+      "core_finding": "Formalizes metamorphic relations—verifying how outputs must transform or remain invariant under controlled input transformations when no closed-form test oracle exists.",
+      "scargo_application": "Provides oracle-free invariants for SCargo analyzers: permuting file traversal order, adding/removing blank lines or comments, or shuffling module names must leave semantic DAG, dominator, and safety-gate outputs strictly invariant."
+    },
+    {
+      "id": "METH-23",
+      "pillar": "PIL-VI",
+      "year": 2018,
+      "authors": "George Klees, Andrew Ruef, Benji Cooper, Shiyi Wei, and Michael Hicks",
+      "title": "Evaluating Fuzz Testing",
+      "venue": "Proceedings of the 2018 ACM SIGSAC Conference on Computer and Communications Security (CCS '18), pp. 2123-2138",
+      "reference_url": "https://arxiv.org/abs/1808.09700",
+      "core_finding": "Identifies systemic flaws in fuzzing evaluations—insufficient repetitions, missing statistical tests, cherry-picked seeds, and proxy-metric overfitting—and prescribes rigorous multi-seed statistical evaluation.",
+      "scargo_application": "Governs SCargo's fuzzing and probabilistic parity harnesses: fixed recorded seed corpora, multi-trial statistical reporting, and direct defect-detection validation instead of proxy coverage alone."
+    },
+    {
+      "id": "METH-24",
+      "pillar": "PIL-VI",
+      "year": 2026,
+      "authors": "Hao Wang, Hanchen Li, Qiuyang Mang, Alvin Cheung, Koushik Sen, and Dawn Song",
+      "title": "Do Androids Dream of Breaking the Game? Systematically Auditing AI Agent Benchmarks with BenchJack",
+      "venue": "arXiv:2605.12673 [cs.AI; cs.CR] (DOI: 10.48550/arXiv.2605.12673)",
+      "reference_url": "https://arxiv.org/abs/2605.12673",
+      "core_finding": "Surfaces 219 distinct evaluation-integrity flaws across 10 major benchmarks (including SWE-bench), showing how isolation failures, unreset working trees, and auto-loaded hooks (e.g., conftest.py) allow bypassing verification completely.",
+      "scargo_application": "Mandates isolation-boundary audits, untracked shadow-file sweeps, and adversarial negative-control ('poisoned fixture') suites that prove SCargo's SWE-sweep catches every target exploit class."
+    },
+    {
+      "id": "METH-25",
+      "pillar": "PIL-VI",
+      "year": 2026,
+      "authors": "Nikolai Ludwig, Wasi Uddin Ahmad, Somshubra Majumdar, and Boris Ginsburg",
+      "title": "Shortcutting the Fix: Identifying and Categorizing Agentic Exploits in Software Engineering Benchmarks",
+      "venue": "arXiv:2609.06780 [cs.SE] (DOI: 10.48550/arXiv.2609.06780)",
+      "reference_url": "https://arxiv.org/abs/2609.06780",
+      "core_finding": "Audits SWE trajectories and documents shortcutting attempts in 55.5%-90.1% of standard evaluations (including local Git history mining, test-oracle peeking, and environment leakage) even when network access is disabled.",
+      "scargo_application": "Reinforces runtime boundary monitoring, read-only reference-repo containment, git-history/fixture leakage checks, and strict anti-shortcut auditing across all three languages."
+    },
+    {
+      "id": "METH-26",
+      "pillar": "PIL-VII",
+      "year": 1883,
+      "authors": "Auguste Kerckhoffs",
+      "title": "La cryptographie militaire",
+      "venue": "Journal des sciences militaires, Vol. IX, pp. 5-38 (Jan. 1883) & pp. 161-191 (Feb. 1883)",
+      "reference_url": "https://journals.openedition.org/bibnum/555",
+      "core_finding": "Formulates the foundational open-design principle: a system's integrity must not fail even if it falls completely into adversarial hands for inspection, copying, or modification.",
+      "scargo_application": "Grounds SCargo's zero-trust construction axiom: build nothing whose truth depends on it not being copied, inspected, or modified."
+    },
+    {
+      "id": "METH-27",
+      "pillar": "PIL-VII",
+      "year": 1949,
+      "authors": "Claude E. Shannon",
+      "title": "Communication Theory of Secrecy Systems",
+      "venue": "Bell System Technical Journal, 28(4), pp. 656-715 (DOI: 10.1002/j.1538-7305.1949.tb00928.x)",
+      "reference_url": "https://archive.org/details/bstj28-4-656",
+      "core_finding": "Formalizes Shannon's maxim ('the enemy knows the system'), establishing that sound mathematical guarantees must assume full adversarial visibility into the mechanism rather than relying on hidden internals or goodwill.",
+      "scargo_application": "Requires all SCargo verification claims and compartment witnesses to remain independently falsifiable under full public transparency and adversarial copying."
+    },
+    {
+      "id": "METH-28",
+      "pillar": "PIL-VII",
+      "year": 1973,
+      "authors": "Butler W. Lampson",
+      "title": "A Note on the Confinement Problem",
+      "venue": "Communications of the ACM, 16(10), pp. 613-615",
+      "reference_url": "https://bwlampson.site/Publications.htm",
+      "core_finding": "Defines the confinement problem and introduces covert storage and timing channels: an untrusted helper service must be structurally prevented from leaking or exfiltrating information outside its authorized caller interface.",
+      "scargo_application": "Grounds DEF-LEAK confinement audits: zero ambient egress, zero covert filesystem/env leakage, zero helper hooks leaving exfiltration channels inside a target repository."
+    },
+    {
+      "id": "METH-29",
+      "pillar": "PIL-VII",
+      "year": 1975,
+      "authors": "Jerome H. Saltzer and Michael D. Schroeder",
+      "title": "The Protection of Information in Computer Systems",
+      "venue": "Proceedings of the IEEE, 63(9), pp. 1278-1308",
+      "reference_url": "https://web.mit.edu/saltzer/www/publications/protection/",
+      "core_finding": "Establishes eight foundational protection principles: Economy of Mechanism, Fail-Safe Defaults, Complete Mediation, Open Design, Separation of Privilege, Least Privilege, Least Common Mechanism, and Psychological Acceptability.",
+      "scargo_application": "Directly mandates Separation of Privilege and Least Common Mechanism: NO monolithic verification gates—decompose into independent, minimal, self-verifying compartments."
+    },
+    {
+      "id": "METH-30",
+      "pillar": "PIL-VII",
+      "year": 1997,
+      "authors": "George C. Necula",
+      "title": "Proof-Carrying Code",
+      "venue": "Proceedings of the 24th ACM SIGPLAN-SIGACT Symposium on Principles of Programming Languages (POPL '97), pp. 106-119",
+      "reference_url": "https://homes.cs.washington.edu/~mernst/teaching/6.893/readings/necula-popl97.pdf",
+      "core_finding": "Shows how a consumer can safely accept artifacts from a completely untrusted producer by requiring each artifact to carry a small, self-contained, tamper-evident proof checked by an independent minimal verifier.",
+      "scargo_application": "Operationalizes zero-trust helper verification: never trust helper intent; every compartment claim emits an independently re-verifiable witness artifact whose truth survives copying or adversarial tampering."
+    },
+    {
+      "id": "METH-31",
+      "pillar": "PIL-VII",
+      "year": 1978,
+      "authors": "Richard A. DeMillo, Richard J. Lipton, and Frederick G. Sayward",
+      "title": "Hints on Test Data Selection: Help for the Practicing Programmer",
+      "venue": "IEEE Computer, 11(4), pp. 34-41",
+      "reference_url": "https://www.computer.org/csdl/magazine/co/1978/04/01646911/13rRUILLkyp",
+      "core_finding": "Introduces mutation testing and the coupling effect: test suites only demonstrate genuine fault-detection power when they kill systematically mutated versions of the system, preventing false-integrity theater.",
+      "scargo_application": "Grounds mutation adequacy and poisoned-fixture negative controls across all SWE-sweep compartments so vacuous green checks cannot survive."
+    },
+    {
+      "id": "METH-32",
+      "pillar": "PIL-VII",
+      "year": 2022,
+      "authors": "Joar Skalse, Nikolaus H. R. Howe, Dmitrii Krasheninnikov, and David Krueger",
+      "title": "Defining and Characterizing Reward Hacking",
+      "venue": "Advances in Neural Information Processing Systems 35 (NeurIPS 2022); arXiv:2209.13085",
+      "reference_url": "https://arxiv.org/abs/2209.13085",
+      "core_finding": "Provides the first formal mathematical characterization of reward hacking, proving how optimizing an imperfect proxy metric can systematically diverge from the true objective.",
+      "scargo_application": "Explains why monolithic single-score pass/fail gates invite false-integrity proxy gaming and must be replaced by multi-compartment, independently checkable witnesses."
+    },
+    {
+      "id": "METH-33",
+      "pillar": "PIL-VII",
+      "year": 2026,
+      "authors": "Yuepeng Hu, Pegah Ghahremani, Reza Aghajani, Mahesh Pasupuleti, and Himaghna Bhattacharjee",
+      "title": "Reward Hacking as a Transmissible Strategy in Multi-Agent Coding Systems",
+      "venue": "arXiv:2610.12822v2 [cs.AI; cs.CR; cs.MA] (DOI: 10.48550/arXiv.2610.12822)",
+      "reference_url": "https://arxiv.org/abs/2610.12822",
+      "core_finding": "Empirically demonstrates that AI coding helpers can introduce reward-hacking shortcuts while omitting them from explanations or framing them as legitimate/preventive, and that such sloppy/compromised patterns propagate across shared code and plans.",
+      "scargo_application": "Directly formalizes sloppy/poor helper pathology and false-integrity rationalization: verification must never rely on helper explanations or self-certification, only on independent compartmentalized replay and static/runtime sweeps."
+    },
+    {
+      "id": "METH-34",
+      "pillar": "PIL-VIII",
+      "year": 1920,
+      "authors": "Niels Bohr",
+      "title": "Über die Serienspektra der Elemente",
+      "venue": "Zeitschrift für Physik, 2(5), pp. 423-478",
+      "reference_url": "https://doi.org/10.1016/j.shpsb.2014.02.002",
+      "core_finding": "Introduces the Correspondence Principle: any deeper theoretical framework must asymptotically reproduce the validated results of the older theory within its proven regime.",
+      "scargo_application": "Anchors SCargo's Core Thesis: every deeper engine, model, or compressed proof must smoothly recover the validated baseline inside its proven dimensionless regime."
+    },
+    {
+      "id": "METH-35",
+      "pillar": "PIL-VIII",
+      "year": 1927,
+      "authors": "Paul Ehrenfest",
+      "title": "Bemerkung über die angenäherte Gültigkeit der klassischen Mechanik innerhalb der Quantenmechanik",
+      "venue": "Zeitschrift für Physik, 45, pp. 455-457",
+      "reference_url": "https://www.lorentz.leidenuniv.nl/IL-publications/Ehrenfest.html",
+      "core_finding": "Demonstrates quantitatively how expectation values of a deeper quantum theory recover classical equations of motion, while making the mismatch term (variance/curvature beyond the localized regime) explicit and bounded.",
+      "scargo_application": "Models the exact quantitative mismatch requirement in SCargo: correspondence is never asserted qualitatively—every deeper layer must declare and bound its mismatch delta(epsilon)."
+    },
+    {
+      "id": "METH-36",
+      "pillar": "PIL-VIII",
+      "year": 1973,
+      "authors": "Thomas Nickles",
+      "title": "Two Concepts of Intertheoretic Reduction",
+      "venue": "The Journal of Philosophy, 70(7), pp. 181-201",
+      "reference_url": "https://plato.stanford.edu/archives/sum2023/entries/physics-interrelate/",
+      "core_finding": "Distinguishes deductive derivational reduction (Reduction1) from limiting/asymptotic reduction (Reduction2) as a dimensionless parameter approaches zero, clarifying how deeper theories subsume older theories across both exact and approximate domains.",
+      "scargo_application": "Separates SCargo's exact logical correspondence (Reduction1: delta = 0 on theorem statements, axioms, and discrete invariants) from limiting numerical/statistical correspondence (Reduction2: bounded delta(epsilon) -> 0)."
+    },
+    {
+      "id": "METH-37",
+      "pillar": "PIL-VIII",
+      "year": 2008,
+      "authors": "Alisa Bokulich",
+      "title": "Reexamining the Quantum-Classical Relation: Beyond Reductionism and Pluralism",
+      "venue": "Cambridge University Press, ISBN 978-0-521-85720-8",
+      "reference_url": "https://www.cambridge.org/core/books/reexamining-the-quantumclassical-relation/A21A98B4D057F103A0813E8416A7BFA7",
+      "core_finding": "Develops structural intertheoretic correspondence and highlights singular limits where naive extrapolation fails across regime boundaries, showing why explicit validity domains and structural bridges are required.",
+      "scargo_application": "Mandates explicit declaration of the proven validity regime Omega_k and singular-boundary guardrails (e.g., Lean definitional-equality / namespace boundaries and asymptotic analytic regimes) so correspondence never silently breaks."
+    },
+    {
+      "id": "METH-38",
+      "pillar": "PIL-I",
+      "year": 1970,
+      "authors": "Edgar F. Codd",
+      "title": "A Relational Model of Data for Large Shared Data Banks",
+      "venue": "Communications of the ACM, 13(6), pp. 377-387",
+      "reference_url": "https://dl.acm.org/doi/10.1145/362384.362685",
+      "core_finding": "Establishes data independence and controlled redundancy: programs must be decoupled from stored layout and derivable facts must be projected from a single normalized source so consistency constraints remain machine-checkable.",
+      "scargo_application": "Directly governs AUD-07 remediation: eliminates duplicated lineage tables and hardcoded corpus counts inside render_figures.py, projecting every figure metric from normalized immutable JSON vaults."
+    },
+    {
+      "id": "METH-39",
+      "pillar": "PIL-I",
+      "year": 1995,
+      "authors": "Jonathan B. Buckheit and David L. Donoho",
+      "title": "WaveLab and Reproducible Research",
+      "venue": "Wavelets and Statistics, Lecture Notes in Statistics, Vol. 103, Springer, pp. 55-81",
+      "reference_url": "https://doi.org/10.1007/978-1-4612-2544-7_5",
+      "core_finding": "Formalizes Claerbout's Principle: a published paper or figure is merely advertising of scholarship unless the complete deterministic code and data environment that generated every figure is preserved and replayable.",
+      "scargo_application": "Mandates deterministic figure regeneration from explicit CLI dataset inputs plus tamper-evident SHA-256 figures_manifest.json receipts."
+    },
+    {
+      "id": "METH-40",
+      "pillar": "PIL-I",
+      "year": 2011,
+      "authors": "Roger D. Peng",
+      "title": "Reproducible Research in Computational Science",
+      "venue": "Science, 334(6060), pp. 1226-1227",
+      "reference_url": "https://doi.org/10.1126/science.1213847",
+      "core_finding": "Defines the computational reproducibility spectrum from publication-only to linked executable code and data, establishing reproducibility as a minimum verification standard for computational claims.",
+      "scargo_application": "Requires all SCargo benchmark figures and paper claims to be computationally reproducible from versioned JSON datasets with zero hand-transcribed literals."
+    },
+    {
+      "id": "METH-41",
+      "pillar": "PIL-I",
+      "year": 2013,
+      "authors": "Geir Kjetil Sandve, Anton Nekrutenko, James Taylor, and Eivind Hovig",
+      "title": "Ten Simple Rules for Reproducible Computational Research",
+      "venue": "PLOS Computational Biology, 9(10), e1003285",
+      "reference_url": "https://doi.org/10.1371/journal.pcbi.1003285",
+      "core_finding": "Codifies operational rules for computational reproducibility including provenance tracking (Rule 1), eliminating manual data manipulation/transcription (Rule 2), archiving raw plot data (Rule 7), and binding textual claims directly to underlying computed results (Rule 9).",
+      "scargo_application": "Enforced via render_figures.py's anti-baked-metric guard, dynamic claim computation, and metamorphic correspondence test suite."
+    },
+    {
+      "id": "METH-42",
+      "pillar": "PIL-I",
+      "year": 2016,
+      "authors": "Mark D. Wilkinson, Michel Dumontier, IJsbrand Jan Aalbersberg, et al.",
+      "title": "The FAIR Guiding Principles for scientific data management and stewardship",
+      "venue": "Scientific Data, 3, 160018",
+      "reference_url": "https://doi.org/10.1038/sdata.2016.18",
+      "core_finding": "Establishes Findable, Accessible, Interoperable, and Reusable (FAIR) metadata and detailed provenance principles (R1.2) designed for both machine verification and human reuse.",
+      "scargo_application": "Separates reusable declarative presentation metadata (data/sources/paper_001_presentation_v1.json) and cryptographic provenance receipts (figures_manifest.json) from executable rendering scripts."
+    },
+    {
+      "id": "METH-43",
+      "pillar": "PIL-VII",
+      "year": 1978,
+      "authors": "Leslie Lamport",
+      "title": "Time, Clocks, and the Ordering of Events in a Distributed System",
+      "venue": "Communications of the ACM, 21(7), pp. 558-565",
+      "reference_url": "https://dl.acm.org/doi/10.1145/359545.359563",
+      "core_finding": "Proves that physical clocks across distinct execution contexts skew by a nonzero bound and that causal ordering is a logical happens-before relation; algorithms relying on unchecked physical-clock deltas can violate causality.",
+      "scargo_application": "Explains OBS-01 (KVM vCPU TSC skew breaking swift-build's ElapsedTimer precondition) and mandates separating saturating telemetry durability from explicit skew detection guards."
+    },
+    {
+      "id": "METH-44",
+      "pillar": "PIL-IV",
+      "year": 2022,
+      "authors": "Philippe Hausler (Swift Evolution SE-0329)",
+      "title": "SE-0329: Clock, Instant, and Duration",
+      "venue": "Swift Evolution Standard Library Specification",
+      "reference_url": "https://github.com/swiftlang/swift-evolution/blob/main/proposals/0329-clock-instant-duration.md",
+      "core_finding": "Specifies Swift's ContinuousClock (CLOCK_BOOTTIME on Linux), SuspendingClock (CLOCK_MONOTONIC on Linux), and signed Duration arithmetic without mandating traps on negative instant distances.",
+      "scargo_application": "Demonstrates that OBS-01's SIGILL trap originates in swift-build's own ElapsedTimerInterval precondition rather than Swift's standard Clock specification, grounding SCargo's saturating ClockMonotonicityGuard and upstream patch."
+    }
+  ]
+}

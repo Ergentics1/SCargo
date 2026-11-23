@@ -36,13 +36,14 @@ Built on the **SpaceX Falcon Payload User's Guide (Rev. 8, May 2025)**, the **NA
 SCargo/
 ├── ARCHITECTURE.md                   # Compartment philosophy, Correspondence Principle & zero-trust invariants
 ├── compartments/
-│   ├── rust/                         # Rust 1.100.0 workspace: scargo-probe, scargo-trace, scargo-qualify, scargo-riem-lattice, scargo-schwartz-zippel, scargo-sweep, scargo-ground (zero-dep, forbid(unsafe_code))
-│   ├── swift/                        # Open-Source Swift 6.4.3: SCargoModel, RiemLattice, SchwartzZippel, SCargoSweep, SCargoGround, CLIs & Swift Testing suites
-│   └── lean/                         # Lean v4.36.0: SCargoLean.Contract, RiemLattice, SchwartzZippel, SweepWitness, GroundCodec + standalone test drivers
+│   ├── rust/                         # Rust 1.100.0 workspace: scargo-probe, scargo-trace, scargo-qualify, scargo-riem-lattice, scargo-schwartz-zippel, scargo-sweep, scargo-ground, scargo-airlock (zero-dep, forbid(unsafe_code))
+│   ├── swift/                        # Open-Source Swift 6.4.3: SCargoModel, RiemLattice, SchwartzZippel, SCargoSweep, SCargoGround, SCargoAirlock, CLIs & Swift Testing suites
+│   └── lean/                         # Lean v4.36.0: SCargoLean.Contract, RiemLattice, SchwartzZippel, SweepWitness, GroundCodec, TransferAirlock + standalone test drivers
 ├── models/
 │   ├── reduction_model.md            # Quantitative proof mass-budget & reduction equations
 │   ├── verification_methodology_model.md   # Deterministic / runtime / probabilistic SWE-sweep & D<->R<->P seam model (13 witnesses, 14 defects)
 │   ├── rung2_ground_codec_and_parity_model.md  # Rung 2 shared ground codec, QuickCheck shrinking, MR-1..3 metamorphic invariance & parity model
+│   ├── rung3_reconciled_reduction_and_airlock_model.md  # Rung 3 reconciled proof-reduction airlock, AG-1..AG-5 & UP-07 batching model
 │   ├── conflation_and_boolean_guard_analysis.md  # Helper-pathology taxonomy, AUD-01..07 & atomic guard spec
 │   ├── riemannian_disambiguation_model.md  # Authority-controlled RIEM-A / RIEM-B / RIEM-C / RIEM-LATTICE map
 │   ├── riemann_lattice_graph_rh_model.md   # Euler 1735-1739 root & exact proof: G_PLR satisfies Graph RH
@@ -63,7 +64,9 @@ SCargo/
 │   ├── papers/001-riemannian-formulary-and-reduction-architecture/  # IMRaD paper, guarded figure renderer + tests, PNGs, HTML
 │   └── upstream_reports/             # Upstream Swift swift-build ElapsedTimer SIGILL report & minimal patch
 └── transfer/
-    └── ICD-RIEMANNIAN.md             # Interface Control Document & flight-readiness gates for Riemannian
+    ├── ICD-RIEMANNIAN.md             # Interface Control Document & flight-readiness gates for Riemannian
+    ├── README.md                     # Clean-room separation plane & G1-G3 vs G4-G5 sign-off contract
+    └── packages/                     # Declarative staged clean-room transfer package manifests (rung3_airlock_manifest_v1.json)
 ```
 
 ---
@@ -74,12 +77,13 @@ Each compartment runs independently with zero cross-language combo wrappers:
 
 ### 1. Lean (`v4.36.0`, `warningAsError = true`, `LEAN_ABORT_ON_PANIC=1`, zero `sorry` / `native_decide`)
 ```bash
-LEAN_ABORT_ON_PANIC=1 lake --dir compartments/lean build SCargoLean riem_lattice_test sz_lattice_test sweep_witness_test ground_codec_test
+LEAN_ABORT_ON_PANIC=1 lake --dir compartments/lean build SCargoLean riem_lattice_test sz_lattice_test sweep_witness_test ground_codec_test transfer_airlock_test
 LEAN_ABORT_ON_PANIC=1 lake --dir compartments/lean exe riem_lattice_test
 LEAN_ABORT_ON_PANIC=1 lake --dir compartments/lean exe sz_lattice_test
 LEAN_ABORT_ON_PANIC=1 lake --dir compartments/lean exe sweep_witness_test
 LEAN_ABORT_ON_PANIC=1 lake --dir compartments/lean exe ground_codec_test
-LEAN_PATH=compartments/lean/.lake/build/lib/lean leanchecker SCargoLean SCargoLean.Contract SCargoLean.RiemLattice SCargoLean.SchwartzZippel SCargoLean.SweepWitness SCargoLean.GroundCodec
+LEAN_ABORT_ON_PANIC=1 lake --dir compartments/lean exe transfer_airlock_test .
+LEAN_PATH=compartments/lean/.lake/build/lib/lean leanchecker SCargoLean SCargoLean.Contract SCargoLean.RiemLattice SCargoLean.SchwartzZippel SCargoLean.SweepWitness SCargoLean.GroundCodec SCargoLean.TransferAirlock
 ```
 
 ### 2. Rust (`1.100.0`, zero external crates, `-D warnings`, `#![forbid(unsafe_code)]`)
@@ -94,6 +98,7 @@ compartments/rust/target/release/scargo-schwartz-zippel \
   --rl-vault data/sources/riemann_lattice_graph_rh_v1.json
 compartments/rust/target/release/scargo-sweep all --root .
 compartments/rust/target/release/scargo-ground --root .
+compartments/rust/target/release/scargo-airlock --root .
 ```
 
 ### 3. Open-Source Swift (`6.4.3`, `.treatAllWarnings(as: .error)`, guarded default `swiftbuild`)
@@ -107,6 +112,7 @@ compartments/swift/.build/release/scargo-schwartz-zippel \
   --rl-vault data/sources/riemann_lattice_graph_rh_v1.json
 compartments/swift/.build/release/scargo-sweep all --root .
 compartments/swift/.build/release/scargo-ground --root .
+compartments/swift/.build/release/scargo-airlock --root .
 ```
 
 ---
@@ -119,6 +125,7 @@ compartments/swift/.build/release/scargo-ground --root .
 - Schwartz–Zippel (ODLSZ) Lattice Module & PIT Integration: [`models/schwartz_zippel_lattice_model.md`](models/schwartz_zippel_lattice_model.md)
 - Verification Methodology & Conflation Guard Analysis: [`models/verification_methodology_model.md`](models/verification_methodology_model.md) · [`models/conflation_and_boolean_guard_analysis.md`](models/conflation_and_boolean_guard_analysis.md)
 - Rung 2 Ground Codec, QuickCheck Shrinking & Differential Parity Model: [`models/rung2_ground_codec_and_parity_model.md`](models/rung2_ground_codec_and_parity_model.md)
+- Rung 3 Reconciled Proof-Reduction & Clean-Room ICD Airlock Model: [`models/rung3_reconciled_reduction_and_airlock_model.md`](models/rung3_reconciled_reduction_and_airlock_model.md)
 - Interface Control Document (`Riemannian` airlock): [`transfer/ICD-RIEMANNIAN.md`](transfer/ICD-RIEMANNIAN.md)
 - Paper 001 (Formulary & Reduction Architecture): [`research/papers/001-riemannian-formulary-and-reduction-architecture/paper.md`](research/papers/001-riemannian-formulary-and-reduction-architecture/paper.md)
 

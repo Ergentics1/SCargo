@@ -3,6 +3,10 @@
 version = 4
 
 [[package]]
+name = "scargo-airlock"
+version = "0.1.0"
+
+[[package]]
 name = "scargo-ground"
 version = "0.1.0"
 

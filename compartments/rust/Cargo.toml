@@ -11,6 +11,7 @@ members = [
     "crates/scargo-schwartz-zippel",
     "crates/scargo-sweep",
     "crates/scargo-ground",
+    "crates/scargo-airlock",
 ]
 
 [workspace.lints.rust]

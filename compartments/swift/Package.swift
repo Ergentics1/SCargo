@@ -27,6 +27,10 @@ let package = Package(
             name: "SCargoGround",
             targets: ["SCargoGround"]
         ),
+        .library(
+            name: "SCargoAirlock",
+            targets: ["SCargoAirlock"]
+        ),
         .executable(
             name: "scargo-audit",
             targets: ["scargo-audit"]
@@ -46,6 +50,10 @@ let package = Package(
         .executable(
             name: "scargo-ground",
             targets: ["scargo-ground"]
+        ),
+        .executable(
+            name: "scargo-airlock",
+            targets: ["scargo-airlock"]
         )
     ],
     targets: [
@@ -87,6 +95,13 @@ let package = Package(
                 .treatAllWarnings(as: .error)
             ]
         ),
+        .target(
+            name: "SCargoAirlock",
+            swiftSettings: [
+                .swiftLanguageMode(.v6),
+                .treatAllWarnings(as: .error)
+            ]
+        ),
         .executableTarget(
             name: "scargo-audit",
             dependencies: ["SCargoModel"],
@@ -127,6 +142,14 @@ let package = Package(
                 .treatAllWarnings(as: .error)
             ]
         ),
+        .executableTarget(
+            name: "scargo-airlock",
+            dependencies: ["SCargoAirlock"],
+            swiftSettings: [
+                .swiftLanguageMode(.v6),
+                .treatAllWarnings(as: .error)
+            ]
+        ),
         .testTarget(
             name: "SCargoModelTests",
             dependencies: ["SCargoModel"],
@@ -162,6 +185,14 @@ let package = Package(
         .testTarget(
             name: "SCargoGroundTests",
             dependencies: ["SCargoGround"],
+            swiftSettings: [
+                .swiftLanguageMode(.v6),
+                .treatAllWarnings(as: .error)
+            ]
+        ),
+        .testTarget(
+            name: "SCargoAirlockTests",
+            dependencies: ["SCargoAirlock"],
             swiftSettings: [
                 .swiftLanguageMode(.v6),
                 .treatAllWarnings(as: .error)

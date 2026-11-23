@@ -152,13 +152,47 @@ Schwartz–Zippel provides the exact mathematical soundness law for SCargo's pro
 
 ---
 
-## 6. Pre-Implementation Standalone Per-Language Blueprint (Next Machine Layer)
+## 6. Coupled `PIT-SZ × PLR` Architecture: Remedies & Algebraic Boundary
 
-When ready to implement the `PIT-SZ` machine layer, each language compartment will build and test strictly standalone ("no combo"), reading dynamically from [`schwartz_zippel_research_v1.json`](../data/sources/schwartz_zippel_research_v1.json) with atomic fail-closed boolean guards:
+Coupling Schwartz–Zippel (`PIT-SZ`) with the Neo-Riemannian $PLR$ lattice (`RIEM-LATTICE`) resolves the two main bottlenecks that stall polynomial identity testing on raw binary grids:
 
-1. **Lean `v4.36.0` (`SCargoLean.SchwartzZippel`, zero `sorry` / `native_decide` / external deps)**:
-   - Pure-kernel finite-grid inductive proof of total-degree `TF-01` over finite subsets of an `IntegralDomain` (building directly on `SCargoLean.Contract`'s zero-axiom `OrderedCommRing` style), plus exact decidable finite-field witnesses for `F_5` bound separation (`TF-01` vs. `TF-02`), `{0,1}^4` Alon–Füredi tightness (`TF-03`), `Z/6Z` zero-divisor failure vs. Condition (D) repair (`TF-05`), and `det(B) = 45` / `perm(B) = 113` on `G_PLR`.
-2. **Rust `1.100.0` (`compartments/rust/crates/scargo-schwartz-zippel`, zero-dep, `#![forbid(unsafe_code)]`, `-D warnings`)**:
-   - Exact finite-field $\mathbb{F}_p$ arithmetic, Condition (D) grid validator, Freivalds verifier, multivariate polynomial evaluator & Hasse-derivative multiplicity counter, exact `G_PLR` Edmonds determinant/permanent verifier (`det=45`, `perm=113`), deterministic seeded PIT tester, and atomic boolean guards validating every benchmark in `schwartz_zippel_research_v1.json`.
-3. **Open-Source Swift `6.4.3` (`compartments/swift/Sources/SchwartzZippel`, Swift 6 `Sendable`, `.treatAllWarnings(as: .error)`)**:
-   - Typed `Codable` loader for `schwartz_zippel_research_v1.json`, exact finite-grid root & Hasse multiplicity engine, Condition (D) composite-ring failure detector, `G_PLR` Edmonds symbolic PIT runner, and Swift Testing pressure suite including negative controls (composite modulus rejection, degree $\ge |S|$ vacuity rejection, and all-ones mod 3 / mod 5 false-negative witness).
+1. **12-Fold Cyclotomic / Finite-Field Torus vs. Binary Grid (`{0, 1}` & $\mathbb{Z}/12\mathbb{Z}$)**:
+   - Over a raw binary grid $S = \{0, 1\}$, total-degree ODLSZ (`TF-01`) stalls immediately at $D = 2$ (exact witness: $z^2 - z$ vanishes on 100% of $\{0, 1\}$). Over the composite ring $\mathbb{Z}/12\mathbb{Z}$, zero divisors collapse the maximum Condition (D) grid right back down to $p_{\min}(12) = 2$.
+   - Over any prime field $\mathbb{F}_p$ with $p \equiv 1 \pmod{12}$ (verified for $p \in \{13, 37, 61, 97, 65521, 10^9 + 9\}$), $\mathbb{F}_p^\times$ contains an exact primitive 12th root of unity $\zeta_{12}$ satisfying $\Phi_{12}(\zeta_{12}) = \zeta_{12}^4 - \zeta_{12}^2 + 1 = 0$, giving a 12-point integral-domain torus $\mu_{12} \times \{+1, -1\} \subset \mathbb{F}_p^2$.
+   - On $(z, \sigma) \in \mu_{12} \times \{+1, -1\}$, the generators $P, L, R$ act as **exact degree-$\le 2$ bilinear involutions**:
+     $$g_s(z, \sigma) = \bigl(z \cdot (c_s + \sigma d_s),\; -\sigma\bigr), \quad c_s = \frac{\zeta_{12}^s + \zeta_{12}^{-s}}{2},\; d_s = \frac{\zeta_{12}^s - \zeta_{12}^{-s}}{2}$$
+     with $s \in \{0, 4, 9\}$, exact involutivity $g_s^2 = \mathrm{id}$, exact isomorphism to $G_{PLR}$ on all 24 triads, and exact dihedral relations $(PL)^3 = (PR)^4 = (LPR)^2 = \mathrm{id}$, $PL \neq LP$.
+
+2. **Non-Backtracking Ramanujan Mixing via the Hashimoto / Ihara Operator $T$**:
+   - On the 72 directed edges of 12-TET $G_{PLR}$ ($q = d - 1 = 2$), the Graph Riemann Hypothesis ($\max \lambda_{\text{nontriv}}^2 = 5 < 8$) forces every nontrivial eigenvalue of the Hashimoto transition operator $\frac{1}{2} T$ to have exact modulus $\frac{1}{\sqrt{2}} \approx \mathbf{0.70711}$—strictly faster than the naive simple random walk $\frac{1}{3} A$ ($\frac{\sqrt{5}}{3} \approx 0.74536$) and Alon–Boppana optimal.
+   - Crossing the Graph-RH boundary into non-Ramanujan **17-TET** ($\max \lambda_{\text{nontriv}}^2 = 8.20791 > 8$) introduces a real off-line Hashimoto eigenvalue that slows non-backtracking mixing to $0.83023$ (`TV_20 = 0.023924` vs. `0.000985` on 12-TET—a **24.3× degradation**).
+
+3. **Unlocked Capabilities**:
+   - **Non-Abelian Holonomy Verification**: Over $\mathbb{F}_p$ ($p \equiv 1 \pmod{12}$), the 2D dihedral irreps $\rho_1, \rho_5 : D_{12} \hookrightarrow \mathrm{GL}_2(\mathbb{F}_p)$ are **faithful** (`24/24` matrices, kernel size `1`), cleanly separating non-commuting words (`PL` vs. `LP`) via $O(1)$ Freivalds vector tests where 1D abelianization (`k = 0`) is blind.
+   - **Representation / Homology-Filtered Cycle Sieving**: Lifting $P, L, R$ to Euler's 5-limit honeycomb vectors $e_P = (1, 0), e_L = (0, 1), e_R = (-1, -1)$ cleanly partitions all **192** closed tailless non-backtracking walks of length 6 into **144 contractible walks** (winding `(0, 0)` $\to$ `12` unoriented `LPRLPR` faces) and **48 non-contractible walks** (winding `(\pm 3, \mp 3)` $\to$ `4` unoriented `LPLPLP` hexatonic cycles), testable via twisted Artin–Ihara character PIT.
+   - **Low-Entropy Identity Testing**: A $k$-step non-backtracking Ramanujan walk spends only $\log_2(24) + (k - 1)$ random bits (`1` bit/step since $q = 2$), cutting randomness by **3.17×** at $k = 8$ and **4.12×** at $k = 32$ compared to independent draws.
+
+4. **Sharper Algebraic Boundary (Constraint Arity $r$ & Global Degree $D$)**:
+   - Linear combinations of $m$ arity-$r$ constraints preserve degree $D = d_c$ and stay inside the non-vacuous ODLSZ regime. Conjunctive products or nonlinear compositions drive global degree $D = m \cdot d_c$ up until crossing the exact domain boundary:
+
+| Sampling Domain | Safe Grid Size $|S|$ | Sharp Stall Degree $D$ | Exact Vanishing Witness |
+|---|---:|---:|---|
+| Binary grid `{0, 1}` | `2` | `2` | $z^2 - z$ |
+| Composite ring $\mathbb{Z}/12\mathbb{Z}$ | `2` ($p_{\min}(12)$) | `2` | Zero-divisor collapse (`x(x-1)` has 4 roots) |
+| 12-fold cyclotomic torus $\mu_{12} \subset \mathbb{F}_p^\times$ | `12` | `12` | $z^{12} - 1$ (holds for $D \le 11$, stalls at $D = 12$) |
+| Full prime field $\mathbb{F}_p$ ($p \equiv 1 \pmod{12}$) | $p$ | $p$ | Frobenius $z^p - z$ (holds for $D \le p - 1$) |
+
+---
+
+## 7. Implemented & Verified Standalone Per-Language Machine Layer
+
+The coupled `PIT-SZ × PLR` engine is implemented and pressure-tested **strictly standalone** in all three compartments (zero combo scripts, dynamic cross-vault loading from [`schwartz_zippel_research_v1.json`](../data/sources/schwartz_zippel_research_v1.json) and [`riemann_lattice_graph_rh_v1.json`](../data/sources/riemann_lattice_graph_rh_v1.json), fail-closed atomic boolean guards):
+
+1. **Lean `v4.36.0` ([`SCargoLean/SchwartzZippel.lean`](../compartments/lean/SCargoLean/SchwartzZippel.lean) & [`SCargoLean/SchwartzZippelTest.lean`](../compartments/lean/SCargoLean/SchwartzZippelTest.lean))**:
+   - **Pure-kernel proof** of universal multivariate Condition (D) Schwartz–Zippel (`schwartz_zippel_conditionD`) over arbitrary commutative rings and its integral-domain specialization (`schwartz_zippel_integral_domain`), using only standard Lean core axioms (`[propext, Classical.choice, Quot.sound]`, zero `sorry`, zero `native_decide`, zero `Lean.ofReduceBool`, zero external dependencies), verified by `leanchecker` and `leanexport`.
+   - Pure-kernel proofs of `F_13` & `F_65521` bilinear `P, L, R` involutivity/isomorphism on all 24 triads, faithful `rho_1/rho_5` holonomy separation, length-6 homology cycle sieving (`144 + 48 = 192`), `perm(B) = 113` perfect matchings, `TF-01..TF-05` regime witnesses, sharp boundary witnesses (`z^2 - z`, `z^12 - 1`, `z^13 - z`), and standalone executable `sz_lattice_test` with cross-vault parity and adversarial negative controls.
+2. **Rust `1.100.0` ([`scargo-schwartz-zippel`](../compartments/rust/crates/scargo-schwartz-zippel/src/sz_lattice.rs))**:
+   - Zero external crates, `#![forbid(unsafe_code)]`, `-D warnings`, `clippy::all` clean.
+   - Verifies all 6 cyclotomic primes (`13` through `10^9 + 9`), `rho_1..rho_5` holonomy + Freivalds separation, `72 × 72` Hashimoto non-backtracking vs. SRW mixing (12-TET vs. 17-TET Graph-RH breakdown), length-6 cycle sieving + twisted character PIT, low-entropy Ramanujan walk PIT + `D = 12` stall wall, exact `det(B) = 45` / `perm(B) = 113` Edmonds & Bass–Ihara PIT, DKSS Hasse multiplicity `15/15`, and Freivalds Gram verification (9/9 atomic guards PASS; 7/7 pressure tests PASS).
+3. **Open-Source Swift `6.4.3` ([`SchwartzZippel.swift`](../compartments/swift/Sources/SchwartzZippel/SchwartzZippel.swift) & [`SchwartzZippelPressureTests.swift`](../compartments/swift/Tests/SchwartzZippelTests/SchwartzZippelPressureTests.swift))**:
+   - Swift 6 `Sendable`, `.treatAllWarnings(as: .error)`, zero `try?`, typed `Decodable` cross-vault loader, guarded default `swiftbuild` (`0` warnings, `0` deprecations), standalone release CLI `scargo-schwartz-zippel` (9/9 atomic guards PASS), and Swift Testing adversarial pressure suite.

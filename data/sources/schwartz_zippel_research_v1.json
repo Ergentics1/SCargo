@@ -678,6 +678,65 @@
           ]
         }
       ]
+    },
+    "coupled_plr_torus_benchmarks": {
+      "cyclotomic_torus_primes": [
+        {"p": 13, "p_mod_12": 1, "zeta_12": 2, "torus_order": 12, "max_nonvacuous_torus_degree": 11, "max_nonvacuous_field_degree": 12},
+        {"p": 37, "p_mod_12": 1, "zeta_12": 8, "torus_order": 12, "max_nonvacuous_torus_degree": 11, "max_nonvacuous_field_degree": 36},
+        {"p": 61, "p_mod_12": 1, "zeta_12": 32, "torus_order": 12, "max_nonvacuous_torus_degree": 11, "max_nonvacuous_field_degree": 60},
+        {"p": 97, "p_mod_12": 1, "zeta_12": 6, "torus_order": 12, "max_nonvacuous_torus_degree": 11, "max_nonvacuous_field_degree": 96},
+        {"p": 65521, "p_mod_12": 1, "zeta_12": 53059, "torus_order": 12, "max_nonvacuous_torus_degree": 11, "max_nonvacuous_field_degree": 65520},
+        {"p": 1000000009, "p_mod_12": 1, "zeta_12": 655997907, "torus_order": 12, "max_nonvacuous_torus_degree": 11, "max_nonvacuous_field_degree": 1000000008}
+      ],
+      "bilinear_involution_degree": 2,
+      "triad_count": 24,
+      "dihedral_representations_D12": [
+        {"mode_k": 1, "distinct_matrices": 24, "kernel_size": 1, "faithful": true},
+        {"mode_k": 2, "distinct_matrices": 12, "kernel_size": 2, "faithful": false},
+        {"mode_k": 3, "distinct_matrices": 8, "kernel_size": 3, "faithful": false},
+        {"mode_k": 4, "distinct_matrices": 6, "kernel_size": 4, "faithful": false},
+        {"mode_k": 5, "distinct_matrices": 24, "kernel_size": 1, "faithful": true}
+      ],
+      "non_backtracking_mixing_comparison": {
+        "directed_edges_12tet": 72,
+        "ihara_q": 2,
+        "tet12_ramanujan": {
+          "N": 12,
+          "satisfies_graph_rh": true,
+          "srw_nontrivial_rate": 0.7453559925,
+          "nb_ihara_nontrivial_rate": 0.7071067812,
+          "tv_step_20_srw": 0.001447,
+          "tv_step_20_nb": 0.000985
+        },
+        "tet17_non_ramanujan": {
+          "N": 17,
+          "satisfies_graph_rh": false,
+          "srw_nontrivial_rate": 0.9549769845,
+          "nb_ihara_nontrivial_rate": 0.8302267617,
+          "tv_step_20_srw": 0.252416,
+          "tv_step_20_nb": 0.023924
+        }
+      },
+      "representation_filtered_cycle_sieve_len6": {
+        "total_closed_tailless_nb_walks": 192,
+        "contractible_walks": 144,
+        "contractible_unoriented_faces_LPRLPR": 12,
+        "non_contractible_walks": 48,
+        "non_contractible_unoriented_hexatonic_LPLPLP": 4
+      },
+      "low_entropy_sampling_budget": [
+        {"samples_k": 4, "independent_bits": 18.33985, "ramanujan_nb_bits": 7.58496},
+        {"samples_k": 8, "independent_bits": 36.67970, "ramanujan_nb_bits": 11.58496},
+        {"samples_k": 16, "independent_bits": 73.35940, "ramanujan_nb_bits": 19.58496},
+        {"samples_k": 32, "independent_bits": 146.71880, "ramanujan_nb_bits": 35.58496}
+      ],
+      "algebraic_degree_boundaries": [
+        {"domain": "binary_grid_{0,1}", "safe_grid_size": 2, "stall_degree": 2, "vanishing_witness": "z^2 - z"},
+        {"domain": "composite_ring_Z/12Z", "safe_grid_size": 2, "stall_degree": 2, "vanishing_witness": "x*(x - 1) [4/6-style zero-divisor collapse, p_min(12)=2]"},
+        {"domain": "cyclotomic_torus_mu_12", "safe_grid_size": 12, "stall_degree": 12, "vanishing_witness": "z^12 - 1"},
+        {"domain": "prime_field_F_13", "safe_grid_size": 13, "stall_degree": 13, "vanishing_witness": "z^13 - z"},
+        {"domain": "prime_field_F_65521", "safe_grid_size": 65521, "stall_degree": 65521, "vanishing_witness": "z^65521 - z"}
+      ]
     }
   }
 }

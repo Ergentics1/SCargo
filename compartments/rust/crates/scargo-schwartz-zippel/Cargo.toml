@@ -1,0 +1,12 @@
+# Copyright (c) 2026 Ergentics, LLC
+# Licensed under the MIT License. See LICENSE in the project root.
+
+[package]
+name = "scargo-schwartz-zippel"
+version = "0.1.0"
+edition = "2024"
+license = "MIT"
+description = "Standalone Schwartz-Zippel (ODLSZ) and coupled Neo-Riemannian PLR cyclotomic torus verifier"
+
+[lints]
+workspace = true

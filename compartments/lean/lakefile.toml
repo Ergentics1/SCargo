@@ -21,3 +21,7 @@ roots = ["SCargoLean"]
 [[lean_exe]]
 name = "riem_lattice_test"
 root = "SCargoLean.RiemLatticeTest"
+
+[[lean_exe]]
+name = "sz_lattice_test"
+root = "SCargoLean.SchwartzZippelTest"

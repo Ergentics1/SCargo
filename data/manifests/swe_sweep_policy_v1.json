@@ -1,9 +1,9 @@
 {
-  "schema_version": "1.1.0",
+  "schema_version": "1.2.0",
   "copyright": "Copyright (c) 2026 Ergentics, LLC",
   "organization": "Ergentics",
   "title": "SCargo Ground-Level SWE-Sweep, Zero-Trust Compartment & Correspondence Verification Policy",
-  "status": "design_and_literature_baseline",
+  "status": "rung1_normative_policy",
   "core_thesis": {
     "name": "The Correspondence Principle",
     "statement": "Every deeper theory must smoothly contain the older theory inside its proven dimensionless regime, with a quantifiable error bound on the mismatch.",
@@ -14,6 +14,21 @@
     "swift": "Swift 6.4.3 (swift-6.4.3-RELEASE, x86_64-unknown-linux-gnu)",
     "lean": "Lean 4.36.0 (commit 611c117bfaf7b7ae1cfcf246ce6fba31e8f509e9, Release) / Lake 5.0.0-src+611c117"
   },
+  "witness_compartments": [
+    "w_compiler",
+    "w_suppression",
+    "w_backdoor",
+    "w_confinement",
+    "w_deps",
+    "w_topology",
+    "w_parity",
+    "w_kernel",
+    "w_correspondence",
+    "w_fp_determinism",
+    "w_rt_invariants",
+    "w_prob_calibration",
+    "w_seam_integrity"
+  ],
   "core_principles": [
     {
       "id": "PRIN-01",
@@ -25,7 +40,7 @@
       "id": "PRIN-02",
       "name": "Warnings as Errors Without Silent Suppression",
       "literature_ids": ["METH-11", "METH-12", "METH-13", "METH-14"],
-      "rule": "Every compiler warning and deprecation warning is promoted to a hard build error in SCargo across Rust, Swift, and Lean. Blanket suppressions and stale suppressions are forbidden; any unavoidable external platform issue must be recorded in an explicit, expiring waiver entry in data/manifests/."
+      "rule": "Every compiler warning and deprecation warning is promoted to a hard build error in SCargo across Rust, Swift, and Lean. Blanket suppressions and stale suppressions are forbidden; any unavoidable external platform issue must be recorded in an explicit, expiring waiver entry in data/audits/."
     },
     {
       "id": "PRIN-03",
@@ -55,7 +70,7 @@
       "id": "PRIN-07",
       "name": "No Monolithic Gates — Independent Composable Compartments",
       "literature_ids": ["METH-29", "METH-30", "METH-32"],
-      "rule": "Verification is never collapsed into a single master boolean gate or shared trust authority. Each integrity property (compiler strictness, anti-suppression, backdoor absence, confinement, dependency pinning, filesystem topology, parity, kernel replay, correspondence) is checked by an isolated compartment emitting its own independently replayable witness."
+      "rule": "Verification is never collapsed into a single master boolean gate or shared trust authority. Each integrity property (compiler strictness, anti-suppression, backdoor absence, confinement, dependency pinning, filesystem topology, parity, kernel replay, correspondence, floating-point determinism, global runtime invariants, distributional calibration, and cross-type seam integrity) is checked by an isolated compartment emitting its own independently replayable witness."
     },
     {
       "id": "PRIN-08",
@@ -351,11 +366,143 @@
           "Silent breakage across singular formal boundaries (definitional equality `rfl`, `*.eq_1` equation-lemma pinning, or namespace shadowing)"
         ]
       }
+    },
+    {
+      "id": "DEF-FP",
+      "code": "FLOATING_POINT_NON_ASSOCIATIVITY_AND_CANCELLATION",
+      "severity": "hard_fail",
+      "regimes": ["REG-DET"],
+      "literature_ids": ["METH-45", "METH-46", "METH-47", "METH-48"],
+      "upstream_links": ["UP-01", "UP-03"],
+      "description": "Fixed-order floating-point assertions that pass nominal inputs while masking order-dependent non-associativity or catastrophic cancellation exceeding Higham's conditioning bound.",
+      "language_surfaces": {
+        "rust": [
+          "Fixed-order `.sum::<f64>()` reductions unchecked against Neumaier compensated summation and adversarial input permutations",
+          "Point-tolerance float assertions ignoring summation condition number kappa_sum and machine unit u_mach = 2^-53"
+        ],
+        "swift": [
+          "Fixed-order `.reduce(0.0, +)` reductions unchecked against Neumaier compensated summation and adversarial input permutations",
+          "Floating-point assertions missing explicit conditioning or cancellation-bit-loss bounds"
+        ],
+        "lean": [
+          "Exact integer/rational reference correspondence oracle verifying that scaled finite-precision approximations stay within Higham's declared bound"
+        ]
+      }
+    },
+    {
+      "id": "DEF-RTINV",
+      "code": "RUNTIME_GLOBAL_INVARIANT_COLLAPSE",
+      "severity": "hard_fail",
+      "regimes": ["REG-RUN"],
+      "literature_ids": ["METH-47", "METH-49", "METH-50"],
+      "upstream_links": ["UP-01", "UP-03"],
+      "description": "Component-wise runtime bounds checks that miss global coupled invariants: indefinite covariance matrices with positive diagonals, single-sample NaN/Inf state poisoning (including silent NaN > max drops), and aggregate conservation breaches under passing per-cell clamps.",
+      "language_surfaces": {
+        "rust": [
+          "Diagonal-only checks (`diag(P) > 0`) without symmetry and Cholesky pivot positivity verification",
+          "Negated bounds checks or `if y > max_y` reductions lacking positive `is_finite()` guards",
+          "Per-element clamps lacking global probability-mass or aggregate norm conservation guards"
+        ],
+        "swift": [
+          "Diagonal-only matrix checks without full symmetry and Cholesky pivot floor verification",
+          "`max(best, x)` (`maxNum` semantics dropping `.nan`) or missing positive `isFinite` guards",
+          "Per-cell bounds lacking global aggregate conservation or mass-sum guards"
+        ],
+        "lean": [
+          "Exact integer Sylvester leading-principal-minor SPD verification and exact scaled-integer aggregate conservation guards (epsilon = 0)"
+        ]
+      }
+    },
+    {
+      "id": "DEF-CAL",
+      "code": "DISTRIBUTIONAL_CALIBRATION_AND_OOD_FAILURE",
+      "severity": "hard_fail",
+      "regimes": ["REG-PROB"],
+      "literature_ids": ["METH-21", "METH-51", "METH-52", "METH-53", "METH-54"],
+      "upstream_links": ["UP-01"],
+      "description": "Point-estimate accuracy or naive Gaussian tests that fail to detect distributional miscalibration, overconfident intervals, heavy-tailed/multimodal residuals, or out-of-distribution (OOD) shift.",
+      "language_surfaces": {
+        "rust": [
+          "Mean/RMSE-only checks omitting Massart-DKW Calibration-PIT uniformity, 50%/80%/95% Clopper-Pearson coverage, CRPS/Brier proper scores, and OOD domain gates"
+        ],
+        "swift": [
+          "Point-accuracy or naive Gaussian tests omitting distribution-free DKW Calibration-PIT, multi-quantile coverage, CRPS/Brier scoring, and OOD envelope verification"
+        ],
+        "lean": [
+          "Formal soundness verification of scaled-integer DKW, Clopper-Pearson, and OOD admission predicates without parametric Gaussian assumptions"
+        ]
+      }
+    },
+    {
+      "id": "DEF-SEAM",
+      "code": "CROSS_TYPE_BOUNDARY_SEAM_LEAK",
+      "severity": "hard_fail",
+      "regimes": ["REG-DET", "REG-RUN", "REG-PROB"],
+      "literature_ids": ["METH-28", "METH-29", "METH-52", "METH-55"],
+      "upstream_links": ["UP-01", "UP-06"],
+      "description": "Unguarded crossings across Deterministic (D), Runtime (R), and Probabilistic (P) boundaries: uncalibrated or OOD P estimates driving D actuators, unkeyed global PRNGs invoked from D breaking bit-exact replay, or uncertified R state entering D solvers.",
+      "language_surfaces": {
+        "rust": [
+          "Raw probabilistic outputs entering deterministic decisions without a verified CertifiedEstimate (calibrated, in_domain, finite, n >= n_min) envelope",
+          "Unkeyed global RNG calls (`thread_rng`, `OsRng`, `SystemTime::now()` seeds, `/dev/urandom`) inside deterministic paths breaking bit-exact SHA-256 replay"
+        ],
+        "swift": [
+          "Raw probabilistic outputs driving deterministic paths without a verified CertifiedEstimate admission check",
+          "Unkeyed global RNG calls (`SystemRandomNumberGenerator`, `.random(in:)`, `arc4random`, `Date()` seeds) inside deterministic paths"
+        ],
+        "lean": [
+          "Unverified seam construction bypassing typed CertifiedEstimate proofs or invoking `IO.rand` inside deterministic contract/kernel paths"
+        ]
+      }
     }
   ],
+  "blindspot_and_seam_thresholds": {
+    "fp_determinism": {
+      "machine_unit_f64": 1.1102230246251565e-16,
+      "higham_spread_multiplier": 8.0,
+      "max_condition_number": 10000000000.0,
+      "min_retained_bits": 24,
+      "required_orderings": ["forward", "reverse", "magnitude_asc", "magnitude_desc", "alternating"]
+    },
+    "rt_invariants": {
+      "symmetry_abs_tol": 1e-12,
+      "cholesky_min_pivot_sq": 1e-12,
+      "require_positive_finite": true,
+      "probability_mass_sum_tol": 1e-11,
+      "aggregate_cap_margin": 1e-12
+    },
+    "prob_calibration": {
+      "dkw_alpha": 0.01,
+      "min_calibration_samples": 200,
+      "coverage_quantiles": [0.5, 0.8, 0.95],
+      "clopper_pearson_alpha": 0.01,
+      "max_crps_ratio_to_reference": 1.25,
+      "max_brier_score": 0.25,
+      "ood_max_mahalanobis": 3.5
+    },
+    "seam_integrity": {
+      "require_p_to_d_certified_envelope": true,
+      "require_d_to_p_keyed_prng": true,
+      "max_replay_digest_mismatch": 0,
+      "banned_unkeyed_rng_tokens": {
+        "rust": ["thread_rng(", "rand::random(", "OsRng", "getrandom(", "/dev/urandom"],
+        "swift": ["SystemRandomNumberGenerator", ".random(in:", "arc4random", "drand48("],
+        "lean": ["IO.rand", "IO.setRandSeed"]
+      }
+    },
+    "rct_qualification": {
+      "min_replicates_per_stratum": 30,
+      "wilcoxon_alpha": 0.01,
+      "min_vargha_delaney_a12": 0.95,
+      "clopper_pearson_alpha": 0.01,
+      "required_det_rt_seam_tpr": 1.0,
+      "max_det_rt_seam_fpr": 0.0
+    }
+  },
   "negative_control_qualification": {
-    "literature_ids": ["METH-24", "METH-25", "METH-31", "METH-33"],
-    "requirement": "Before any SWE-sweep compartment is trusted, it must be executed against an isolated suite of deliberately poisoned fixtures (covering every defect class and language) and achieve 100% true-positive detection with 0% false negatives and 0% false positives on clean control fixtures—even when copied out-of-tree and re-run independently.",
+    "literature_ids": ["METH-24", "METH-25", "METH-31", "METH-33", "METH-45", "METH-49", "METH-52", "METH-55"],
+    "requirement": "Before any SWE-sweep compartment is trusted, it must be executed against an isolated suite of deliberately poisoned fixtures (covering all 14 defect classes, all 13 witnesses, and all 3 languages) and achieve 100% true-positive detection with 0% false negatives and 0% false positives on deterministic/runtime/seam clean control fixtures—even when copied out-of-tree and re-run independently.",
+    "fixture_recipe_vault": "data/fixtures/rung1_negative_controls_v1.json",
     "required_poisoned_fixtures": [
       "poison_suppression_rust_allow_dead_code",
       "poison_suppression_swift_try_optional_and_suppress_flag",
@@ -370,7 +517,14 @@
       "poison_parity_drift_injected_off_by_one",
       "poison_leaker_covert_env_exfil",
       "poison_monolithic_self_certifying_gate",
-      "poison_correspondence_unbounded_drift"
+      "poison_correspondence_unbounded_drift",
+      "poison_det_fp_catastrophic_cancellation",
+      "poison_rt_spd_offdiag_indefinite",
+      "poison_rt_nan_state_poisoning",
+      "poison_rt_aggregate_conservation_breach",
+      "poison_prob_naive_gaussian_miscalibrated",
+      "poison_seam_p_to_d_uncalibrated_ood_actuator",
+      "poison_seam_d_to_p_unkeyed_global_prng"
     ]
   },
   "state_separation_rule": "Normative policy rules in this manifest are strictly immutable and must never embed live audit findings, remediation logs, or platform waivers. Live audit state and explicit platform waivers live separately under data/audits/."

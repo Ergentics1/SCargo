@@ -674,7 +674,7 @@ pub mod riem_lattice {
         }
 
         /// Exact Fourier-mode maximum nontrivial `lambda^2` for connected `G_PLR(N, P5, M3)`.
-        /// Returns `None` if disconnected.
+        /// Returns `None` if disconnected or if any spectral mode is non-finite.
         pub fn max_nontrivial_lambda_sq(&self) -> Option<f64> {
             if !self.is_connected() {
                 return None;
@@ -690,6 +690,9 @@ pub mod riem_lattice {
                 let re = 1.0 + a1.cos() + a2.cos();
                 let im = a1.sin() + a2.sin();
                 let mag_sq = re * re + im * im;
+                if !mag_sq.is_finite() {
+                    return None;
+                }
                 if mag_sq > best {
                     best = mag_sq;
                 }
@@ -962,11 +965,28 @@ pub mod riem_lattice {
         let mut best = 0.0_f64;
         for k in 1..12 {
             let kf = k as f64;
-            let lam: f64 = shifts
-                .iter()
-                .map(|&s| (2.0 * PI * kf * s / 12.0).cos())
-                .sum();
-            best = best.max(lam.abs());
+            let mut sum = 0.0_f64;
+            let mut comp = 0.0_f64;
+            for &s in &shifts {
+                let term = (2.0 * PI * kf * s / 12.0).cos();
+                if !term.is_finite() {
+                    return f64::NAN;
+                }
+                let t = sum + term;
+                if sum.abs() >= term.abs() {
+                    comp += (sum - t) + term;
+                } else {
+                    comp += (term - t) + sum;
+                }
+                sum = t;
+            }
+            let mag = (sum + comp).abs();
+            if !mag.is_finite() {
+                return f64::NAN;
+            }
+            if mag > best {
+                best = mag;
+            }
         }
         best
     }

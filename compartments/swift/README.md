@@ -6,6 +6,7 @@ This compartment targets **Open-Source Swift `6.4.3`** (`swift-tools-version: 6.
 - **`SCargoModel`** & **`scargo-audit`**: Strongly-typed `Codable`/`Sendable` schemas, `ClockMonotonicityGuard` (`OBS-01`), and ICD/baseline/trace auditing (`SCargoModelTests`).
 - **`RiemLattice`** & **`scargo-riem-lattice`**: Standalone Import-Style Riemann Lattice machine layer with exact $\mathbb{Z}/\mathbb{Q}$ (`ExactInt`/`ExactRat`) Faddeev–LeVerrier, 24×24 Bass–Ihara determinant & functional equation, Möbius prime-cycle enumerator, $N$-TET Correspondence-Principle sweep, and 8 atomic fail-closed `CompartmentGuardVerdict`s verified against `data/sources/riemann_lattice_graph_rh_v1.json` (`RiemLatticeTests`).
 - **`SchwartzZippel`** & **`scargo-schwartz-zippel`**: Standalone coupled `PIT-SZ × PLR` cyclotomic torus engine (`F_p` for $p \equiv 1 \pmod{12}$), bilinear `P, L, R` involutions, dihedral holonomy (`rho_k`), 72-edge Hashimoto non-backtracking vs. SRW mixing, length-6 homology cycle sieving, low-entropy Ramanujan walk PIT, `G_PLR` Edmonds & Bass–Ihara PIT bridge, and 9 atomic fail-closed guards (`SchwartzZippelTests`).
+- **`SCargoSweep`** & **`scargo-sweep`**: Standalone Rung 1 13-witness Proof-Carrying SWE-sweep (pure-Swift SHA-256), D/R/P/Seam blind-spot guards (Neumaier/Higham FP, Cholesky SPD, positive `isFinite`, conservation caps, Massart–DKW Calibration-PIT, Clopper–Pearson coverage, CRPS/Brier, OOD, typed `P -> D` admission, bit-exact `D -> P` replay), 21-poison + 5-clean out-of-tree fixture qualifier (`PRIN-06`), and Stratified `RCT-R1` engine (`SCargoSweepTests`).
 
 ## Standalone Verification Commands (Guarded Default `swiftbuild`, 0 Warnings)
 
@@ -17,4 +18,5 @@ compartments/swift/.build/release/scargo-riem-lattice \
 compartments/swift/.build/release/scargo-schwartz-zippel \
   --sz-vault data/sources/schwartz_zippel_research_v1.json \
   --rl-vault data/sources/riemann_lattice_graph_rh_v1.json
+compartments/swift/.build/release/scargo-sweep all --root .
 ```

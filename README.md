@@ -36,18 +36,19 @@ Built on the **SpaceX Falcon Payload User's Guide (Rev. 8, May 2025)**, the **NA
 SCargo/
 ├── ARCHITECTURE.md                   # Compartment philosophy, Correspondence Principle & zero-trust invariants
 ├── compartments/
-│   ├── rust/                         # Rust 1.100.0 workspace: scargo-probe, scargo-trace, scargo-qualify, scargo-riem-lattice (zero-dep, forbid(unsafe_code))
-│   ├── swift/                        # Open-Source Swift 6.4.3: SCargoModel, RiemLattice, scargo-audit, scargo-riem-lattice, Swift Testing suites
-│   └── lean/                         # Lean v4.36.0: SCargoLean.Contract, SCargoLean.RiemLattice (pure-kernel Graph-RH proofs), riem_lattice_test
+│   ├── rust/                         # Rust 1.100.0 workspace: scargo-probe, scargo-trace, scargo-qualify, scargo-riem-lattice, scargo-schwartz-zippel (zero-dep, forbid(unsafe_code))
+│   ├── swift/                        # Open-Source Swift 6.4.3: SCargoModel, RiemLattice, SchwartzZippel, scargo-audit, scargo-riem-lattice, scargo-schwartz-zippel, Swift Testing suites
+│   └── lean/                         # Lean v4.36.0: SCargoLean.Contract, SCargoLean.RiemLattice, SCargoLean.SchwartzZippel (pure-kernel Condition-D SZ + coupled PLR proofs), riem_lattice_test, sz_lattice_test
 ├── models/
 │   ├── reduction_model.md            # Quantitative proof mass-budget & reduction equations
 │   ├── verification_methodology_model.md   # Deterministic / runtime / probabilistic SWE-sweep model
 │   ├── conflation_and_boolean_guard_analysis.md  # Helper-pathology taxonomy, AUD-01..07 & atomic guard spec
 │   ├── riemannian_disambiguation_model.md  # Authority-controlled RIEM-A / RIEM-B / RIEM-C / RIEM-LATTICE map
-│   └── riemann_lattice_graph_rh_model.md   # Euler 1735-1739 root & exact proof: G_PLR satisfies Graph RH
+│   ├── riemann_lattice_graph_rh_model.md   # Euler 1735-1739 root & exact proof: G_PLR satisfies Graph RH
+│   └── schwartz_zippel_lattice_model.md    # ODLSZ / Schwartz-Zippel lineage, coupled PLR torus, ring bounds & G_PLR PIT bridge
 ├── data/
 │   ├── README.md                     # Code/data/policy/audit separation contract
-│   ├── sources/                      # 6 disjoint primary-source vaults (RIEM-A, RIEM-C [88 works], RIEM-LATTICE, SWE lit, lexicon, Paper 001 presentation)
+│   ├── sources/                      # 7 disjoint primary-source vaults (RIEM-A, RIEM-C [88 works], RIEM-LATTICE, PIT-SZ [38 works], SWE lit, lexicon, Paper 001 presentation)
 │   ├── manifests/                    # Normative policies (swe_sweep_policy_v1.json, transfer_zones_v1.json, upstream_requirements_v1.json)
 │   ├── audits/                       # Live self-audit ledger & remediation receipts (live_self_audit_v1.json)
 │   ├── baselines/                    # Read-only telemetry snapshots (riemannian_51d9b1a280_inventory.json)
@@ -71,9 +72,10 @@ Each compartment runs independently with zero cross-language combo wrappers:
 
 ### 1. Lean (`v4.36.0`, `warningAsError = true`, `LEAN_ABORT_ON_PANIC=1`, zero `sorry` / `native_decide`)
 ```bash
-LEAN_ABORT_ON_PANIC=1 lake --dir compartments/lean build
-LEAN_ABORT_ON_PANIC=1 lake --dir compartments/lean test
-LEAN_PATH=compartments/lean/.lake/build/lib/lean leanchecker SCargoLean SCargoLean.Contract SCargoLean.RiemLattice
+LEAN_ABORT_ON_PANIC=1 lake --dir compartments/lean build SCargoLean riem_lattice_test sz_lattice_test
+LEAN_ABORT_ON_PANIC=1 lake --dir compartments/lean exe riem_lattice_test
+LEAN_ABORT_ON_PANIC=1 lake --dir compartments/lean exe sz_lattice_test
+LEAN_PATH=compartments/lean/.lake/build/lib/lean leanchecker SCargoLean SCargoLean.Contract SCargoLean.RiemLattice SCargoLean.SchwartzZippel
 ```
 
 ### 2. Rust (`1.100.0`, zero external crates, `-D warnings`, `#![forbid(unsafe_code)]`)
@@ -83,6 +85,9 @@ cargo test --manifest-path compartments/rust/Cargo.toml
 cargo build --release --manifest-path compartments/rust/Cargo.toml
 compartments/rust/target/release/scargo-riem-lattice \
   --vault data/sources/riemann_lattice_graph_rh_v1.json
+compartments/rust/target/release/scargo-schwartz-zippel \
+  --sz-vault data/sources/schwartz_zippel_research_v1.json \
+  --rl-vault data/sources/riemann_lattice_graph_rh_v1.json
 ```
 
 ### 3. Open-Source Swift (`6.4.3`, `.treatAllWarnings(as: .error)`, guarded default `swiftbuild`)
@@ -91,6 +96,9 @@ python3 compartments/swift/scripts/swift_guarded_build.py --check-zero-warnings 
 python3 compartments/swift/scripts/swift_guarded_build.py --check-zero-warnings -- build -c release --package-path compartments/swift
 compartments/swift/.build/release/scargo-riem-lattice \
   --vault data/sources/riemann_lattice_graph_rh_v1.json
+compartments/swift/.build/release/scargo-schwartz-zippel \
+  --sz-vault data/sources/schwartz_zippel_research_v1.json \
+  --rl-vault data/sources/riemann_lattice_graph_rh_v1.json
 ```
 
 ---
@@ -100,6 +108,7 @@ compartments/swift/.build/release/scargo-riem-lattice \
 - Architecture & Zero-Trust Invariants: [`ARCHITECTURE.md`](ARCHITECTURE.md)
 - Disambiguation of Bernhard vs. Hugo Riemann: [`models/riemannian_disambiguation_model.md`](models/riemannian_disambiguation_model.md)
 - Euler 1730s Root & Neo-Riemannian *Tonnetz* Dual Graph-RH Proof: [`models/riemann_lattice_graph_rh_model.md`](models/riemann_lattice_graph_rh_model.md)
+- Schwartz–Zippel (ODLSZ) Lattice Module & PIT Integration: [`models/schwartz_zippel_lattice_model.md`](models/schwartz_zippel_lattice_model.md)
 - Verification Methodology & Conflation Guard Analysis: [`models/verification_methodology_model.md`](models/verification_methodology_model.md) · [`models/conflation_and_boolean_guard_analysis.md`](models/conflation_and_boolean_guard_analysis.md)
 - Interface Control Document (`Riemannian` airlock): [`transfer/ICD-RIEMANNIAN.md`](transfer/ICD-RIEMANNIAN.md)
 - Paper 001 (Formulary & Reduction Architecture): [`research/papers/001-riemannian-formulary-and-reduction-architecture/paper.md`](research/papers/001-riemannian-formulary-and-reduction-architecture/paper.md)

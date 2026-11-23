@@ -1,0 +1,742 @@
+{
+  "schema_version": "1.0.0",
+  "copyright": "Copyright (c) 2026 Ergentics, LLC",
+  "organization": "Ergentics",
+  "vault_id": "SZ-PIT-V1",
+  "tradition_id": "PIT-SZ",
+  "title": "Schwartz-Zippel (ODLSZ) Lemma, Polynomial Identity Testing, Algebraic Generalizations, and Verified Lattice Benchmarks",
+  "verified_date_utc": "2026-11-23",
+  "purpose": "Primary-source research vault for the Ore-DeMillo-Lipton-Schwartz-Zippel (ODLSZ) family of multivariate polynomial root bounds, Polynomial Identity Testing (PIT), algebraic and ring-theoretic generalizations, complexity and derandomization milestones through 2026, interactive proof soundness, formal proof-assistant libraries, and exact computational bridges into SCargo's Import-Style Riemann Lattice (G_PLR) and probabilistic SWE-sweep layer.",
+  "anti_conflation_guard": {
+    "attribution_rule": "Credits the full four-paper founding lineage: Oystein Ore (1922, finite fields), Richard A. DeMillo & Richard J. Lipton (1978, randomized algebraic testing), Richard Zippel (1979, sparse polynomial zero-testing), and Jacob T. Schwartz (1980, sharp total-degree inductive PIT bound).",
+    "theorem_variant_separation": "Strictly distinguishes five non-equivalent theorem families: (1) total-degree ODLSZ, (2) individual-degree DLZ/Knuth, (3) sharp finite-grid Alon-Furedi and Combinatorial Nullstellensatz, (4) Hasse-derivative Multiplicity SZ (DKSS 2013), and (5) commutative-ring Condition (D) grid bounds (BCPS 2018).",
+    "ring_hypothesis_guard": "Classical ODLSZ requires an integral domain (no nonzero zero divisors). Over composite rings such as Z/mZ, the bound fails (e.g. x(x-1) has 4 roots in Z/6Z, exceeding d/|S|=2/6 by 2x) unless evaluation grids satisfy Condition (D): no distinct a, b in S_i have a - b a zero divisor.",
+    "lattice_namespace_separation": "Lives in disjoint tradition PIT-SZ (IDs SZ-*) separate from RIEM-A (SRC-*), RIEM-C (HR-*), RIEM-LATTICE (RL-*), and SWE literature (METH-*). Connects to RIEM-LATTICE via explicit polynomial-identity and symbolic-matching interfaces on G_PLR."
+  },
+  "categories": [
+    {
+      "id": "SZ-FOUNDATION",
+      "name": "Founding Attribution & Core Proofs (1922-2010)",
+      "focus": "Original finite-field bound (Ore 1922), algebraic program testing (DeMillo-Lipton 1978), sparse interpolation & PIT (Zippel 1979, Schwartz 1980, Zippel 1993), and non-inductive univariate reduction (Moshkovitz 2010)."
+    },
+    {
+      "id": "SZ-GENERALIZATION",
+      "name": "Sharp Grid, Projective, Multiplicity, Ring & Slice Generalizations (1989-2025)",
+      "focus": "Serre-Sorensen projective hypersurface bounds, Alon-Furedi hyperplane covers, Combinatorial Nullstellensatz, finite-field Kakeya, DKSS Hasse-derivative multiplicities, BCPS Condition (D) rings, Rote's unified hierarchy, and ICALP 2025 Boolean-slice ODLSZ."
+    },
+    {
+      "id": "SZ-ALGORITHMS",
+      "name": "Algorithmic Applications & Graph Matching (1967-2026)",
+      "focus": "Edmonds symbolic matching matrix, Freivalds matrix-product verification, Lovasz randomized matching, MVV Isolation Lemma, Agrawal-Biswas & AKS primality via PIT, and the 2026 deterministic NC bipartite matching breakthrough."
+    },
+    {
+      "id": "SZ-COMPLEXITY-DERAND",
+      "name": "Algebraic Complexity, Derandomization & Non-Commutative PIT (2004-2025)",
+      "focus": "Kabanets-Impagliazzo hardness-vs-randomness, Raz-Shpilka non-commutative PIT, Shpilka-Yehudayoff and Saxena surveys, GGOW operator scaling, Limaye-Srinivasan-Tavenas constant-depth lower bounds and PIT, Atserias-Tzameret proof complexity, and Andrews-Kush-Tell uniform PIT."
+    },
+    {
+      "id": "SZ-PROOFS-ZK",
+      "name": "Interactive Proofs, Sum-Check & Zero-Knowledge Soundness (1992-2022)",
+      "focus": "Lund-Fortnow-Karloff-Nisan Sum-Check protocol, Shamir IP = PSPACE, and Thaler's modern synthesis of PIOP and SNARK soundness grounded in Schwartz-Zippel."
+    },
+    {
+      "id": "SZ-FORMALIZATION",
+      "name": "Machine-Checked Formalizations in Proof Assistants (2023-2025)",
+      "focus": "Isabelle/HOL Archive of Formal Proofs entries for Schwartz-Zippel and Sum-Check, Lean 4 linear PCP SNARK soundness formalization, and Lean 4 Mathlib MvPolynomial.SchwartzZippel."
+    }
+  ],
+  "primary_sources": [
+    {
+      "id": "SZ-F01",
+      "category": "SZ-FOUNDATION",
+      "year": 1922,
+      "authors": "Oystein Ore",
+      "title": "Ueber hoehere Kongruenzen",
+      "venue": "Norsk Matematisk Forenings Skrifter, Ser. I, Nr. 7 (1922), pp. 15-22",
+      "reference_url": "https://zbmath.org/?q=au%3AOre+ti%3Ahoehere+Kongruenzen",
+      "verification_status": "verified_primary_citation",
+      "contribution": "Proved the first multivariate total-degree zero bound over finite fields F_q: a nonzero polynomial of degree d < q in n variables has at most d * q^(n-1) roots in F_q^n (56 years before DeMillo-Lipton)."
+    },
+    {
+      "id": "SZ-F02",
+      "category": "SZ-FOUNDATION",
+      "year": 1978,
+      "authors": "Richard A. DeMillo and Richard J. Lipton",
+      "title": "A Probabilistic Remark on Algebraic Program Testing",
+      "venue": "Information Processing Letters, 7(4), pp. 193-195. doi:10.1016/0020-0190(78)90067-4",
+      "reference_url": "https://doi.org/10.1016/0020-0190(78)90067-4",
+      "verification_status": "verified_primary_archive",
+      "contribution": "Introduced probabilistic polynomial identity testing for algebraic program equivalence, proving that random evaluation over a finite grid separates unequal polynomials of bounded degree with high probability."
+    },
+    {
+      "id": "SZ-F03",
+      "category": "SZ-FOUNDATION",
+      "year": 1979,
+      "authors": "Richard Zippel",
+      "title": "Probabilistic algorithms for sparse polynomials",
+      "venue": "Symbolic and Algebraic Computation (EUROSAM '79), Lecture Notes in Computer Science 72, Springer, pp. 216-226. doi:10.1007/3-540-09519-5_73",
+      "reference_url": "https://doi.org/10.1007/3-540-09519-5_73",
+      "verification_status": "verified_primary_archive",
+      "contribution": "Independently established the multivariate zero-density bound over finite subsets of an integral domain to analyze sparse multivariate polynomial interpolation and GCD algorithms."
+    },
+    {
+      "id": "SZ-F04",
+      "category": "SZ-FOUNDATION",
+      "year": 1980,
+      "authors": "Jacob T. Schwartz",
+      "title": "Fast Probabilistic Algorithms for Verification of Polynomial Identities",
+      "venue": "Journal of the ACM, 27(4), pp. 701-717. doi:10.1145/322217.322225",
+      "reference_url": "https://doi.org/10.1145/322217.322225",
+      "verification_status": "verified_primary_archive",
+      "contribution": "Proved the sharp inductive total-degree bound Pr[f(r) = 0] <= d / |S| over arbitrary finite subsets S of an integral domain and developed fast probabilistic verification algorithms for polynomial, determinant, and matching identities."
+    },
+    {
+      "id": "SZ-F05",
+      "category": "SZ-FOUNDATION",
+      "year": 1993,
+      "authors": "Richard Zippel",
+      "title": "Effective Polynomial Computation",
+      "venue": "The Kluwer International Series in Engineering and Computer Science, Vol. 241, Kluwer/Springer, 1993. doi:10.1007/978-1-4615-3188-3",
+      "reference_url": "https://doi.org/10.1007/978-1-4615-3188-3",
+      "verification_status": "verified_primary_archive",
+      "contribution": "Comprehensive textbook treatment of zero-equivalence testing (Ch. 12), multivariate sparse interpolation, and Hensel lifting built on the Schwartz-Zippel bound."
+    },
+    {
+      "id": "SZ-F06",
+      "category": "SZ-FOUNDATION",
+      "year": 2010,
+      "authors": "Dana Moshkovitz",
+      "title": "An Alternative Proof of The Schwartz-Zippel Lemma",
+      "venue": "Electronic Colloquium on Computational Complexity (ECCC), Report TR10-096 (June 16, 2010)",
+      "reference_url": "https://eccc.weizmann.ac.il/report/2010/096/",
+      "verification_status": "verified_primary_archive",
+      "contribution": "Gave a non-inductive proof of the finite-field Schwartz-Zippel lemma via random affine lines reducing multivariate root counting directly to the univariate fundamental theorem of algebra."
+    },
+    {
+      "id": "SZ-G01",
+      "category": "SZ-GENERALIZATION",
+      "year": 1991,
+      "authors": "Jean-Pierre Serre",
+      "title": "Lettre a M. Tsfasman (du 24 Juillet 1989)",
+      "venue": "Journees Arithmetiques de Luminy (17-21 Juillet 1989), Asterisque 198-199-200 (1991), pp. 351-353",
+      "reference_url": "https://www.numdam.org/book-part/AST_1991__198-199-200__351_0/",
+      "verification_status": "verified_primary_archive",
+      "contribution": "Proved Tsfasman's sharp bound on F_q-rational points of projective hypersurfaces of degree d <= q + 1: |Z_proj(f)| <= d * q^(m-1) + p_(m-2), refining Ore's bound in projective space."
+    },
+    {
+      "id": "SZ-G02",
+      "category": "SZ-GENERALIZATION",
+      "year": 1993,
+      "authors": "Noga Alon and Zoltan Furedi",
+      "title": "Covering the Cube by Affine Hyperplanes",
+      "venue": "European Journal of Combinatorics, 14(2), pp. 79-83. doi:10.1006/eujc.1993.1011",
+      "reference_url": "https://doi.org/10.1006/eujc.1993.1011",
+      "verification_status": "verified_primary_archive",
+      "contribution": "Established the tight minimum-nonzero bound for degree-d polynomials on finite grids prod S_i even when d >= |S_i|, showing that covering all but one vertex of {0,1}^n requires at least n hyperplanes (and giving exact 2^(n-d) nonzeros on {0,1}^n)."
+    },
+    {
+      "id": "SZ-G03",
+      "category": "SZ-GENERALIZATION",
+      "year": 1994,
+      "authors": "Anders Bjert Sorensen",
+      "title": "On the number of rational points on codimension-1 algebraic sets in P^n(F_q)",
+      "venue": "Discrete Mathematics, 135(1-3), pp. 321-334. doi:10.1016/0012-365X(93)E0009-S",
+      "reference_url": "https://doi.org/10.1016/0012-365X(93)E0009-S",
+      "verification_status": "verified_primary_archive",
+      "contribution": "Independently proved and extended Serre's sharp projective hypersurface point bound and characterized extremal configurations achieving equality, directly determining minimum distances of Projective Reed-Muller codes."
+    },
+    {
+      "id": "SZ-G04",
+      "category": "SZ-GENERALIZATION",
+      "year": 1999,
+      "authors": "Noga Alon",
+      "title": "Combinatorial Nullstellensatz",
+      "venue": "Combinatorics, Probability and Computing, 8(1-2), pp. 7-29. doi:10.1017/S0963548398003411",
+      "reference_url": "https://doi.org/10.1017/S0963548398003411",
+      "verification_status": "verified_primary_archive",
+      "contribution": "Proved the deterministic non-vanishing theorem (Theorem 1.2): if f has a nonzero monomial x_1^(t_1)...x_n^(t_n) of maximal total degree and |S_i| > t_i for all i, then f is nonzero somewhere on prod S_i; unified combinatorial zero-avoidance via ideal membership."
+    },
+    {
+      "id": "SZ-G05",
+      "category": "SZ-GENERALIZATION",
+      "year": 2009,
+      "authors": "Zeev Dvir",
+      "title": "On the size of Kakeya sets in finite fields",
+      "venue": "Journal of the American Mathematical Society, 22(4), pp. 1093-1097. doi:10.1090/S0894-0347-08-00607-3 (arXiv:0803.2336)",
+      "reference_url": "https://doi.org/10.1090/S0894-0347-08-00607-3",
+      "verification_status": "verified_primary_archive",
+      "contribution": "Resolved the finite-field Kakeya conjecture in one page using the polynomial method and Schwartz-Zippel, catalyzing the modern multiplicity method in discrete geometry and coding theory."
+    },
+    {
+      "id": "SZ-G06",
+      "category": "SZ-GENERALIZATION",
+      "year": 2013,
+      "authors": "Zeev Dvir, Swastik Kopparty, Shubhangi Saraf, and Madhu Sudan",
+      "title": "Extensions to the Method of Multiplicities, with Applications to Kakeya Sets and Mergers",
+      "venue": "SIAM Journal on Computing, 42(6), pp. 2305-2328 (FOCS 2009). doi:10.1137/100783704",
+      "reference_url": "https://doi.org/10.1137/100783704",
+      "verification_status": "verified_primary_archive",
+      "contribution": "Proved the Multiplicity Schwartz-Zippel Lemma using Hasse derivatives (valid in arbitrary characteristic): sum_{a in S^n} mult(f, a) <= d * |S|^(n-1), tightening Kakeya bounds to (q/2)^n and powering multiplicity codes."
+    },
+    {
+      "id": "SZ-G07",
+      "category": "SZ-GENERALIZATION",
+      "year": 2018,
+      "authors": "Anurag Bishnoi, Pete L. Clark, Aditya Potukuchi, and John R. Schmitt",
+      "title": "On Zeros of a Polynomial in a Finite Grid",
+      "venue": "Combinatorics, Probability and Computing, 27(3), pp. 310-333. doi:10.1017/S0963548317000566 (arXiv:1508.06020)",
+      "reference_url": "https://doi.org/10.1017/S0963548317000566",
+      "verification_status": "verified_primary_archive",
+      "contribution": "Proved the Generalized Alon-Furedi theorem incorporating both total and individual degrees over arbitrary commutative rings whose grids satisfy Condition (D) (distinct grid differences are non-zero-divisors), clarifying the exact hierarchy linking Alon-Furedi, DeMillo-Lipton, Zippel, and Schwartz."
+    },
+    {
+      "id": "SZ-G08",
+      "category": "SZ-GENERALIZATION",
+      "year": 2023,
+      "authors": "Gunter Rote",
+      "title": "The Generalized Combinatorial Lason-Alon-Zippel-Schwartz Nullstellensatz Lemma",
+      "venue": "arXiv:2305.10900 [math.CO] (May 18, 2023)",
+      "reference_url": "https://arxiv.org/abs/2305.10900",
+      "verification_status": "verified_primary_archive",
+      "contribution": "Unified the logical implication lattice among Alon's Combinatorial Nullstellensatz (existence under maximal monomial), Lason's generalization, DeMillo-Lipton-Zippel-Schwartz quantitative lower bounds (lexicographically largest monomial), and Condition (D) commutative rings, proving no single theorem implies both."
+    },
+    {
+      "id": "SZ-G09",
+      "category": "SZ-GENERALIZATION",
+      "year": 2025,
+      "authors": "Prashanth Amireddy, Amik Raj Behera, Srikanth Srinivasan, and Madhu Sudan",
+      "title": "A Near-Optimal Polynomial Distance Lemma over Boolean Slices",
+      "venue": "52nd International Colloquium on Automata, Languages, and Programming (ICALP 2025), LIPIcs Vol. 334, pp. 11:1-11:20. doi:10.4230/LIPIcs.ICALP.2025.11 (arXiv:2507.03193; ECCC TR25-056)",
+      "reference_url": "https://doi.org/10.4230/LIPIcs.ICALP.2025.11",
+      "verification_status": "verified_primary_archive",
+      "contribution": "Extended the ODLSZ lemma near-optimally from product grids to constant-Hamming-weight Boolean slices (non-product domains), proving Pr[f(x) != 0] >= (t/n)^d (1 - o_n(1)) for t = min(k, n-k) via spectral sampler and hypercontractivity analysis."
+    },
+    {
+      "id": "SZ-A01",
+      "category": "SZ-ALGORITHMS",
+      "year": 1967,
+      "authors": "Jack Edmonds",
+      "title": "Systems of distinct representatives and linear algebra",
+      "venue": "Journal of Research of the National Bureau of Standards, Section B: Mathematics and Mathematical Physics, 71B(4), pp. 241-245. doi:10.6028/JRES.071B.033",
+      "reference_url": "https://doi.org/10.6028/JRES.071B.033",
+      "verification_status": "verified_primary_archive",
+      "contribution": "Formulated bipartite perfect matching (and general matrix rank of linear spaces of matrices, the Edmonds Problem) as testing whether a symbolic determinant det(B(X)) is identically zero — the canonical benchmark problem for PIT."
+    },
+    {
+      "id": "SZ-A02",
+      "category": "SZ-ALGORITHMS",
+      "year": 1979,
+      "authors": "Rusins Freivalds",
+      "title": "Fast probabilistic algorithms",
+      "venue": "Mathematical Foundations of Computer Science 1979 (MFCS '79), Lecture Notes in Computer Science 74, Springer, pp. 57-69. doi:10.1007/3-540-09526-8_5",
+      "reference_url": "https://doi.org/10.1007/3-540-09526-8_5",
+      "verification_status": "verified_primary_archive",
+      "contribution": "Introduced O(n^2) randomized verification of matrix multiplication AB = C via random vector projection (AB)r = Cr — a degree-1 linear instantiation of Schwartz-Zippel with error <= 1/|S| per trial (<= 1/2 over {0,1})."
+    },
+    {
+      "id": "SZ-A03",
+      "category": "SZ-ALGORITHMS",
+      "year": 1979,
+      "authors": "Laszlo Lovasz",
+      "title": "On determinants, matchings, and random algorithms",
+      "venue": "Fundamentals of Computation Theory (FCT '79), Akademie-Verlag, Berlin, pp. 565-574",
+      "reference_url": "https://dblp.org/pid/l/LaszloLovasz",
+      "verification_status": "verified_primary_citation",
+      "contribution": "Combined Tutte's skew-symmetric matrix and Edmonds' biadjacency matrix with random field substitution (Schwartz-Zippel) to give the first randomized polynomial-time and RNC algorithms for deciding perfect matching and linear matroid parity."
+    },
+    {
+      "id": "SZ-A04",
+      "category": "SZ-ALGORITHMS",
+      "year": 1987,
+      "authors": "Ketan Mulmuley, Umesh V. Vazirani, and Vijay V. Vazirani",
+      "title": "Matching is as easy as matrix inversion",
+      "venue": "Combinatorica, 7(1), pp. 105-113 (STOC 1987). doi:10.1007/BF02579206",
+      "reference_url": "https://doi.org/10.1007/BF02579206",
+      "verification_status": "verified_primary_archive",
+      "contribution": "Introduced the Isolation Lemma to upgrade Lovasz's randomized decision test into an RNC search algorithm constructing a perfect matching via parallel matrix inversion."
+    },
+    {
+      "id": "SZ-A05",
+      "category": "SZ-ALGORITHMS",
+      "year": 2003,
+      "authors": "Manindra Agrawal and Somenath Biswas",
+      "title": "Primality and identity testing via Chinese remaindering",
+      "venue": "Journal of the ACM, 50(4), pp. 429-443 (FOCS 1999). doi:10.1145/792538.792540",
+      "reference_url": "https://doi.org/10.1145/792538.792540",
+      "verification_status": "verified_primary_archive",
+      "contribution": "Reduced primality testing for n to testing the univariate polynomial identity (1 + z)^n == 1 + z^n (mod n) via random modular polynomial quotients over Z_n, overcoming the composite-ring failure of direct Schwartz-Zippel evaluation."
+    },
+    {
+      "id": "SZ-A06",
+      "category": "SZ-ALGORITHMS",
+      "year": 2004,
+      "authors": "Manindra Agrawal, Neeraj Kayal, and Nitin Saxena",
+      "title": "PRIMES is in P",
+      "venue": "Annals of Mathematics, 160(2), pp. 781-793. doi:10.4007/annals.2004.160.781",
+      "reference_url": "https://doi.org/10.4007/annals.2004.160.781",
+      "verification_status": "verified_primary_archive",
+      "contribution": "Derandomized the Agrawal-Biswas polynomial identity test for (x + a)^n == x^n + a (mod x^r - 1, n), yielding the landmark unconditional deterministic polynomial-time primality test."
+    },
+    {
+      "id": "SZ-A07",
+      "category": "SZ-ALGORITHMS",
+      "year": 2026,
+      "authors": "Abhranil Chatterjee, Sumanta Ghosh, Rohit Gurjar, Roshan Raj, and Thomas Thierauf",
+      "title": "Bipartite Matching is in NC",
+      "venue": "Electronic Colloquium on Computational Complexity (ECCC), Report TR26-100 (June 14, 2026)",
+      "reference_url": "https://eccc.weizmann.ac.il/report/2026/100/",
+      "verification_status": "verified_primary_archive",
+      "contribution": "Resolved the 47-year open derandomization problem for Edmonds/Lovasz bipartite matching by placing bipartite perfect matching (decision, search, weighted), linear matroid intersection, and symbolic non-commutative rank in deterministic NC using explicit subspace designs."
+    },
+    {
+      "id": "SZ-A08",
+      "category": "SZ-ALGORITHMS",
+      "year": 2026,
+      "authors": "Swastik Kopparty and Shubhangi Saraf",
+      "title": "On the CGGRT Criterion for Detecting Bipartite Perfect Matchings in NC",
+      "venue": "arXiv:2607.15554 [cs.CC] (July 17, 2026)",
+      "reference_url": "https://arxiv.org/abs/2607.15554",
+      "verification_status": "verified_primary_archive",
+      "contribution": "Simplified and sharpened the deterministic NC bipartite perfect matching detection criterion of Chatterjee-Ghosh-Gurjar-Raj-Thierauf (2026) via polynomial multiplicities and subspace designs."
+    },
+    {
+      "id": "SZ-C01",
+      "category": "SZ-COMPLEXITY-DERAND",
+      "year": 2004,
+      "authors": "Valentine Kabanets and Russell Impagliazzo",
+      "title": "Derandomizing Polynomial Identity Tests Means Proving Circuit Lower Bounds",
+      "venue": "Computational Complexity, 13(1-2), pp. 1-46 (STOC 2003). doi:10.1007/s00037-004-0182-6",
+      "reference_url": "https://doi.org/10.1007/s00037-004-0182-6",
+      "verification_status": "verified_primary_archive",
+      "contribution": "Proved the foundational equivalence between derandomizing Schwartz-Zippel (PIT in deterministic polynomial time) and proving superpolynomial arithmetic or Boolean circuit lower bounds (NEXP not in P/poly or Perm not in small algebraic circuits)."
+    },
+    {
+      "id": "SZ-C02",
+      "category": "SZ-COMPLEXITY-DERAND",
+      "year": 2005,
+      "authors": "Ran Raz and Amir Shpilka",
+      "title": "Deterministic polynomial identity testing in non-commutative models",
+      "venue": "Computational Complexity, 14(1), pp. 1-19 (CCC 2004). doi:10.1007/s00037-005-0188-8",
+      "reference_url": "https://doi.org/10.1007/s00037-005-0188-8",
+      "verification_status": "verified_primary_archive",
+      "contribution": "Gave the first deterministic polynomial-time white-box PIT algorithm for non-commutative arithmetic formulas and algebraic branching programs (ABPs), establishing a sharp separation between commutative and non-commutative PIT."
+    },
+    {
+      "id": "SZ-C03",
+      "category": "SZ-COMPLEXITY-DERAND",
+      "year": 2010,
+      "authors": "Amir Shpilka and Amir Yehudayoff",
+      "title": "Arithmetic Circuits: A Survey of Recent Results and Open Questions",
+      "venue": "Foundations and Trends in Theoretical Computer Science, 5(3-4), pp. 207-388. doi:10.1561/0400000039",
+      "reference_url": "https://doi.org/10.1561/0400000039",
+      "verification_status": "verified_primary_archive",
+      "contribution": "Authoritative monograph surveying VP vs VNP, white-box vs black-box PIT, hitting-set generators, circuit reconstruction, and the Kabanets-Impagliazzo lower-bound connection."
+    },
+    {
+      "id": "SZ-C04",
+      "category": "SZ-COMPLEXITY-DERAND",
+      "year": 2014,
+      "authors": "Nitin Saxena",
+      "title": "Progress on Polynomial Identity Testing - II (extending Part I, Bull. EATCS 99, 2009)",
+      "venue": "Perspectives in Computational Complexity, Birkhauser, pp. 131-146 (arXiv:1401.0976)",
+      "reference_url": "https://arxiv.org/abs/1401.0976",
+      "verification_status": "verified_primary_archive",
+      "contribution": "Comprehensive two-part survey (2009 & 2014) tracking algebraic geometry, depth-3/depth-4 reduction, Jacobian hitting sets, and algebraic rank methods for derandomizing Schwartz-Zippel."
+    },
+    {
+      "id": "SZ-C05",
+      "category": "SZ-COMPLEXITY-DERAND",
+      "year": 2020,
+      "authors": "Ankit Garg, Leonid Gurvits, Rafael Oliveira, and Avi Wigderson",
+      "title": "Operator scaling: theory and applications",
+      "venue": "Foundations of Computational Mathematics, 20(2), pp. 223-290 (FOCS 2016; arXiv:1511.03730)",
+      "reference_url": "https://arxiv.org/abs/1511.03730",
+      "verification_status": "verified_primary_archive",
+      "contribution": "Solved the non-commutative Edmonds Problem (non-commutative rational identity testing / full-rank testing of linear matrix spaces over skew fields) in deterministic polynomial time via Sinkhorn-style operator scaling."
+    },
+    {
+      "id": "SZ-C06",
+      "category": "SZ-COMPLEXITY-DERAND",
+      "year": 2021,
+      "authors": "Nutan Limaye, Srikanth Srinivasan, and Sebastien Tavenas",
+      "title": "Superpolynomial Lower Bounds Against Low-Depth Algebraic Circuits",
+      "venue": "62nd IEEE Symposium on Foundations of Computer Science (FOCS 2021), pp. 804-814 (JACM 2025; ECCC TR21-081). doi:10.1109/FOCS52979.2021.00083",
+      "reference_url": "https://doi.org/10.1109/FOCS52979.2021.00083",
+      "verification_status": "verified_primary_archive",
+      "contribution": "Proved the first unconditional superpolynomial lower bounds against all constant-depth algebraic circuits, immediately yielding via Kabanets-Impagliazzo the first deterministic sub-exponential-time PIT for all constant-depth circuits (extended to arbitrary characteristic in CCC 2024, doi:10.4230/LIPIcs.CCC.2024.31)."
+    },
+    {
+      "id": "SZ-C07",
+      "category": "SZ-COMPLEXITY-DERAND",
+      "year": 2024,
+      "authors": "Albert Atserias and Iddo Tzameret",
+      "title": "Feasibly Constructive Proof of Schwartz-Zippel Lemma and the Complexity of Finding Hitting Sets",
+      "venue": "Electronic Colloquium on Computational Complexity (ECCC), Report TR24-174 (November 13, 2024)",
+      "reference_url": "https://eccc.weizmann.ac.il/report/2024/174/",
+      "verification_status": "verified_primary_archive",
+      "contribution": "Analyzed the proof complexity of the Schwartz-Zippel lemma itself, connecting feasibly constructive proofs of root scarcity directly to the total-search complexity of constructing explicit PIT hitting sets."
+    },
+    {
+      "id": "SZ-C08",
+      "category": "SZ-COMPLEXITY-DERAND",
+      "year": 2025,
+      "authors": "Robert Andrews, Deepanshu Kush, and Roei Tell",
+      "title": "Polynomial-Time PIT from (Almost) Necessary Assumptions",
+      "venue": "57th Annual ACM Symposium on Theory of Computing (STOC 2025). doi:10.1145/3717823.3718198 (arXiv:2504.06044)",
+      "reference_url": "https://doi.org/10.1145/3717823.3718198",
+      "verification_status": "verified_primary_archive",
+      "contribution": "Tightened the Kabanets-Impagliazzo equivalence in the uniform algebraic circuit setting, proving that uniform arithmetic lower bounds are nearly both necessary and sufficient for deterministic polynomial-time PIT over characteristic zero."
+    },
+    {
+      "id": "SZ-P01",
+      "category": "SZ-PROOFS-ZK",
+      "year": 1992,
+      "authors": "Carsten Lund, Lance Fortnow, Howard J. Karloff, and Noam Nisan",
+      "title": "Algebraic methods for interactive proof systems",
+      "venue": "Journal of the ACM, 39(4), pp. 859-868 (FOCS 1990). doi:10.1145/146585.146605",
+      "reference_url": "https://doi.org/10.1145/146585.146605",
+      "verification_status": "verified_primary_archive",
+      "contribution": "Introduced the Sum-Check protocol and arithmetization, proving #P is in IP with per-round soundness error bounded by deg_i(p) / |F| (union-bounded to sum_i deg_i(p) / |F| via Schwartz-Zippel)."
+    },
+    {
+      "id": "SZ-P02",
+      "category": "SZ-PROOFS-ZK",
+      "year": 1992,
+      "authors": "Adi Shamir",
+      "title": "IP = PSPACE",
+      "venue": "Journal of the ACM, 39(4), pp. 869-877 (FOCS 1990). doi:10.1145/146585.146609",
+      "reference_url": "https://doi.org/10.1145/146585.146609",
+      "verification_status": "verified_primary_archive",
+      "contribution": "Extended the LFKN Sum-Check protocol with degree-reducing linearization operators to prove IP = PSPACE, relying directly on low-degree polynomial root scarcity for verifier soundness."
+    },
+    {
+      "id": "SZ-P03",
+      "category": "SZ-PROOFS-ZK",
+      "year": 2022,
+      "authors": "Justin Thaler",
+      "title": "Proofs, Arguments, and Zero-Knowledge",
+      "venue": "Foundations and Trends in Privacy and Security, 4(2-4), pp. 117-660. doi:10.1561/3300000030",
+      "reference_url": "https://doi.org/10.1561/3300000030",
+      "verification_status": "verified_primary_archive",
+      "contribution": "Definitive modern reference connecting Schwartz-Zippel (Ch. 3) to Freivalds, univariate Reed-Solomon fingerprinting, Sum-Check, GKR, Polynomial IOPs (PIOPs), and zero-knowledge SNARKs."
+    },
+    {
+      "id": "SZ-V01",
+      "category": "SZ-FORMALIZATION",
+      "year": 2023,
+      "authors": "Sunpill Kim and Yong Kiam Tan",
+      "title": "The Schwartz-Zippel Lemma",
+      "venue": "Archive of Formal Proofs (Isabelle/HOL), April 27, 2023",
+      "reference_url": "https://isa-afp.org/entries/Schwartz_Zippel.html",
+      "verification_status": "verified_primary_archive",
+      "contribution": "Machine-checked Isabelle/HOL formalization of the multivariate Schwartz-Zippel lemma over integral domains using probability mass functions over finite subsets."
+    },
+    {
+      "id": "SZ-V02",
+      "category": "SZ-FORMALIZATION",
+      "year": 2024,
+      "authors": "Azucena Garvia Bosshard, Christoph Sprenger, and Jonathan Bootle",
+      "title": "Formal Verification of the Sumcheck Protocol",
+      "venue": "37th IEEE Computer Security Foundations Symposium (CSF 2024) & Archive of Formal Proofs (Feb 2024; arXiv:2402.06093)",
+      "reference_url": "https://arxiv.org/abs/2402.06093",
+      "verification_status": "verified_primary_archive",
+      "contribution": "Formally verified completeness and n * deg(p) / |F| soundness of a modular, axiomatized Sum-Check protocol in Isabelle/HOL, instantiating the polynomial axioms over finite fields."
+    },
+    {
+      "id": "SZ-V03",
+      "category": "SZ-FORMALIZATION",
+      "year": 2024,
+      "authors": "Bolton Bailey and Andrew Miller",
+      "title": "Formalizing Soundness Proofs of Linear PCP SNARKs",
+      "venue": "33rd USENIX Security Symposium (USENIX Security 24), Philadelphia, PA, August 2024, pp. 1487-1504",
+      "reference_url": "https://www.usenix.org/conference/usenixsecurity24/presentation/bailey",
+      "verification_status": "verified_primary_archive",
+      "contribution": "Built a Lean 4 formal verification framework and automated algebraic decision procedure over MvPolynomial proving soundness of six Linear PCP SNARK constructions (including Groth16 and Pinocchio) grounded in Schwartz-Zippel."
+    },
+    {
+      "id": "SZ-V04",
+      "category": "SZ-FORMALIZATION",
+      "year": 2024,
+      "authors": "Mathlib Contributors",
+      "title": "Mathlib.Algebra.MvPolynomial.SchwartzZippel (Lean 4 Standard Mathematical Library)",
+      "venue": "leanprover-community/mathlib4, Mathlib/Algebra/MvPolynomial/SchwartzZippel.lean",
+      "reference_url": "https://leanprover-community.github.io/mathlib4_docs/Mathlib/Algebra/MvPolynomial/SchwartzZippel.html",
+      "verification_status": "verified_primary_archive",
+      "contribution": "Provides machine-checked Lean 4 theorems over integral domains: MvPolynomial.schwartz_zippel_sup_sum (dependent product sets), MvPolynomial.schwartz_zippel_sum_degreeOf, and MvPolynomial.schwartz_zippel_totalDegree (RHS p.totalDegree / #S)."
+    }
+  ],
+  "theorem_families": [
+    {
+      "family_id": "TF-01",
+      "name": "Total-Degree ODLSZ Bound (Ore 1922; Schwartz 1980)",
+      "ring_hypothesis": "Integral domain R; finite nonempty subset S subset R; nonzero f in R[x_1,...,x_n] of total degree d.",
+      "bound_statement": "|{a in S^n : f(a) = 0}| <= d * |S|^(n-1), equivalently Pr_{r <- S^n}[f(r) = 0] <= d / |S|.",
+      "regime_validity": "Non-vacuous iff d < |S|. Tight for univariate (x_1 - s_1)...(x_1 - s_d) with s_j in S.",
+      "primary_ids": ["SZ-F01", "SZ-F04", "SZ-F06", "SZ-V04"]
+    },
+    {
+      "family_id": "TF-02",
+      "name": "Individual-Degree Grid Bound (DeMillo-Lipton 1978; Zippel 1979; Rote 2023)",
+      "ring_hypothesis": "Integral domain R; finite product grid S_1 x ... x S_n; nonzero f with deg_{x_i}(f) <= d_i < |S_i| (or lexicographically largest monomial (d_1,...,d_n)).",
+      "bound_statement": "|{a in prod S_i : f(a) != 0}| >= prod_{i=1}^n (|S_i| - d_i), equivalently Pr[f(r) = 0] <= 1 - prod_i (1 - d_i/|S_i|) <= sum_i d_i/|S_i|.",
+      "regime_validity": "Incomparable to TF-01: strictly tighter than TF-01 on x_1 * x_2 (max zeros 9 vs 10 on F_5^2), strictly looser on x_1 + x_2 (max zeros 9 vs 5 on F_5^2).",
+      "primary_ids": ["SZ-F02", "SZ-F03", "SZ-G08", "SZ-V04"]
+    },
+    {
+      "family_id": "TF-03",
+      "name": "Sharp Finite-Grid Alon-Furedi & Combinatorial Nullstellensatz (1993, 1999)",
+      "ring_hypothesis": "Integral domain R (or Condition (D) ring); finite grid prod S_i; f not vanishing identically on prod S_i (equivalently deg_{x_i}(f) < |S_i| after reduction) with total degree d.",
+      "bound_statement": "min nonzeros = min { prod y_i : 1 <= y_i <= |S_i|, sum y_i = sum |S_i| - d }. On {0,1}^n with d <= n, nonzeros >= 2^(n - d). Combinatorial Nullstellensatz gives deterministic existence (nonzeros >= 1) whenever a maximal-degree monomial has |S_i| > t_i.",
+      "regime_validity": "Strictly dominates TF-01 whenever d >= |S| (where TF-01 gives vacuous min_nonzeros = 0). Exact deterministic regime (epsilon = 0) when evaluating over the entire grid with |S_i| > t_i.",
+      "primary_ids": ["SZ-G02", "SZ-G04", "SZ-G07", "SZ-G08"]
+    },
+    {
+      "family_id": "TF-04",
+      "name": "Multiplicity Schwartz-Zippel via Hasse Derivatives (Dvir-Kopparty-Saraf-Sudan 2013)",
+      "ring_hypothesis": "Arbitrary field F (any characteristic, including prime characteristic p <= d); finite S subset F; nonzero f of total degree d.",
+      "bound_statement": "sum_{a in S^n} mult(f, a) <= d * |S|^(n-1), where mult(f, a) is the smallest total degree of a nonzero Hasse derivative of f at a.",
+      "regime_validity": "Strictly strengthens TF-01 by weighting each root by its algebraic vanishing multiplicity; avoids characteristic-p division-by-factorial breakdown of ordinary partial derivatives.",
+      "primary_ids": ["SZ-G05", "SZ-G06"]
+    },
+    {
+      "family_id": "TF-05",
+      "name": "Arbitrary Commutative Ring Condition (D) & Non-Product Slice Extensions (2018, 2025)",
+      "ring_hypothesis": "Commutative ring R with identity (zero divisors permitted) and finite grid prod S_i satisfying Condition (D): for all i and all distinct a, b in S_i, a - b is not a zero divisor in R; or non-product Boolean slices {0,1}^n_k.",
+      "bound_statement": "Under Condition (D), TF-01, TF-02, TF-03, and Alon's Nullstellensatz all hold verbatim; over Z/mZ the maximum Condition-(D) subset size is the smallest prime factor p_min(m). On Boolean slices of weight k, Pr[f != 0] >= (min(k, n-k)/n)^d (1 - o_n(1)).",
+      "regime_validity": "Pinpoints the exact algebraic boundary where Schwartz-Zippel fails over composite moduli and quantifies the drop in safe grid capacity from m down to p_min(m).",
+      "primary_ids": ["SZ-G07", "SZ-G08", "SZ-G09"]
+    }
+  ],
+  "verified_computational_benchmarks": {
+    "verification_method": "Exact exhaustive enumeration and arbitrary-precision rational arithmetic (zero floating-point approximation).",
+    "f5_bound_comparison": {
+      "field": "F_5",
+      "grid_size_per_coordinate": 5,
+      "cases": [
+        {
+          "polynomial": "x1 * x2",
+          "n_vars": 2,
+          "total_degree": 2,
+          "individual_degrees": [1, 1],
+          "grid_points": 25,
+          "exact_zeros": 9,
+          "exact_nonzeros": 16,
+          "sz_total_degree_max_zeros": 10,
+          "dlz_individual_degree_max_zeros": 9,
+          "alon_furedi_max_zeros": 10,
+          "tightest_bound": "DLZ (exact)"
+        },
+        {
+          "polynomial": "x1 + x2",
+          "n_vars": 2,
+          "total_degree": 1,
+          "individual_degrees": [1, 1],
+          "grid_points": 25,
+          "exact_zeros": 5,
+          "exact_nonzeros": 20,
+          "sz_total_degree_max_zeros": 5,
+          "dlz_individual_degree_max_zeros": 9,
+          "alon_furedi_max_zeros": 5,
+          "tightest_bound": "SZ / Alon-Furedi (exact)"
+        },
+        {
+          "polynomial": "x1 * (x1 - 1) * x2",
+          "n_vars": 2,
+          "total_degree": 3,
+          "individual_degrees": [2, 1],
+          "grid_points": 25,
+          "exact_zeros": 13,
+          "exact_nonzeros": 12,
+          "sz_total_degree_max_zeros": 15,
+          "dlz_individual_degree_max_zeros": 13,
+          "alon_furedi_max_zeros": 15,
+          "tightest_bound": "DLZ (exact)"
+        },
+        {
+          "polynomial": "x1^2 * x2 - x3^3",
+          "n_vars": 3,
+          "total_degree": 3,
+          "individual_degrees": [2, 1, 3],
+          "grid_points": 125,
+          "exact_zeros": 25,
+          "exact_nonzeros": 100,
+          "sz_total_degree_max_zeros": 75,
+          "dlz_individual_degree_max_zeros": 101,
+          "alon_furedi_max_zeros": 75,
+          "tightest_bound": "SZ / Alon-Furedi"
+        },
+        {
+          "polynomial": "(x1 - 1)*(x1 - 2) + (x1 - 1)*(x2 - 1)",
+          "n_vars": 2,
+          "total_degree": 2,
+          "individual_degrees": [2, 1],
+          "grid_points": 25,
+          "exact_zeros": 9,
+          "exact_nonzeros": 16,
+          "sz_total_degree_max_zeros": 10,
+          "dlz_individual_degree_max_zeros": 13,
+          "alon_furedi_max_zeros": 10,
+          "tightest_bound": "SZ / Alon-Furedi"
+        }
+      ]
+    },
+    "boolean_cube_high_degree_regime": {
+      "grid": "{0, 1}^4",
+      "grid_size_per_coordinate": 2,
+      "n_vars": 4,
+      "grid_points": 16,
+      "note": "Demonstrates regime where d >= |S| makes total-degree SZ vacuous (min_nonzeros = 0) while Alon-Furedi remains exact.",
+      "cases": [
+        {"polynomial": "x1 * x2", "total_degree": 2, "exact_nonzeros": 4, "exact_zeros": 12, "sz_min_nonzeros": 0, "alon_furedi_min_nonzeros": 4},
+        {"polynomial": "x1 * x2 * x3", "total_degree": 3, "exact_nonzeros": 2, "exact_zeros": 14, "sz_min_nonzeros": 0, "alon_furedi_min_nonzeros": 2},
+        {"polynomial": "x1 * x2 * x3 * x4", "total_degree": 4, "exact_nonzeros": 1, "exact_zeros": 15, "sz_min_nonzeros": 0, "alon_furedi_min_nonzeros": 1}
+      ]
+    },
+    "multiplicity_sz_f5_benchmark": {
+      "field": "F_5",
+      "polynomial": "(x - y)^2 * (x + y)",
+      "n_vars": 2,
+      "total_degree": 3,
+      "grid_points": 25,
+      "distinct_roots_count": 9,
+      "hasse_multiplicity_histogram": {
+        "mult_0": 16,
+        "mult_1": 4,
+        "mult_2": 4,
+        "mult_3": 1
+      },
+      "sum_of_hasse_multiplicities": 15,
+      "dkss_upper_bound": 15,
+      "saturates_dkss_bound": true
+    },
+    "composite_ring_regime_failures": {
+      "test_polynomial_univariate": "f(x) = x * (x - 1) (degree 2)",
+      "moduli_sweep": [
+        {"modulus_m": 5, "is_integral_domain": true, "smallest_prime_factor": 5, "roots_in_Z_mZ": [0, 1], "root_count": 2, "actual_zero_ratio": "2/5", "sz_bound_ratio": "2/5", "violates_sz": false},
+        {"modulus_m": 6, "is_integral_domain": false, "smallest_prime_factor": 2, "roots_in_Z_mZ": [0, 1, 3, 4], "root_count": 4, "actual_zero_ratio": "2/3", "sz_bound_ratio": "1/3", "violates_sz": true},
+        {"modulus_m": 7, "is_integral_domain": true, "smallest_prime_factor": 7, "roots_in_Z_mZ": [0, 1], "root_count": 2, "actual_zero_ratio": "2/7", "sz_bound_ratio": "2/7", "violates_sz": false},
+        {"modulus_m": 10, "is_integral_domain": false, "smallest_prime_factor": 2, "roots_in_Z_mZ": [0, 1, 5, 6], "root_count": 4, "actual_zero_ratio": "2/5", "sz_bound_ratio": "1/5", "violates_sz": true},
+        {"modulus_m": 12, "is_integral_domain": false, "smallest_prime_factor": 2, "roots_in_Z_mZ": [0, 1, 4, 9], "root_count": 4, "actual_zero_ratio": "1/3", "sz_bound_ratio": "1/6", "violates_sz": true},
+        {"modulus_m": 15, "is_integral_domain": false, "smallest_prime_factor": 3, "roots_in_Z_mZ": [0, 1, 6, 10], "root_count": 4, "actual_zero_ratio": "4/15", "sz_bound_ratio": "2/15", "violates_sz": true},
+        {"modulus_m": 30, "is_integral_domain": false, "smallest_prime_factor": 2, "roots_in_Z_mZ": [0, 1, 6, 10, 15, 16, 21, 25], "root_count": 8, "actual_zero_ratio": "4/15", "sz_bound_ratio": "1/15", "violates_sz": true}
+      ],
+      "bivariate_condition_d_contrast": {
+        "ring": "Z/6Z",
+        "polynomial": "h(x, y) = 3*x (total degree 1, nonzero in (Z/6Z)[x, y])",
+        "full_ring_grid_zeros": "18/36 = 1/2 (violates SZ bound 1/6 by 3x)",
+        "condition_d_grid": "S = {0, 1} (differences +-1 are units in Z/6Z; |S| = p_min(6) = 2)",
+        "condition_d_grid_zeros": "2/4 = 1/2 (satisfies SZ bound d/|S| = 1/2 exactly)"
+      }
+    },
+    "g_plr_riemann_lattice_bridge": {
+      "target_graph": "G_PLR = Cay(D_12, {P, L, R}) from data/sources/riemann_lattice_graph_rh_v1.json",
+      "biadjacency_matrix": "B = I_12 + C^4 + C^9 (12x12 circulant, 36 edges)",
+      "exact_det_B": 45,
+      "exact_det_B_squared": 2025,
+      "matches_riemann_lattice_charpoly_constant_term": true,
+      "exact_perm_B_perfect_matchings": 113,
+      "edmonds_symbolic_determinant": {
+        "variables_count": 36,
+        "total_degree": 12,
+        "distinct_multilinear_monomials": 113,
+        "all_ones_evaluation_over_Z": 45,
+        "all_ones_vanishes_mod_primes": [3, 5],
+        "note": "Evaluating det(B(X)) at the deterministic all-1s point vanishes mod 3 and mod 5 despite G_PLR having 113 perfect matchings; random substitution over F_p avoids false negatives with probability <= 12/p."
+      },
+      "soundness_error_envelopes": [
+        {
+          "identity_name": "G_PLR Edmonds symbolic matching det(B(X)) != 0",
+          "n_vars": 36,
+          "total_degree": 12,
+          "prime_bounds": [
+            {"prime_label": "101", "p": 101, "k1_bound": "12/101 (~1.188e-1)", "k4_bound": "~1.993e-4", "k8_bound": "~3.971e-8"},
+            {"prime_label": "65521", "p": 65521, "k1_bound": "12/65521 (~1.831e-4)", "k4_bound": "~1.125e-15", "k8_bound": "~1.266e-30"},
+            {"prime_label": "2^31 - 1", "p": 2147483647, "k1_bound": "~5.588e-9", "k4_bound": "~9.750e-34", "k8_bound": "~9.506e-67"},
+            {"prime_label": "2^61 - 1", "p": 2305843009213693951, "k1_bound": "~5.204e-18", "k4_bound": "~7.335e-70", "k8_bound": "~5.380e-139"}
+          ]
+        },
+        {
+          "identity_name": "G_PLR Bass-Ihara determinant D(u) = factored form",
+          "n_vars": 1,
+          "total_degree": 48,
+          "prime_bounds": [
+            {"prime_label": "101", "p": 101, "k1_bound": "48/101 (~4.752e-1)", "k4_bound": "~5.101e-2", "k8_bound": "~2.602e-3"},
+            {"prime_label": "65521", "p": 65521, "k1_bound": "48/65521 (~7.326e-4)", "k4_bound": "~2.880e-13", "k8_bound": "~8.296e-26"},
+            {"prime_label": "2^31 - 1", "p": 2147483647, "k1_bound": "~2.235e-8", "k4_bound": "~2.496e-31", "k8_bound": "~6.230e-62"},
+            {"prime_label": "2^61 - 1", "p": 2305843009213693951, "k1_bound": "~2.082e-17", "k4_bound": "~1.878e-67", "k8_bound": "~3.526e-134"}
+          ]
+        },
+        {
+          "identity_name": "G_PLR full inverse Ihara zeta (1-u^2)^12 * D(u)",
+          "n_vars": 1,
+          "total_degree": 72,
+          "prime_bounds": [
+            {"prime_label": "101", "p": 101, "k1_bound": "72/101 (~7.129e-1)", "k4_bound": "~2.583e-1", "k8_bound": "~6.669e-2"},
+            {"prime_label": "65521", "p": 65521, "k1_bound": "72/65521 (~1.099e-3)", "k4_bound": "~1.458e-12", "k8_bound": "~2.126e-24"},
+            {"prime_label": "2^31 - 1", "p": 2147483647, "k1_bound": "~3.353e-8", "k4_bound": "~1.264e-30", "k8_bound": "~1.597e-60"},
+            {"prime_label": "2^61 - 1", "p": 2305843009213693951, "k1_bound": "~3.123e-17", "k4_bound": "~9.506e-67", "k8_bound": "~9.037e-133"}
+          ]
+        }
+      ]
+    },
+    "coupled_plr_torus_benchmarks": {
+      "cyclotomic_torus_primes": [
+        {"p": 13, "p_mod_12": 1, "zeta_12": 2, "torus_order": 12, "max_nonvacuous_torus_degree": 11, "max_nonvacuous_field_degree": 12},
+        {"p": 37, "p_mod_12": 1, "zeta_12": 8, "torus_order": 12, "max_nonvacuous_torus_degree": 11, "max_nonvacuous_field_degree": 36},
+        {"p": 61, "p_mod_12": 1, "zeta_12": 32, "torus_order": 12, "max_nonvacuous_torus_degree": 11, "max_nonvacuous_field_degree": 60},
+        {"p": 97, "p_mod_12": 1, "zeta_12": 6, "torus_order": 12, "max_nonvacuous_torus_degree": 11, "max_nonvacuous_field_degree": 96},
+        {"p": 65521, "p_mod_12": 1, "zeta_12": 53059, "torus_order": 12, "max_nonvacuous_torus_degree": 11, "max_nonvacuous_field_degree": 65520},
+        {"p": 1000000009, "p_mod_12": 1, "zeta_12": 655997907, "torus_order": 12, "max_nonvacuous_torus_degree": 11, "max_nonvacuous_field_degree": 1000000008}
+      ],
+      "bilinear_involution_degree": 2,
+      "triad_count": 24,
+      "dihedral_representations_D12": [
+        {"mode_k": 1, "distinct_matrices": 24, "kernel_size": 1, "faithful": true},
+        {"mode_k": 2, "distinct_matrices": 12, "kernel_size": 2, "faithful": false},
+        {"mode_k": 3, "distinct_matrices": 8, "kernel_size": 3, "faithful": false},
+        {"mode_k": 4, "distinct_matrices": 6, "kernel_size": 4, "faithful": false},
+        {"mode_k": 5, "distinct_matrices": 24, "kernel_size": 1, "faithful": true}
+      ],
+      "non_backtracking_mixing_comparison": {
+        "directed_edges_12tet": 72,
+        "ihara_q": 2,
+        "tet12_ramanujan": {
+          "N": 12,
+          "satisfies_graph_rh": true,
+          "srw_nontrivial_rate": 0.7453559925,
+          "nb_ihara_nontrivial_rate": 0.7071067812,
+          "tv_step_20_srw": 0.001447,
+          "tv_step_20_nb": 0.000985
+        },
+        "tet17_non_ramanujan": {
+          "N": 17,
+          "satisfies_graph_rh": false,
+          "srw_nontrivial_rate": 0.9549769845,
+          "nb_ihara_nontrivial_rate": 0.8302267617,
+          "tv_step_20_srw": 0.252416,
+          "tv_step_20_nb": 0.023924
+        }
+      },
+      "representation_filtered_cycle_sieve_len6": {
+        "total_closed_tailless_nb_walks": 192,
+        "contractible_walks": 144,
+        "contractible_unoriented_faces_LPRLPR": 12,
+        "non_contractible_walks": 48,
+        "non_contractible_unoriented_hexatonic_LPLPLP": 4
+      },
+      "low_entropy_sampling_budget": [
+        {"samples_k": 4, "independent_bits": 18.33985, "ramanujan_nb_bits": 7.58496},
+        {"samples_k": 8, "independent_bits": 36.67970, "ramanujan_nb_bits": 11.58496},
+        {"samples_k": 16, "independent_bits": 73.35940, "ramanujan_nb_bits": 19.58496},
+        {"samples_k": 32, "independent_bits": 146.71880, "ramanujan_nb_bits": 35.58496}
+      ],
+      "algebraic_degree_boundaries": [
+        {"domain": "binary_grid_{0,1}", "safe_grid_size": 2, "stall_degree": 2, "vanishing_witness": "z^2 - z"},
+        {"domain": "composite_ring_Z/12Z", "safe_grid_size": 2, "stall_degree": 2, "vanishing_witness": "x*(x - 1) [4/6-style zero-divisor collapse, p_min(12)=2]"},
+        {"domain": "cyclotomic_torus_mu_12", "safe_grid_size": 12, "stall_degree": 12, "vanishing_witness": "z^12 - 1"},
+        {"domain": "prime_field_F_13", "safe_grid_size": 13, "stall_degree": 13, "vanishing_witness": "z^13 - z"},
+        {"domain": "prime_field_F_65521", "safe_grid_size": 65521, "stall_degree": 65521, "vanishing_witness": "z^65521 - z"}
+      ]
+    }
+  }
+}

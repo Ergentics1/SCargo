@@ -15,5 +15,9 @@ name = "scargo-riem-lattice"
 version = "0.1.0"
 
 [[package]]
+name = "scargo-schwartz-zippel"
+version = "0.1.0"
+
+[[package]]
 name = "scargo-trace"
 version = "0.1.0"

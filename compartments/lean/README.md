@@ -18,17 +18,19 @@ This compartment integrates **Lean 4** as a first-class language inside `SCargo`
 5. **Rung 2 Shared Ground Codec & Metamorphic Invariance Proofs (`SCargoLean/GroundCodec.lean`)**: Pure-kernel proofs of comment/blank-line wrapper invariance (`MR-2`), disjointness of reachable vs. dead-leaf sets, exact line and byte mass conservation, diamond DAG `MR-1` permutation invariance, self-loop cycle detection, and smooth Rung 1 → Rung 2 Correspondence containment.
 6. **Rung 3 Reconciled Proof-Reduction & Clean-Room ICD Airlock (`SCargoLean/TransferAirlock.lean`)**: Pure-kernel proofs of Zone A protected-core immutability (`UP-01`/`UP-04`/`UP-05`), 3-axiom subset enforcement (`UP-02`), strict Pareto mass reduction, single-declaration Strategy B wrapper safety (`DRYRUN-002`), `UP-07` $\le 8$-root batch conservation, dead-leaf pruning mass reduction, and smooth Rung 3 → Rung 2 → Rung 1 Correspondence containment.
 7. **Arc 4 High-Mass Zone Census & `UP-08` Provenance Proofs (`SCargoLean/HighMassCensus.lean`)**: Pure-kernel proofs of Z-C3 duplicate-cluster reclaimability bounds, Z-C2 explicit `@`-dump strict Pareto reduction, Z-C4 transitive import-redundancy bounding, `UP-08` verbatim proof-body rejection, and smooth Arc 4 → Rung 3 → Rung 2 → Rung 1 Correspondence containment.
-8. **Standalone Runtime & Adversarial Test Drivers (`RiemLatticeTest.lean`, `SchwartzZippelTest.lean`, `SweepWitnessTest.lean`, `GroundCodecTest.lean`, `TransferAirlockTest.lean`, `HighMassCensusTest.lean`)**: Dynamically verify primary vaults, policy `v1.2.0`, 21 fixture IDs, `RCT-R1`, Rung 2 fuzz corpus, Rung 3 airlock manifests, and Arc 4 high-mass census (18 + 24 + 22 + 6 + 10 + 8 = 88 atomic guards).
+8. **Arc 5 Real Lean `v4.36.0` `module` Pre-Flight Elaboration & Dual-Route `UP-07` Harness (`SCargoLean/Preflight/{Leaf,Mid,WrapAlias,HubPruned}.lean`, `SCargoLean/PreflightHarness.lean`)**: Real clean-room `module` + `public import` + `@[expose] public section` modules verifying binder-plicity preservation (`@baselineForward = @strategyAForward`), definitional equality and `.eq_1` equation-lemma preservation (`z2ExplicitDump = z2CleanDeexpanded`, `z2CleanDeexpanded.eq_1`), transitive `public import` closure under pruning (`HubPruned`), `UP-07` dual-route soundness (`<= 8` roots ∧ `<= 2,000` ancestors), and smooth Arc 5 → Arc 4 → Rung 3 → Rung 2 → Rung 1 Correspondence containment.
+9. **Standalone Runtime & Adversarial Test Drivers (`RiemLatticeTest.lean`, `SchwartzZippelTest.lean`, `SweepWitnessTest.lean`, `GroundCodecTest.lean`, `TransferAirlockTest.lean`, `HighMassCensusTest.lean`, `PreflightHarnessTest.lean`)**: Dynamically verify primary vaults, policy `v1.2.0`, 21 fixture IDs, `RCT-R1`, Rung 2 fuzz corpus, Rung 3 airlock manifests, Arc 4 high-mass census, and Arc 5 dual-route pre-flight bundles (18 + 24 + 22 + 6 + 10 + 8 + 8 = 96 atomic guards).
 
 ## Standalone Verification Commands
 
 ```bash
-LEAN_ABORT_ON_PANIC=1 lake --dir compartments/lean build SCargoLean riem_lattice_test sz_lattice_test sweep_witness_test ground_codec_test transfer_airlock_test high_mass_census_test
+LEAN_ABORT_ON_PANIC=1 lake --dir compartments/lean build SCargoLean riem_lattice_test sz_lattice_test sweep_witness_test ground_codec_test transfer_airlock_test high_mass_census_test preflight_harness_test
 LEAN_ABORT_ON_PANIC=1 lake --dir compartments/lean exe riem_lattice_test
 LEAN_ABORT_ON_PANIC=1 lake --dir compartments/lean exe sz_lattice_test
 LEAN_ABORT_ON_PANIC=1 lake --dir compartments/lean exe sweep_witness_test
 LEAN_ABORT_ON_PANIC=1 lake --dir compartments/lean exe ground_codec_test
 LEAN_ABORT_ON_PANIC=1 lake --dir compartments/lean exe transfer_airlock_test .
 LEAN_ABORT_ON_PANIC=1 lake --dir compartments/lean exe high_mass_census_test .
-LEAN_PATH=compartments/lean/.lake/build/lib/lean leanchecker SCargoLean SCargoLean.Contract SCargoLean.RiemLattice SCargoLean.SchwartzZippel SCargoLean.SweepWitness SCargoLean.GroundCodec SCargoLean.TransferAirlock SCargoLean.HighMassCensus
+LEAN_ABORT_ON_PANIC=1 lake --dir compartments/lean exe preflight_harness_test .
+LEAN_PATH=compartments/lean/.lake/build/lib/lean leanchecker SCargoLean SCargoLean.Contract SCargoLean.RiemLattice SCargoLean.SchwartzZippel SCargoLean.SweepWitness SCargoLean.GroundCodec SCargoLean.TransferAirlock SCargoLean.HighMassCensus SCargoLean.Preflight.Leaf SCargoLean.Preflight.Mid SCargoLean.Preflight.WrapAlias SCargoLean.Preflight.HubPruned SCargoLean.PreflightHarness
 ```

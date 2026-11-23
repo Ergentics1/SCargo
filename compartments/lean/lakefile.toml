@@ -41,3 +41,7 @@ root = "SCargoLean.TransferAirlockTest"
 [[lean_exe]]
 name = "high_mass_census_test"
 root = "SCargoLean.HighMassCensusTest"
+
+[[lean_exe]]
+name = "preflight_harness_test"
+root = "SCargoLean.PreflightHarnessTest"

@@ -13,6 +13,7 @@ members = [
     "crates/scargo-ground",
     "crates/scargo-airlock",
     "crates/scargo-census",
+    "crates/scargo-emit",
 ]
 
 [workspace.lints.rust]

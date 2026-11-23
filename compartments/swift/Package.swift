@@ -35,6 +35,10 @@ let package = Package(
             name: "SCargoCensus",
             targets: ["SCargoCensus"]
         ),
+        .library(
+            name: "SCargoEmit",
+            targets: ["SCargoEmit"]
+        ),
         .executable(
             name: "scargo-audit",
             targets: ["scargo-audit"]
@@ -62,6 +66,10 @@ let package = Package(
         .executable(
             name: "scargo-census",
             targets: ["scargo-census"]
+        ),
+        .executable(
+            name: "scargo-emit",
+            targets: ["scargo-emit"]
         )
     ],
     targets: [
@@ -112,6 +120,13 @@ let package = Package(
         ),
         .target(
             name: "SCargoCensus",
+            swiftSettings: [
+                .swiftLanguageMode(.v6),
+                .treatAllWarnings(as: .error)
+            ]
+        ),
+        .target(
+            name: "SCargoEmit",
             swiftSettings: [
                 .swiftLanguageMode(.v6),
                 .treatAllWarnings(as: .error)
@@ -168,6 +183,14 @@ let package = Package(
         .executableTarget(
             name: "scargo-census",
             dependencies: ["SCargoCensus"],
+            swiftSettings: [
+                .swiftLanguageMode(.v6),
+                .treatAllWarnings(as: .error)
+            ]
+        ),
+        .executableTarget(
+            name: "scargo-emit",
+            dependencies: ["SCargoEmit"],
             swiftSettings: [
                 .swiftLanguageMode(.v6),
                 .treatAllWarnings(as: .error)
@@ -224,6 +247,14 @@ let package = Package(
         .testTarget(
             name: "SCargoCensusTests",
             dependencies: ["SCargoCensus"],
+            swiftSettings: [
+                .swiftLanguageMode(.v6),
+                .treatAllWarnings(as: .error)
+            ]
+        ),
+        .testTarget(
+            name: "SCargoEmitTests",
+            dependencies: ["SCargoEmit"],
             swiftSettings: [
                 .swiftLanguageMode(.v6),
                 .treatAllWarnings(as: .error)

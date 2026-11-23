@@ -86,12 +86,16 @@
     },
     {
       "id": "UP-08",
-      "category": "Provenance & Licensing Hygiene",
+      "category": "Provenance, Independent Derivation & Licensing Hygiene",
       "severity": "legal_policy",
-      "source": "README.md:77-80",
-      "requirement": "Alpöge's original Lean proof submission was published without an explicit open-source license and is mirrored upstream for verification. Original Ergentics code, models, and research in SCargo (MIT, Copyright 2026 Ergentics, LLC) must stay strictly separated from copied upstream Lean proof source.",
+      "source": "README.md:77-80, data/sources/standard_vocabulary_v1.json",
+      "requirement": "Alpöge's original Lean proof submission was published without an explicit open-source license and is mirrored upstream for verification. Original Ergentics code, models, empirical telemetry, structural fingerprints, and independently derived mathematical or reduction conclusions in SCargo (MIT, Copyright 2026 Ergentics, LLC) are permitted and must be distinguished lexically from verbatim copying of upstream Lean proof source.",
+      "allowed_clean_room_activities": [
+        "Independently deriving the same mathematical theorem, structural invariant, or proof-reduction transformation from primary literature and formal specifications.",
+        "Recording factual read-only measurements, file paths, symbol counts, dependency graphs, and SHA-256 structural fingerprints in SCargo/data/."
+      ],
       "disallowed_proposals": [
-        "Copying verbatim upstream Riemannian Lean proof files into SCargo under Ergentics MIT copyright headers."
+        "Copying verbatim upstream Riemannian Lean proof bodies into SCargo under Ergentics MIT copyright headers."
       ]
     }
   ]

@@ -1,5 +1,5 @@
 {
-  "schema_version": "1.0.0",
+  "schema_version": "1.1.0",
   "copyright": "Copyright (c) 2026 Ergentics, LLC",
   "organization": "Ergentics",
   "title": "Standardized Cross-Era Mathematical & Clean-Room Engineering Lexicon",
@@ -207,6 +207,15 @@
       "plain_definition": "The explicit contract specifying which core theorem statements and axioms may never change, together with five pass/fail checks (import integrity, acyclicity, zero core drift, compilation of all affected importers, and strict axiom preservation).",
       "role_in_proof": "Guarantees that every accepted reduction preserves full mathematical soundness and independent kernel verifiability.",
       "preferred_usage": "Use 'interface boundary' and 'five safety invariants' instead of opaque internal gate codes."
+    },
+    {
+      "term": "Independent Clean-Room Derivation vs. Verbatim Copying",
+      "category": "Clean-Room Methodology",
+      "era": "ERA-V",
+      "source_ids": ["SRC-15"],
+      "plain_definition": "The epistemic and provenance distinction between (a) independently arriving at a mathematical theorem, structural invariant, or reduction rule from primary specifications and empirical measurements (convergence), (b) recording factual read-only telemetry and SHA-256 structural fingerprints, and (c) verbatim copying of unlicensed upstream proof source bodies into an MIT-licensed laboratory.",
+      "role_in_proof": "Reconciles UP-08 so independent clean-room verification, structural fingerprinting, and original proof synthesis remain encouraged while verbatim proof-body copying into SCargo remains strictly prohibited.",
+      "preferred_usage": "Distinguish 'independent clean-room derivation' and 'empirical structural telemetry' explicitly from 'verbatim source copying'."
     }
   ]
 }

@@ -16,5 +16,5 @@
 | `data/traces/` | Independent DAG, dominator-tree, critical-path, and lineage-reachability traces emitted by `scargo-trace` | Immutable per commit & root module; 100% independently computed |
 | `data/manifests/` | Normative SWE-sweep policy (`swe_sweep_policy_v1.json` `v1.2.0`), interface boundary specs (`transfer_zones_v1.json`), and upstream acceptance rules (`upstream_requirements_v1.json`) | Versioned; commit mismatch triggers re-qualification |
 | `data/audits/` | Live self-audit ledgers, boolean-guard remediation states, and time-bounded waivers (`live_self_audit_v1.json`) | Append/versioned; strictly separated from normative policy (`data/manifests/`) and primary literature (`data/sources/`) |
-| `data/trials/` | Deterministic RCT configs & allocations (`rct_r1_config_v1.json`, `rct_001_*.json`), Rung 2 seeded fuzz corpus config (`rung2_fuzz_corpus_v1.json`), and read-only clean-room dry-run qualification reports (`dryrun_*.json`) | Immutable per trial ID & PRNG seed |
+| `data/trials/` | Deterministic RCT configs & allocations (`rct_r1_config_v1.json`, `rct_001_*.json`), Rung 2 seeded fuzz corpus config (`rung2_fuzz_corpus_v1.json`), Arc 4 high-mass zone census (`arc4_high_mass_census_v1.json`), and read-only clean-room dry-run qualification reports (`dryrun_*.json`) | Immutable per trial ID & PRNG seed |
 

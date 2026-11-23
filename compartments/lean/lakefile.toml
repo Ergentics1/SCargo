@@ -37,3 +37,7 @@ root = "SCargoLean.GroundCodecTest"
 [[lean_exe]]
 name = "transfer_airlock_test"
 root = "SCargoLean.TransferAirlockTest"
+
+[[lean_exe]]
+name = "high_mass_census_test"
+root = "SCargoLean.HighMassCensusTest"

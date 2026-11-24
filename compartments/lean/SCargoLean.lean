@@ -9,3 +9,4 @@ import SCargoLean.GroundCodec
 import SCargoLean.TransferAirlock
 import SCargoLean.HighMassCensus
 import SCargoLean.PreflightHarness
+import SCargoLean.PatchVerifier

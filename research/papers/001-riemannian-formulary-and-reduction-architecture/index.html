@@ -163,7 +163,7 @@
     <header class="bg-[var(--card)] border border-[var(--border)] rounded-xl p-6 space-y-4">
       <div class="flex flex-wrap items-center justify-between gap-2 text-xs text-[var(--muted-foreground)]">
         <span class="font-semibold tracking-wide uppercase text-[var(--primary)]">Ergentics Working Paper Series &middot; Paper 001</span>
-        <span>Edition 2.0 &middot; Clean-Room Research &amp; Teaching Reader</span>
+        <span>Edition 2.1 &middot; Clean-Room Research &amp; Teaching Reader</span>
       </div>
       <h1 class="text-2xl font-bold tracking-tight leading-snug">
         Understanding and Compressing a Machine-Verified Proof of the Riemann Hypothesis
@@ -394,19 +394,30 @@
           </ol>
         </div>
       </div>
+      <div class="bg-[var(--card)] border border-[var(--border)] rounded-xl p-5 space-y-2">
+        <div class="text-xs font-semibold uppercase text-[var(--primary)]">Edition 2.1 Addendum &middot; Arc 4&ndash;Arc 7 Clean-Room Qualification</div>
+        <h2 class="text-base font-bold">Verified 137-File AST Reduction &amp; G4&ndash;G5 Airlock Rehearsal</h2>
+        <p class="text-xs text-[var(--muted-foreground)] leading-relaxed">
+          Following this baseline study, clean-room Arcs 4&ndash;7 (<code class="font-mono">v0.6.0</code>&ndash;<code class="font-mono">v0.9.0</code>) qualified
+          <strong class="text-[var(--foreground)]">137 disjoint target files</strong> (<code class="font-mono">Z-C0</code> dead leaves, <code class="font-mono">Z-C2</code> layout-free <code class="font-mono">&le;160</code>-char wrapped <code class="font-mono">@</code>-chains, and <code class="font-mono">Z-C4</code> transitive import-hub pruning)
+          for <strong class="text-[var(--foreground)]">&minus;32,166 source lines (&minus;56.6%)</strong> and <strong class="text-[var(--foreground)]">&minus;1,650,480 raw bytes (&minus;37.7%)</strong> with 137/137 in-memory round-trip passes,
+          uncovered upstream <code class="font-mono">quick-check.py:80</code> deletion deferral, and verified G4&ndash;G5 CI receipt ingestion across standalone Lean 4.36, Rust 1.100, and Swift 6.4.3 while keeping the reference proof untouched (0 dirty files).
+          Full empirical results and dynamically rendered charts appear in <a href="../002-clean-room-ast-reduction-and-g4-g5-rehearsal/paper.md" class="text-[var(--primary)] font-semibold">Working Paper 002</a>.
+        </p>
+      </div>
     </section>
 
     <!-- Discreet Footer + Collapsible Provenance Note -->
     <footer class="border-t border-[var(--border)] pt-4 space-y-2 text-xs text-[var(--muted-foreground)]">
       <div class="flex flex-wrap items-center justify-between gap-2">
-        <span>Ergentics Working Paper Series &middot; Paper 001 (Clean-Room Research Companion)</span>
+        <span>Ergentics Working Paper Series &middot; Paper 001 v2.1 (Clean-Room Research Companion)</span>
         <span class="font-mono">&copy; 2026 Ergentics, LLC (MIT License)</span>
       </div>
       <details class="pt-1">
         <summary class="cursor-pointer select-none hover:text-[var(--foreground)]">Verification &amp; Reproducibility Note</summary>
         <p class="mt-1.5 text-xs text-[var(--muted-foreground)] leading-relaxed">
           All figures and tables in this reader are generated from immutable observational census, independent Cooper–Harvey–Kennedy dependency trace,
-          standardized vocabulary, and primary-archive bibliography datasets pinned to the Lean 4.36 verified baseline (exact technical revision and file mappings appear in Appendix A of the working paper).
+          standardized vocabulary (<code class="font-mono">v1.1.0</code>), and primary-archive bibliography datasets pinned to the Lean 4.36 verified baseline (exact technical revision and file mappings appear in Appendix A of the working paper and follow-on Working Paper 002).
         </p>
       </details>
     </footer>

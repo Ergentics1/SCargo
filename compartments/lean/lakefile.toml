@@ -49,3 +49,7 @@ root = "SCargoLean.PreflightHarnessTest"
 [[lean_exe]]
 name = "patch_verifier_test"
 root = "SCargoLean.PatchVerifierTest"
+
+[[lean_exe]]
+name = "airlock_rehearsal_test"
+root = "SCargoLean.AirlockRehearsalTest"

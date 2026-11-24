@@ -1,0 +1,82 @@
+{
+  "schema_version": "1.0.0",
+  "copyright": "Copyright (c) 2026 Ergentics, LLC",
+  "organization": "Ergentics",
+  "title": "Declarative Presentation Metadata for Ergentics Research Paper 002 Figures",
+  "note": "Pure visual palette, editorial labels, and structural captions strictly decoupled from empirical dataset counts (AUD-07). All file counts, line/byte reductions, closure sizes, and guard verdicts are computed dynamically from immutable Arc 5, Arc 6, and Arc 7 JSON receipts.",
+  "palette": {
+    "bg": [254, 254, 252],
+    "panel": [247, 248, 250],
+    "panel_alt": [239, 243, 248],
+    "border": [212, 220, 232],
+    "ink": [20, 30, 48],
+    "muted": [86, 98, 118],
+    "track": [228, 234, 242],
+    "sapphire": [29, 78, 216],
+    "teal": [14, 116, 144],
+    "emerald": [4, 120, 87],
+    "amber": [180, 83, 9],
+    "violet": [109, 40, 217],
+    "crimson": [185, 28, 28],
+    "slate": [71, 85, 105]
+  },
+  "zone_labels": {
+    "Z-C0": {
+      "short": "Z-C0 Dead Leaves",
+      "title": "Unreachable Dead-Leaf Pruning",
+      "mechanism": "Static in-degree zero module deletion (FlagMeasures)",
+      "color": "amber"
+    },
+    "Z-C2": {
+      "short": "Z-C2 Capelli AST",
+      "title": "Layout-Free Balanced-AST Collapse",
+      "mechanism": "Token-identical explicit-chain wrapping (CapelliIdentities)",
+      "color": "sapphire"
+    },
+    "Z-C4": {
+      "short": "Z-C4 Hub Imports",
+      "title": "Transitive Import-Hub Pruning",
+      "mechanism": "Closure-preserving redundant import drop (Literature Hub)",
+      "color": "teal"
+    }
+  },
+  "route_labels": {
+    "quick_check": {
+      "title": "Small-Runner Quick-Check (G4 Diagnostic)",
+      "badge": "QUICK-CHECK",
+      "color": "emerald"
+    },
+    "full_rh_build_deleted": {
+      "title": "Full rh-build (Deletion Deferral)",
+      "badge": "DEFERRED: DELETE",
+      "color": "amber"
+    },
+    "full_rh_build_closure": {
+      "title": "Full rh-build (Closure Budget)",
+      "badge": "DEFERRED: CONE",
+      "color": "crimson"
+    }
+  },
+  "gate_stages": [
+    {
+      "id": "G1-G3",
+      "title": "Clean-Room Static & AST Qualification",
+      "detail": "Pure in-memory round-trip, token identity, closure invariance"
+    },
+    {
+      "id": "G4-QC",
+      "title": "Small-Runner Quick-Check Diagnostic",
+      "detail": "In-place edits only, bounded roots & closure; never attests release"
+    },
+    {
+      "id": "G4-FULL",
+      "title": "Trusted Full Sandbox Build Receipt",
+      "detail": "Pinned toolchain, Zone A SHA-256 locks, input fingerprint check"
+    },
+    {
+      "id": "G5-CMP",
+      "title": "Dual-Kernel Comparator & Axiom Gate",
+      "detail": "Lean kernel, hardened leanchecker, nanoda, classical axiom subset"
+    }
+  ]
+}

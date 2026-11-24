@@ -1,0 +1,88 @@
+{
+  "schema_version": "1.0.0",
+  "copyright": "Copyright (c) 2026 Ergentics, LLC",
+  "organization": "Ergentics",
+  "paper_id": "PAPER-002",
+  "source_repo_commit": "51d9b1a28026d458aef9c9af3df8b083276e3d2d",
+  "guards": [
+    {
+      "guard_id": "commit_sha_correspondence",
+      "passed": true,
+      "detail": "All 3 datasets match pinned baseline commit 51d9b1a280.",
+      "healing_action": null
+    },
+    {
+      "guard_id": "presentation_anti_baked_metrics",
+      "passed": true,
+      "detail": "Zero baked empirical counts found in presentation metadata JSON.",
+      "healing_action": null
+    },
+    {
+      "guard_id": "presentation_label_coverage",
+      "passed": true,
+      "detail": "All 3 active zones have declarative presentation metadata.",
+      "healing_action": null
+    },
+    {
+      "guard_id": "dataset_structural_integrity",
+      "passed": true,
+      "detail": "Verified 137 patch entries (100% round-trip) and 18 routed shards.",
+      "healing_action": null
+    },
+    {
+      "guard_id": "portable_font_resolution",
+      "passed": true,
+      "detail": "Resolved all 5 required DejaVu TrueType fonts.",
+      "healing_action": null
+    }
+  ],
+  "inputs": {
+    "patch_plan": {
+      "path": "transfer/patches/arc6_patch_plan_v1.json",
+      "sha256": "890a55b9aef816c8ec1256d41a258dcc663bfd0f7e4d76483d6b089ab596281f"
+    },
+    "bundles": {
+      "path": "transfer/bundles/arc5_preflight_bundles_v1.json",
+      "sha256": "aa3230707db090649e361f966590b1e12d3fe1b8d3073c47d89a2bacf51c7dab"
+    },
+    "rehearsal": {
+      "path": "transfer/rehearsal/arc7_g4_g5_rehearsal_v1.json",
+      "sha256": "47b7cf357611beb17b95a9c2fde02466c22659b103a02f36b07eb39f2dfa7932"
+    },
+    "presentation": {
+      "path": "data/sources/paper_002_presentation_v1.json",
+      "sha256": "c7de835381bcc431217e615ddb2d8139eb6efeaa6c81dcb02483881f68348ced"
+    }
+  },
+  "rendered_claims": {
+    "fig1_arc6_zone_reduction_waterfall.png": [
+      "Baseline 51d9b1a280 · 137 files verified via pure in-memory unified-diff round-trip (−32,166 lines / −56.6%, −1.65 MB / −37.7%)",
+      "Total saved lines: 32,166 (56.6%)",
+      "Total saved bytes: 1,650,480 (37.7%)",
+      "Round-trip verified: 137/137"
+    ],
+    "fig2_z2_capelli_pareto_and_wrap.png": [
+      "Baseline 51d9b1a280 · 24 files · −19,052 lines (−673.0 KB) via ≤160-char layout-free balanced-AST wrapping (max_line=280 ≤ 280)",
+      "Z-C2 saved lines: 19,052, collapsed spans: 2,567, skipped layout spans: 1,179",
+      "Z-C2 max line after: 280 (bound 280)"
+    ],
+    "fig3_up07_dual_route_and_g4_g5_gate.png": [
+      "Baseline 51d9b1a280 · 18 Arc 6 shards: 3 quick-check eligible (Z-C2), 14 deletion-deferred (Z-C0, quick-check.py:80), 1 cone-deferred (Z-C4)",
+      "Quick-check eligible: 3, deletion-deferred: 14, cone-deferred: 1"
+    ]
+  },
+  "outputs": {
+    "fig1_arc6_zone_reduction_waterfall.png": {
+      "sha256": "c32753591f3e55961af603ad9fbe45162e882ffaf2bb8f40f92465e0d69ff13a",
+      "bytes": 209948
+    },
+    "fig2_z2_capelli_pareto_and_wrap.png": {
+      "sha256": "4d97763d397fda07572400717816582a7f8127b92e569f3f96f726f3f3deee0c",
+      "bytes": 261382
+    },
+    "fig3_up07_dual_route_and_g4_g5_gate.png": {
+      "sha256": "a36bddc337688da0e0d67359780e2290b7b73719e54ac440d966352076b14cbf",
+      "bytes": 228384
+    }
+  }
+}

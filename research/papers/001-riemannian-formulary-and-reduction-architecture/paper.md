@@ -2,7 +2,7 @@
 
 **Ergentics Working Paper Series — Paper 001**  
 **Organization**: Ergentics · **Copyright**: © 2026 Ergentics, LLC (MIT License)  
-**Edition**: Working Paper v2.0 (Clean-Room Baseline & Teaching Synthesis)  
+**Edition**: Working Paper v2.1 (Clean-Room Baseline, Teaching Synthesis & Arc 4–Arc 7 Qualification Addendum)  
 **Subject Areas**: Analytic & Arithmetic Number Theory · Formalized Mathematics · Empirical Proof Engineering  
 **Keywords**: Riemann Hypothesis, Generalized Riemann Hypothesis, Historical Formulary, Standardized Lexicon, Proof Compression, Dependency Analysis, Stratified Controlled Trials, Clean-Room Architecture
 
@@ -45,6 +45,7 @@ This working paper establishes the scholarly and empirical foundation required t
 - [6. Prioritized Compression Roadmap & Methodological Limitations](#6-prioritized-compression-roadmap--methodological-limitations)
   - [6.1 Three Progressive Compression Tiers](#61-three-progressive-compression-tiers)
   - [6.2 Methodological Limitations & Environmental Constraints](#62-methodological-limitations--environmental-constraints)
+  - [6.3 Post-Baseline Clean-Room Qualification Addendum (Arc 4–Arc 7)](#63-post-baseline-clean-room-qualification-addendum-arc-4arc-7)
 - [7. Primary Bibliography (Archive-Verified, 1837–2026)](#7-primary-bibliography-archive-verified-18372026)
 - [Appendix A. Clean-Room Provenance & Verification Mapping](#appendix-a-clean-room-provenance--verification-mapping)
 
@@ -277,6 +278,15 @@ Synthesizing our historical lineage, structural overhead census, and independent
 - **Computational Verification Envelope**: Compiling the entire reference proof from scratch requires roughly 187–240 core-hours and over 150 GB of memory for full kernel export. Practical day-to-day trial qualification must therefore combine bounded local compilation on targeted subtrees with cached precompiled artifacts and full continuous-integration verification before any transfer is finalized.
 - **Living Upstream Ecosystem**: Active community development (including upcoming Lean 4.37 toolchain upgrades) means our baseline is a moving reference point. By strictly decoupling immutable datasets from executable code and enforcing automatic re-qualification triggers, our clean-room measurements remain reproducible across every future revision.
 
+### 6.3 Post-Baseline Clean-Room Qualification Addendum (Arc 4–Arc 7)
+
+Following publication of Working Paper v2.0, four subsequent clean-room qualification arcs (`v0.6.0`–`v0.9.0`) executed the opening pre-flight engineering phase while leaving the verified reference repository **100% untouched (`0` dirty files)**:
+
+- **Arc 4 (`v0.6.0`) — High-Mass Structural Census & Lexicon Sync**: Quantified five disjoint compression zones (`Z-C0`–`Z-C4`) and promoted `standard_vocabulary_v1.json` to `v1.1.0` with `UP-08` zero-copy provenance rules.
+- **Arc 5 (`v0.7.0`) — Real Lean `v4.36.0` `module` Pre-Flight Fixtures**: Verified synthetic clean-room analogs (`Leaf`, `Mid`, `WrapAlias`, `HubPruned`) under real Lean `v4.36.0` `module` semantics and `leanchecker`, and generated dual-route `UP-07` shards (`arc5_preflight_bundles_v1.json`).
+- **Arc 6 (`v0.8.0`) — Concrete AST Patch Synthesis & Pure In-Memory Round-Trip**: Generated deterministic unified diffs across **137 target files** (`Z-C0` `112` dead leaves, `Z-C2` `24` `CapelliIdentities` files with `≤ 160`-char layout-free balanced-AST wrapping and `max_line_after = 280`, and `Z-C4` `1` hub file dropping `5,054` redundant transitive imports), reclaiming **32,166 source lines (−56.6%)** and **1,650,480 raw bytes (−37.7%)** with **137/137** in-memory round-trip and read-only `git apply --check` passes.
+- **Arc 7 (`v0.9.0`) — G4–G5 CI Receipt Ingestor & Airlock Rehearsal**: Uncovered upstream `scripts/quick-check.py:80`'s file-deletion deferral rule (confirming `SHARD-ZC2-01..03` as the `3` `quick-check`-eligible in-place pilot shards while deferring `Z-C0` and `Z-C4` to full `ci-build.py`), verified **six rehearsal guards (`RG-1`..`RG-6`)** and **eight fail-closed negative controls** across standalone Lean `v4.36.0`, Rust `1.100.0`, and Swift `6.4.3` (**sextuple byte-for-byte Rust ↔ Swift parity**), and published the complete empirical synthesis in [**Working Paper 002**](../002-clean-room-ast-reduction-and-g4-g5-rehearsal/paper.md).
+
 ---
 
 ## 7. Primary Bibliography (Archive-Verified, 1837–2026)
@@ -325,9 +335,14 @@ To preserve clean-room readability in the main narrative while guaranteeing 100%
   - Corpus census: [`data/baselines/riemannian_51d9b1a280_inventory.json`](../../../data/baselines/riemannian_51d9b1a280_inventory.json) (`scargo-probe/0.1.0`)
   - Independent dependency & dominator trace: [`data/traces/riemannian_51d9b1a280_trace.json`](../../../data/traces/riemannian_51d9b1a280_trace.json) (`scargo-trace/0.1.0`)
   - Primary-source historical registry: [`data/sources/formulary_lineage_v1.json`](../../../data/sources/formulary_lineage_v1.json) (`v1.1.0`)
-  - Standardized cross-era lexicon: [`data/sources/standard_vocabulary_v1.json`](../../../data/sources/standard_vocabulary_v1.json) (`v1.0.0`)
+  - Standardized cross-era lexicon: [`data/sources/standard_vocabulary_v1.json`](../../../data/sources/standard_vocabulary_v1.json) (`v1.1.0`)
   - Interface boundary & transfer manifest: [`data/manifests/transfer_zones_v1.json`](../../../data/manifests/transfer_zones_v1.json) (`ICD-SCARGO-RIEM-001`)
   - Stratified controlled trial allocation: [`data/trials/rct_001_wrappers_allocation.json`](../../../data/trials/rct_001_wrappers_allocation.json) (SplitMix64 seed `20261122`, 162 balanced units)
+- **Follow-On Qualification Artifacts (`v0.6.0`–`v0.9.0`, documented in [Working Paper 002](../002-clean-room-ast-reduction-and-g4-g5-rehearsal/paper.md))**:
+  - Arc 4 high-mass census: [`data/trials/arc4_high_mass_census_v1.json`](../../../data/trials/arc4_high_mass_census_v1.json)
+  - Arc 5 Lean `v4.36.0` `module` pre-flight bundles: [`transfer/bundles/arc5_preflight_bundles_v1.json`](../../../transfer/bundles/arc5_preflight_bundles_v1.json)
+  - Arc 6 concrete 137-file AST patch plan: [`transfer/patches/arc6_patch_plan_v1.json`](../../../transfer/patches/arc6_patch_plan_v1.json)
+  - Arc 7 G4–G5 CI receipt ingestor & airlock rehearsal: [`transfer/rehearsal/arc7_g4_g5_rehearsal_v1.json`](../../../transfer/rehearsal/arc7_g4_g5_rehearsal_v1.json)
 
 ### A.2 One-to-One Verification Table (`SRC-01`–`SRC-15`)
 

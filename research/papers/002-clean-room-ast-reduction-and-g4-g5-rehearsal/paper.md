@@ -2,23 +2,24 @@
 
 **Ergentics Working Paper Series — Paper 002**  
 **Organization**: Ergentics · **Copyright**: © 2026 Ergentics, LLC (MIT License)  
-**Edition**: Working Paper v1.0 (Clean-Room Concrete Patch & G4–G5 Airlock Rehearsal Study)  
+**Edition**: Working Paper v1.1 (Clean-Room Concrete Patch, Arc 8 Adaptive 5-Zone Expansion & G4–G5 Airlock Rehearsal Study)  
+**Interactive Companion Reader**: [Offline HTML Reader (`index.html`, zero-CDN)](index.html)  
 **Companion Study**: [Working Paper 001 (v2.1)](../001-riemannian-formulary-and-reduction-architecture/paper.md)  
 **Subject Areas**: Formalized Mathematics · Proof Engineering · Compiler & AST Compression · Reproducible Verification  
-**Keywords**: Lean 4, Riemann Hypothesis, AST Proof Compression, Unified-Diff Verification, Clean-Room Airlock, Continuous-Integration Attestation, Cross-Language Parity, Correspondence Principle
+**Keywords**: Lean 4, Riemann Hypothesis, AST Proof Compression, Unified-Diff Verification, Adaptive Bin-Packing, Clean-Room Airlock, Continuous-Integration Attestation, Cross-Language Parity, Correspondence Principle
 
 ---
 
 ## Abstract
 
-In [Working Paper 001](../001-riemannian-formulary-and-reduction-architecture/paper.md), we audited a complete, axiom-minimal Lean `v4.36.0` formalization of the Riemann Hypothesis (RH) and Generalized Riemann Hypothesis (GRH) spanning **149,397 modules**, **15,168,601 source lines**, and **871.37 megabytes**, and proposed a clean-room three-tier compression roadmap before editing a single line of the verified reference proof. This second working paper executes the **clean-room pre-flight qualification phase** (Arcs 4–7 of the `SCargo` laboratory), bridging structural diagnosis to concrete, byte-exact patch synthesis and continuous-integration (CI) airlock rehearsal while maintaining **zero mutations** to the verified reference repository (`0` dirty files).
+In [Working Paper 001](../001-riemannian-formulary-and-reduction-architecture/paper.md), we audited a complete, axiom-minimal Lean `v4.36.0` formalization of the Riemann Hypothesis (RH) and Generalized Riemann Hypothesis (GRH) spanning **149,397 modules**, **15,168,601 source lines**, and **871.37 megabytes**, and proposed a clean-room three-tier compression roadmap before editing a single line of the verified reference proof. This second working paper executes the **clean-room pre-flight qualification phase** (Arcs 4–8 of the `SCargo` laboratory), bridging structural diagnosis to concrete, byte-exact patch synthesis, adaptive sharding, and continuous-integration (CI) airlock rehearsal while maintaining **zero mutations** to the verified reference repository (`0` dirty files).
 
-We report four primary engineering and empirical contributions:
+We report four primary engineering and empirical contributions (extended in **v1.1** by Arc 8's 5-zone expansion in [Section 6.4](#64-v11-addendum--arc-8-adaptive-5-zone-synthesis--bin-packing-expansion)):
 
-1. **Concrete Multi-Zone AST Patch Synthesis & Pure In-Memory Round-Trip Verification (Section 3 & Section 4)**: Across three mutually disjoint, interface-isolated zones totaling **137 target files** (`56,865` source lines, `4,380,145` bytes)—unreferenced dead leaves (`Z-C0`, `112` files), explicit `@`-application chains in `CapelliIdentities` (`Z-C2`, `24` files), and redundant transitive imports in the `EveryCharacterOfLiteratureOfVWin` merge hub (`Z-C4`, `1` file)—our deterministic AST-aware generator reclaims **32,166 source lines (−56.6%)** and **1,650,480 raw bytes (−37.7%)**. All **137/137** emitted unified-diff patches pass pure in-memory hunk round-trip reconstruction, token-stream or transitive-closure invariance, and read-only `git apply --check` against the untouched baseline (`51d9b1a280`).
-2. **Layout-Safe Bounded-Width Wrapping & Lean `v4.36.0` `module` Pre-Flight Proofs (Section 3.2)**: Naive single-line collapsing of verbose Lean 4 `@`-chains creates unreadable multi-kilobyte lines and silently breaks layout-sensitive tactic blocks. Introducing a fail-closed layout-keyword/comment/bar scanner (`1,179` spans guarded and skipped) paired with `≤ 160`-character 2-space continuation wrapping across `2,567` balanced `@`-spans preserves exact whitespace-tokenized identity (`tok(before) == tok(after)` on `24/24` files) and caps every rewritten line at the baseline bound (`max_line_after = 280 ≤ 280`), while standalone Lean `v4.36.0` `module` fixtures formally prove definitional (`rfl`) and `.eq_1` equation-lemma invariance under hardened `leanchecker`.
-3. **Upstream Small-Runner CI Discovery (`scripts/quick-check.py:80`) & G4–G5 Airlock Rehearsal Harness (Section 5)**: Read-only inspection of the upstream CI controller revealed an undocumented deletion-deferral rule (`not (candidate/name).is_file()` forces full-build deferral). Consequently, although all `14` `Z-C0` shards sit below the `2,000`-module small-runner closure ceiling (`293–1,922` modules), **all `14` `Z-C0` deletion shards and the `1` `Z-C4` hub shard (`127,440` modules) defer to the full sandbox pool (`ci-build.py`)**, leaving the **`3` in-place `Z-C2` shards (`SHARD-ZC2-01..03`, `8` roots each, `8–12` closure modules, `−19,052` lines / `−673.0 KB`) as the highest-velocity first pilot candidates for remote `quick-check`**. We codify and verify **six G4–G5 rehearsal guards (`RG-1`..`RG-6`)** and **eight adversarial negative controls (`NEG-R1`..`NEG-R8`)** enforcing strict anti-theater provenance (`rehearsal_mode = true`, `remote_ci_attestation = false`, `target_repo_mutation_allowed = false`).
-4. **Triple-Compartment Standalone Verification & Sextuple Byte-for-Byte Parity (Section 2 & Section 5.3)**: Every invariant is verified strictly independently ("no combo") across **Lean `v4.36.0`** (`112/112` atomic guards across `9` executables, `16/16` `leanchecker`-verified modules), **Rust `1.100.0`** (`12` zero-unsafe crates, `-D warnings`), and **Open-Source Swift `6.4.3`** (`10` Swift Testing suites, strict Swift 6 concurrency), achieving **$\Delta_{\text{parity}} = 0$ byte-for-byte JSON parity** across all six cross-language engines (`ground`, `airlock`, `census`, `emit`, `patch`, `rehearsal`).
+1. **Concrete Multi-Zone AST Patch Synthesis & Pure In-Memory Round-Trip Verification (Section 3 & Section 4)**: Across the opening three mutually disjoint, interface-isolated zones totaling **137 target files** (`56,865` source lines, `4,380,145` bytes)—unreferenced dead leaves (`Z-C0`, `112` files), explicit `@`-application chains in `CapelliIdentities` (`Z-C2`, `24` files), and redundant transitive imports in the `EveryCharacterOfLiteratureOfVWin` merge hub (`Z-C4`, `1` file)—our deterministic AST-aware generator reclaims **32,166 source lines (−56.6%)** and **1,650,480 raw bytes (−37.7%)**. All **137/137** emitted unified-diff patches pass pure in-memory hunk round-trip reconstruction, token-stream or transitive-closure invariance, and read-only `git apply --check` against the untouched baseline (`51d9b1a280`). In **Arc 8 (`v1.1`)**, expanding synthesis across all **5 Zone C tracks (`Z-C0`, `Z-C1A`, `Z-C2`, `Z-C3`, `Z-C4`)** strictly contains all `137/137` Arc 6 files and scales the verified clean-room budget to **1,080 files**, **−55,155 source lines (−51.6%)**, and **−3,955,093 raw bytes (−3.96 MB, −44.2%)**, with **1,080/1,080** passing read-only `git apply --check`.
+2. **Layout-Safe Bounded-Width Wrapping & Lean `v4.36.0` `module` Pre-Flight Proofs (Section 3.2 & Section 6.4)**: Naive single-line collapsing of verbose Lean 4 `@`-chains creates unreadable multi-kilobyte lines and silently breaks layout-sensitive tactic blocks. Introducing a fail-closed layout-keyword/comment/bar scanner (`1,179` spans guarded and skipped in Arc 6) paired with `≤ 160`-character 2-space continuation wrapping across `2,567` balanced `@`-spans preserves exact whitespace-tokenized identity (`tok(before) == tok(after)` on `24/24` Arc 6 files and `28/28` Arc 8 files) and caps every rewritten line at its file baseline bound, while standalone Lean `v4.36.0` `module` fixtures (`CompactCse`, `WrapperAliasStrict`, `PrivateDedupe`) formally prove definitional (`rfl`), binder-plicity, universe, and `.eq_1` equation-lemma invariance under hardened `leanchecker`.
+3. **Upstream Small-Runner CI Discovery (`scripts/quick-check.py:80`), Adaptive Bin-Packing & G4–G5 Airlock Rehearsal Harness (Section 5 & Section 6.4)**: Read-only inspection of the upstream CI controller revealed an undocumented deletion-deferral rule (`not (candidate/name).is_file()` forces full-build deferral). Consequently, across the `18` Arc 6 shards, **all `14` `Z-C0` deletion shards and the `1` `Z-C4` hub shard (`127,440` modules) defer to the full sandbox pool (`ci-build.py`)**, leaving the **`3` in-place `Z-C2` shards (`SHARD-ZC2-01..03`, `8` roots each, `8–12` closure modules, `−19,052` lines / `−673.0 KB`) as the highest-velocity first pilot candidates for remote `quick-check`**. In **Arc 8 (`v1.1`)**, greedy **Min-Closure-Union Bin-Packing** (`argmin |S ∪ A(m)|`, `|S| ≤ 8`, `|S ∪ A(m)| ≤ 2,000`) lifts small-runner `quick-check` eligibility across the `1,080`-file portfolio from **`413` files (`53` shards) to `505` files (`66` shards, `+92` files / `+22.3%`)**. We codify and verify fail-closed guards and **16 adversarial negative controls** (`NEG-R1`..`NEG-R8` + `NEG-S1`..`NEG-S8`) enforcing strict anti-theater provenance (`rehearsal_mode = true`, `remote_ci_attestation = false`, `target_repo_mutation_allowed = false`).
+4. **Triple-Compartment Standalone Verification & Septuple Byte-for-Byte Parity (Section 2 & Section 6.4)**: Every invariant is verified strictly independently ("no combo") across **Lean `v4.36.0`** (`120/120` atomic guards across `10` executables, `19/19` `leanchecker`-verified modules), **Rust `1.100.0`** (`13` zero-unsafe crates, `-D warnings`), and **Open-Source Swift `6.4.3`** (`11` Swift Testing suites, strict Swift 6 concurrency), achieving **$\Delta_{\text{parity}} = 0$ byte-for-byte JSON parity** across all seven cross-language engines (`ground`, `airlock`, `census`, `emit`, `patch`, `rehearsal`, `synth`).
 
 ---
 
@@ -26,7 +27,7 @@ We report four primary engineering and empirical contributions:
 
 - [1. Introduction & Relationship to Working Paper 001](#1-introduction--relationship-to-working-paper-001)
 - [2. Clean-Room Methodology, Correspondence Governance & Zero-Copy Constraints](#2-clean-room-methodology-correspondence-governance--zero-copy-constraints)
-  - [2.1 The Correspondence Principle Across Rung 1–Arc 7](#21-the-correspondence-principle-across-rung-1arc-7)
+  - [2.1 The Correspondence Principle Across Rung 1–Arc 8](#21-the-correspondence-principle-across-rung-1arc-8)
   - [2.2 Zero-Copy Clean-Room Boundary (`UP-08`) & Anti-Theater Provenance (`PRIN-06`)](#22-zero-copy-clean-room-boundary-up-08--anti-theater-provenance-prin-06)
   - [2.3 Strict Standalone Compartment Architecture ("No Combo")](#23-strict-standalone-compartment-architecture-no-combo)
 - [3. Concrete AST Transform Architecture & Lean `v4.36.0` Pre-Flight Proofs](#3-concrete-ast-transform-architecture--lean-v4360-pre-flight-proofs)
@@ -42,7 +43,8 @@ We report four primary engineering and empirical contributions:
   - [5.1 Upstream `quick-check.py:80` Deletion-Deferral Discovery](#51-upstream-quick-checkpy80-deletion-deferral-discovery)
   - [5.2 Exact G4–G5 Receipt Contracts (`RG-1`..`RG-6`)](#52-exact-g4g5-receipt-contracts-rg-1rg-6)
   - [5.3 Eight Adversarial Negative Controls (`NEG-R1`..`NEG-R8`) & Lean Kernel Soundness Theorems](#53-eight-adversarial-negative-controls-neg-r1neg-r8--lean-kernel-soundness-theorems)
-- [6. Limitations & Flight-Article Pilot Readiness](#6-limitations--flight-article-pilot-readiness)
+- [6. Limitations, Flight-Article Pilot Readiness & v1.1 Arc 8 Expansion](#6-limitations-flight-article-pilot-readiness--v11-arc-8-expansion)
+  - [6.4 v1.1 Addendum — Arc 8 Adaptive 5-Zone Synthesis & Bin-Packing Expansion](#64-v11-addendum--arc-8-adaptive-5-zone-synthesis--bin-packing-expansion)
 - [7. Primary Bibliography & Standards](#7-primary-bibliography--standards)
 - [Appendix A. Clean-Room Provenance, Digests & Reproducibility Commands](#appendix-a-clean-room-provenance-digests--reproducibility-commands)
 
@@ -58,15 +60,15 @@ Between Paper 001's observational baseline and an actual remote CI build on the 
 2. **Local syntactic validity is not remote CI acceptance.** Because compiling the complete proof from scratch requires roughly `187–240` core-hours and `> 150 GB` RAM for `lean4export`, practical upstream contributions must respect the exact admission predicates of the upstream CI controllers (`scripts/quick-check.py`, `scripts/ci-build.py`, `comparator.json`, `export-targets.txt`, and dual-kernel `leanchecker-paranoid` + `nanoda_bin` replay).
 3. **Pre-flight simulation must never impersonate remote attestation.** In large formalization workflows, mixing local rehearsals with real remote CI receipts creates an unacceptable audit hazard.
 
-Working Paper 002 documents the resolution of all three challenges across **Arcs 4–7** of `SCargo`, using the harmonized cross-era lexicon (`data/sources/standard_vocabulary_v1.json`, `v1.1.0`) established in Paper 001 and enforcing strict code/data separation (`AUD-07`) across every empirical chart and table.
+Working Paper 002 documents the resolution of all three challenges across **Arcs 4–8** of `SCargo`, using the harmonized cross-era lexicon (`data/sources/standard_vocabulary_v1.json`, `v1.1.0`) established in Paper 001, enforcing strict code/data separation (`AUD-07`) across every empirical chart and table, and providing a zero-CDN offline interactive companion reader ([`index.html`](index.html)).
 
 ---
 
 ## 2. Clean-Room Methodology, Correspondence Governance & Zero-Copy Constraints
 
-### 2.1 The Correspondence Principle Across Rung 1–Arc 7
+### 2.1 The Correspondence Principle Across Rung 1–Arc 8
 
-Every stage of `SCargo` is governed by **The Correspondence Principle** (Bohr, 1920): any higher verification arc MUST smoothly contain every lower rung's guarantees without regression ($\Delta_{\text{logic}} = 0$, $\Delta_{\text{parity}} = 0$). Table 1 summarizes the monotonic progression from Rung 1 boundary-seam defense through Arc 7's G4–G5 airlock rehearsal.
+Every stage of `SCargo` is governed by **The Correspondence Principle** (Bohr, 1920): any higher verification arc MUST smoothly contain every lower rung's guarantees without regression ($\Delta_{\text{logic}} = 0$, $\Delta_{\text{parity}} = 0$). Table 1 summarizes the monotonic progression from Rung 1 boundary-seam defense through Arc 8's adaptive 5-zone synthesis and Min-Closure-Union sharding.
 
 | Rung / Arc | Release | Verification Objective | Key Verified Artifact |
 |---|---|---|---|
@@ -77,6 +79,7 @@ Every stage of `SCargo` is governed by **The Correspondence Principle** (Bohr, 1
 | **Arc 5** | `v0.7.0` | Real Lean `v4.36.0` `module` pre-flight fixtures (`Leaf`, `Mid`, `WrapAlias`, `HubPruned`) + dual-route `UP-07` shards (`emit`) | `transfer/bundles/arc5_preflight_bundles_v1.json` |
 | **Arc 6** | `v0.8.0` | Concrete AST-aware unified-diff patch generator & pure in-memory round-trip verifier (`patch`) + `CompactCse` proof | `transfer/patches/arc6_patch_plan_v1.json` |
 | **Arc 7** | `v0.9.0` | G4–G5 CI receipt ingestor (`stage`/`ingest`/`verify`), `quick-check.py:80` routing refinement & Paper 002 `AUD-07` publication | `transfer/rehearsal/arc7_g4_g5_rehearsal_v1.json` |
+| **Arc 8** | `v0.10.0` | Full 5-zone adaptive AST synthesizer (`synth`), Lean `WrapperAliasStrict` + `PrivateDedupe` proofs, Min-Closure-Union bin-packing & Paper 002 `v1.1` offline reader | `transfer/patches/arc8_adaptive_synth_plan_v1.json` |
 
 ### 2.2 Zero-Copy Clean-Room Boundary (`UP-08`) & Anti-Theater Provenance (`PRIN-06`)
 
@@ -89,9 +92,9 @@ Two non-negotiable operational constraints govern all Arc 4–Arc 7 deliverables
 
 To eliminate single-language blind spots, `SCargo` forbids FFI bridges or cross-language test orchestration. Three completely independent toolchains verify the identical JSON contracts:
 
-- **Lean `v4.36.0` Formal Kernel**: Pure kernel proofs (`warningAsError = true`, zero `sorry`, zero `native_decide`) checked independently by `leanchecker` across all **16 modules**, plus **9 standalone guard executables** executing **112 atomic fail-closed assertions**.
-- **Rust `1.100.0` Systems Engine**: Zero external crates, `#![forbid(unsafe_code)]`, `clippy -D warnings`, executing high-speed read-only scanning, AST patch generation, unified-diff round-trip verification, and G4–G5 CI receipt ingestion across **12 workspace crates**.
-- **Open-Source Swift `6.4.3` Contract Engine**: Zero external dependencies, strict Swift 6 concurrency (`Sendable`), `.treatAllWarnings(as: .error)`, zero `try?` / `withUnsafe*`, mirroring all six cross-language engines to **sextuple byte-for-byte JSON parity ($\Delta_{\text{parity}} = 0$)** against Rust.
+- **Lean `v4.36.0` Formal Kernel**: Pure kernel proofs (`warningAsError = true`, zero `sorry`, zero `native_decide`) checked independently by `leanchecker` across all **19 modules** (`16` through Arc 7 + `WrapperAliasStrict`, `PrivateDedupe`, and `AdaptiveSynth` in Arc 8), plus **10 standalone guard executables** executing **120 atomic fail-closed assertions**.
+- **Rust `1.100.0` Systems Engine**: Zero external crates, `#![forbid(unsafe_code)]`, `clippy -D warnings`, executing high-speed read-only scanning, AST patch generation, unified-diff round-trip verification, G4–G5 CI receipt ingestion, and Arc 8 adaptive 5-zone synthesis across **13 workspace crates**.
+- **Open-Source Swift `6.4.3` Contract Engine**: Zero external dependencies, strict Swift 6 concurrency (`Sendable`), `.treatAllWarnings(as: .error)`, zero `try?` / `withUnsafe*`, mirroring all seven cross-language engines to **septuple byte-for-byte JSON parity ($\Delta_{\text{parity}} = 0$)** against Rust.
 
 ---
 
@@ -227,11 +230,35 @@ Finally, `SCargoLean.AirlockRehearsal.arc7_smoothly_contains_all_prior_rungs` pr
 
 ---
 
-## 6. Limitations & Flight-Article Pilot Readiness
+## 6. Limitations, Flight-Article Pilot Readiness & v1.1 Arc 8 Expansion
 
 1. **No Remote Compilation Claimed Yet (`PRIN-06`)**: Every check reported in Working Paper 002 is an **offline clean-room qualification and rehearsal** against baseline `51d9b1a280`. True Lean elaboration wall-time, peak RSS memory, and exported `.export` term-size deltas require remote execution on upstream `quick-check` and `rh-build` runners (G4–G5).
-2. **Scope of the First 137-File Batch**: The `137` files qualified here (`−32,166` lines / `−1.65 MB`) represent the highest-confidence, zero-interface-risk entry tranche. Larger multi-hundred-thousand-line levers identified in Paper 001—notably the `36,255` forwarding wrappers (`Z-C1`), duplicated private helper lemmas across `AbelianVarietyTheory` (`Z-C3`), and guarded `0`-free-variable `abbrev` CSE—remain queued behind clean G4–G5 validation of this opening pilot.
-3. **Recommended First Live Flight-Article Pilot**: Based on the `quick-check.py:80` discovery, the optimal first live PR against `Ergentics1/Riemannian` is **`SHARD-ZC2-01`** (`8` in-place `CapelliIdentities` files, `12`-module closure, `−12,141` lines / `−443.2 KB`, `100%` token-stream identical, `max_line_after ≤ 280`). It exercises the fast small-runner `quick-check` path first, produces immediately readable diffs, and supplies genuine remote `result.json` receipts to validate `scargo-rehearsal ingest` end-to-end before advancing `SHARD-ZC2-02..03`, `Z-C0`, and `Z-C4` through full `ci-build.py` + dual-kernel G5 attestation.
+2. **Progression from Opening 137-File Tranche to 5-Zone Adaptive Portfolio**: The `137` files qualified in Arc 6 (`−32,166` lines / `−1.65 MB`) represent the highest-confidence opening tranche. Section 6.4 below documents **Arc 8's expansion** across all five disjoint zones (`1,080` files, `−55,155` lines / `−3.96 MB`), demonstrating deterministic clean-room patch synthesis into `Z-C1A` forwarding wrappers, `Z-C3` private-lemma deduplication clusters, expanded `Z-C2`, and `361` `Z-C4` hubs while maintaining strict monotonic containment (`Arc 6 ⊂ Arc 8`).
+3. **Recommended First Live Flight-Article Pilot**: Based on the `quick-check.py:80` discovery, the optimal first live PR against `Ergentics1/Riemannian` remains **`SHARD-ZC2-01`** (`8` in-place `CapelliIdentities` files, `12`-module closure, `−12,141` lines / `−443.2 KB`, `100%` token-stream identical, `max_line_after ≤ 280`). It exercises the fast small-runner `quick-check` path first, produces immediately readable diffs, and supplies genuine remote `result.json` receipts to validate `scargo-rehearsal ingest` end-to-end before advancing the remaining `Z-C2`, `Z-C1A`, `Z-C3` quick-check shards and full `ci-build.py` (`Z-C0`, `Z-C4`) batches through dual-kernel G5 attestation.
+
+### 6.4 v1.1 Addendum — Arc 8 Adaptive 5-Zone Synthesis & Bin-Packing Expansion
+
+Following v1.0 (`SCargo v0.9.0`), **Arc 8 (`SCargo v0.10.0`)** expanded clean-room AST patch synthesis and Lean `v4.36.0` `module` pre-flight proofs across all five Zone C categories while preserving **zero mutations** to `Ergentics1/Riemannian` (`0` dirty files) and **100.0% containment** of all `137/137` Arc 6 files (`transfer/patches/arc8_adaptive_synth_plan_v1.json`).
+
+![Figure 4 — Arc 8 Full 5-Zone Adaptive Synthesis Portfolio & Min-Closure-Union Bin-Packing](figures/fig4_arc8_adaptive_sharding_and_5zone_portfolio.png)
+
+**Figure 4** and **Table 3** summarize the verified Arc 8 portfolio (**1,080 files**, **29,408 AST ops**, **1,080/1,080** pure in-memory hunk round-trip PASS, **1,080/1,080** read-only `git apply --check` PASS):
+
+| Zone | Target Scope & Mechanism | Files | Lines Before | Lines After | Saved Lines | Line Δ | Saved Bytes | Byte Δ | Quick-Check Shards (Files) | Full-Build Shards (Files) |
+|---|---|---:|---:|---:|---:|---:|---:|---:|---:|---:|
+| **`Z-C4`** | Multi-hub transitive import drop (`Literature` + `ThirdPlaceSeries` + `IntegralStructures`) | 361 | 42,970 | 18,427 | **−24,543** | −57.1% | **−2,439,797** (−2.44 MB) | −59.1% | 0 (0) | 23 (361) |
+| **`Z-C2`** | Expanded `CapelliIdentities` `≤160`-char layout-free `@`-collapse | 28 | 43,013 | 23,942 | **−19,071** | −44.3% | **−673,530** (−673.5 KB) | −20.4% | 4 (28) | 0 (0) |
+| **`Z-C0`** | `FlagMeasures` unreferenced dead leaves (in-degree `0`) | 112 | 8,060 | 0 | **−8,060** | −100.0% | **−468,760** (−468.8 KB) | −100.0% | 0 (0) | 7 (112) |
+| **`Z-C1A`** | Dual-mode wrappers (`239` Mode `A1` strict alias + `299` Mode `A2` tight theorem) | 538 | 7,795 | 4,692 | **−3,103** | −39.8% | **−351,346** (−351.3 KB) | −47.7% | 59 (455) | 6 (83) |
+| **`Z-C3`** | Self-contained acyclic private-lemma deduplication (`19` clusters) | 41 | 5,098 | 4,720 | **−378** | −7.4% | **−21,660** (−21.7 KB) | −6.8% | 3 (22) | 2 (19) |
+| **Total** | **Combined Arc 8 Five-Zone Portfolio (`Arc 6 ⊂ Arc 8`)** | **1,080** | **106,936** | **51,781** | **−55,155** | **−51.6%** | **−3,955,093** (**−3.96 MB**) | **−44.2%** | **66 (505)** | **38 (575)** |
+
+Four technical advances distinguish Arc 8:
+
+1. **Lean `v4.36.0` `module` Wrapper & Dedupe Proofs**: Testing directly on local Lean `v4.36.0` confirmed that untyped `theorem foo := bar` fails elaboration (`inferDefTypeFailed`), whereas `abbrev _root_.X := @_root_.Target` inside `module` + `@[expose] public section` (`SCargoLean/Preflight/WrapperAliasStrict.lean`) compiles with **0 warnings under `warningAsError = true`**, preserves implicit `{α}` / instance `[Inst]` / universe `.{u}` binder plicity by `rfl`, and handles `Classical.choice` without `noncomputable`. A second fixture (`SCargoLean/Preflight/PrivateDedupe.lean`) proves that promoting a shared helper for `Z-C3` preserves `rfl` across independent sibling consumers.
+2. **Adaptive Min-Closure-Union Bin-Packing (`SG-6`)**: Under upstream `scripts/quick-check.py:80` (`≤ 8` changed roots, `≤ 2,000` ancestor closure union, zero deletions), naive alphabetical 8-file chunking qualifies only **`413` files (`53` shards)** for `quick-check`. Greedy Min-Closure-Union bin-packing (`argmin |S ∪ A(m)|`) clusters files with overlapping ancestor cones, unlocking **`505` files (`66` shards, `+92` files / `+22.3%` lift)** across `Z-C1A` (`455` files, `≤ 1,979` closure), `Z-C2` (`28` files, `≤ 10` closure), and `Z-C3` (`22` files, `≤ 1,803` closure).
+3. **Septuple Byte-for-Byte Cross-Language Parity ($\Delta_{\text{parity}} = 0$)**: Rust `scargo-synth` and Swift `SCargoSynth` independently verify `SG-1`..`SG-7` and `8/8` Arc 8 adversarial negative controls (`NEG-S1`..`NEG-S8`), yielding identical verification digest `synth_digest_sha256 = 345e200d3153eb1f11cd56a2a9cbead44e44a78b4a23e2ed3dbe89718db43dfc` ($\Delta_{\text{parity}} = 0$), backed by `19/19` Lean `leanchecker` modules and `120/120` Lean atomic guards.
+4. **Offline Zero-CDN Interactive Reader (`index.html`)**: Paper 002 now ships with a single-file, zero-CDN, dark/light-adaptive interactive reader ([`index.html`](index.html)) validated by our expanded `10`-test `AUD-07` test suite (`test_render_figures.py`).
 
 ---
 
@@ -269,6 +296,8 @@ Finally, `SCargoLean.AirlockRehearsal.arc7_smoothly_contains_all_prior_rungs` pr
 - **Arc 5 Pre-Flight Bundles**: [`transfer/bundles/arc5_preflight_bundles_v1.json`](../../../transfer/bundles/arc5_preflight_bundles_v1.json)
 - **Arc 6 Concrete Patch Plan**: [`transfer/patches/arc6_patch_plan_v1.json`](../../../transfer/patches/arc6_patch_plan_v1.json) (`patch_digest_sha256 = 07bd85c348946a5c2f67aa646cc58a80d9d54eb5cd03b5f2ad4e0305238dfdaa`)
 - **Arc 7 G4–G5 Airlock Rehearsal**: [`transfer/rehearsal/arc7_g4_g5_rehearsal_v1.json`](../../../transfer/rehearsal/arc7_g4_g5_rehearsal_v1.json) (`rehearsal_digest_sha256 = 072428c7194bcf63c8d8ed22aeebb8a4ffee1ac54743ded8c1135b99d17e16ed`)
+- **Arc 8 Adaptive 5-Zone Synth Plan**: [`transfer/patches/arc8_adaptive_synth_plan_v1.json`](../../../transfer/patches/arc8_adaptive_synth_plan_v1.json) (`synth_digest_sha256 = 345e200d3153eb1f11cd56a2a9cbead44e44a78b4a23e2ed3dbe89718db43dfc`)
+- **Paper 002 Offline Interactive Reader**: [`index.html`](index.html)
 - **Paper 002 Presentation Vault**: [`data/sources/paper_002_presentation_v1.json`](../../../data/sources/paper_002_presentation_v1.json)
 - **Paper 002 Dynamic Figure Manifest**: [`figures/figures_manifest.json`](figures/figures_manifest.json)
 - **Standardized Cross-Era Lexicon (`v1.1.0`)**: [`data/sources/standard_vocabulary_v1.json`](../../../data/sources/standard_vocabulary_v1.json)
@@ -276,22 +305,26 @@ Finally, `SCargoLean.AirlockRehearsal.arc7_smoothly_contains_all_prior_rungs` pr
 ### A.3 Standalone Reproduction Commands
 
 ```bash
-# 1. Regenerate all 3 Paper 002 figures + SHA-256 manifest (AUD-07 dynamic render)
+# 1. Regenerate all 4 Paper 002 figures + SHA-256 manifest (AUD-07 dynamic render)
 python3 research/papers/002-clean-room-ast-reduction-and-g4-g5-rehearsal/render_figures.py \
   --patch-plan transfer/patches/arc6_patch_plan_v1.json \
   --bundles transfer/bundles/arc5_preflight_bundles_v1.json \
   --rehearsal transfer/rehearsal/arc7_g4_g5_rehearsal_v1.json \
+  --synth-plan transfer/patches/arc8_adaptive_synth_plan_v1.json \
   --presentation data/sources/paper_002_presentation_v1.json \
   --out-dir research/papers/002-clean-room-ast-reduction-and-g4-g5-rehearsal/figures
 
-# 2. Run all 8 Paper 002 AUD-07 adversarial & metamorphic figure tests
+# 2. Run all 10 Paper 002 AUD-07 adversarial, metamorphic & offline-reader tests
 python3 -m unittest discover -s research/papers/002-clean-room-ast-reduction-and-g4-g5-rehearsal -p "test_*.py" -v
 
-# 3. Verify Lean v4.36.0 G4-G5 airlock rehearsal suite (standalone)
-LEAN_ABORT_ON_PANIC=1 lake --dir compartments/lean build SCargoLean airlock_rehearsal_test
+# 3. Verify Lean v4.36.0 Arc 7 & Arc 8 standalone suites
+LEAN_ABORT_ON_PANIC=1 lake --dir compartments/lean build SCargoLean airlock_rehearsal_test adaptive_synth_test
 LEAN_ABORT_ON_PANIC=1 compartments/lean/.lake/build/bin/airlock_rehearsal_test .
+LEAN_ABORT_ON_PANIC=1 compartments/lean/.lake/build/bin/adaptive_synth_test .
 
-# 4. Verify Rust 1.100.0 & Open-Source Swift 6.4.3 rehearsal parity (Delta = 0)
+# 4. Verify Rust 1.100.0 & Open-Source Swift 6.4.3 rehearsal & synth parity (Delta = 0)
 diff -u <(compartments/rust/target/release/scargo-rehearsal verify --root . --json) \
         <(compartments/swift/.build/release/scargo-rehearsal --root . --json)
+diff -u <(compartments/rust/target/release/scargo-synth verify --root . --json) \
+        <(compartments/swift/.build/release/scargo-synth --root . --json)
 ```

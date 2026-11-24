@@ -12,7 +12,8 @@ This compartment targets **Open-Source Swift `6.4.3`** (`swift-tools-version: 6.
 - **`SCargoCensus`** & **`scargo-census`**: Standalone Arc 4 high-mass zone census (`Z-C2`/`Z-C3`/`Z-C4`) & `UP-08` lexical provenance verifier (`HG-1`..`HG-5`, deterministic Pareto yield ranking, and 6 adversarial negative controls matching Rust SHA-256 byte-for-byte; `SCargoCensusTests`).
 - **`SCargoEmit`** & **`scargo-emit`**: Standalone Arc 5 clean-room dual-route `UP-07` pre-flight bundle verifier & synthetic deterministic diff emitter (`EG-1`..`EG-6`, 24 shards + 4 full bundles across `Z-C0`/`Z-C1A`/`Z-C2`/`Z-C4`, 4 synthetic transform rewriters, Lean 4.36 `module` pre-flight check, and 6 adversarial negative controls matching Rust SHA-256 byte-for-byte; `SCargoEmitTests`).
 - **`SCargoPatch`** & **`scargo-patch`**: Standalone Arc 6 AST-aware patch plan verifier & pure in-memory unified-diff round-trip engine (`PG-1`..`PG-6`, exact `137`-file bijection across `Z-C0`/`Z-C2`/`Z-C4`, `<= 160`-char layout-free `Z-C2` balanced-AST collapse, `0`-free-variable closed-subtree `abbrev` CSE, `Z-C4` transitive import-closure pruning, and 7 adversarial negative controls matching Rust SHA-256 byte-for-byte; `SCargoPatchTests`).
-- **`SCargoRehearsal`** & **`scargo-rehearsal`**: Standalone Arc 7 G4–G5 CI receipt ingestor & airlock rehearsal verifier (`RG-1`..`RG-6`, 5 live Zone A SHA-256 pins, upstream `quick-check.py:80` deletion deferral across 18 Arc 6 shards, `ci-build.py` `input_fingerprint` check, 5-theorem G5 comparator & 3-axiom gate, `PRIN-06` anti-theater honesty, and 8 adversarial negative controls matching Rust SHA-256 byte-for-byte — sextuple parity; `SCargoRehearsalTests`).
+- **`SCargoRehearsal`** & **`scargo-rehearsal`**: Standalone Arc 7 G4–G5 CI receipt ingestor & airlock rehearsal verifier (`RG-1`..`RG-6`, 5 live Zone A SHA-256 pins, upstream `quick-check.py:80` deletion deferral across 18 Arc 6 shards, `ci-build.py` `input_fingerprint` check, 5-theorem G5 comparator & 3-axiom gate, `PRIN-06` anti-theater honesty, and 8 adversarial negative controls matching Rust SHA-256 byte-for-byte; `SCargoRehearsalTests`).
+- **`SCargoSynth`** & **`scargo-synth`**: Standalone Arc 8 adaptive 5-zone AST synthesis & Min-Closure-Union bin-packing verifier (`SG-1`..`SG-7`, exact `1,080`-file / `−55,155`-line / `−3,955,093`-byte verification across `Z-C0`/`Z-C1A`/`Z-C2`/`Z-C3`/`Z-C4`, `19` acyclic `Z-C3` clusters, adaptive `quick-check` lift `413 → 505` files, and 8 adversarial negative controls matching Rust SHA-256 byte-for-byte — septuple `7/7` parity; `SCargoSynthTests`).
 
 ## Standalone Verification Commands (Guarded Default `swiftbuild`, 0 Warnings)
 
@@ -31,4 +32,5 @@ compartments/swift/.build/release/scargo-census --root .
 compartments/swift/.build/release/scargo-emit --root .
 compartments/swift/.build/release/scargo-patch --root .
 compartments/swift/.build/release/scargo-rehearsal --root .
+compartments/swift/.build/release/scargo-synth --root .
 ```

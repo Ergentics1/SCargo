@@ -3,7 +3,7 @@
   "copyright": "Copyright (c) 2026 Ergentics, LLC",
   "organization": "Ergentics",
   "title": "Declarative Presentation Metadata for Ergentics Research Paper 002 Figures",
-  "note": "Pure visual palette, editorial labels, and structural captions strictly decoupled from empirical dataset counts (AUD-07). All file counts, line/byte reductions, closure sizes, and guard verdicts are computed dynamically from immutable Arc 5, Arc 6, and Arc 7 JSON receipts.",
+  "note": "Pure visual palette, editorial labels, and structural captions strictly decoupled from empirical dataset counts (AUD-07). All file counts, line/byte reductions, closure sizes, and guard verdicts are computed dynamically from immutable Arc 5, Arc 6, Arc 7, and Arc 8 JSON receipts.",
   "palette": {
     "bg": [254, 254, 252],
     "panel": [247, 248, 250],
@@ -27,16 +27,28 @@
       "mechanism": "Static in-degree zero module deletion (FlagMeasures)",
       "color": "amber"
     },
+    "Z-C1A": {
+      "short": "Z-C1A Wrappers",
+      "title": "Strict Wrapper Alias & Tightening",
+      "mechanism": "Strict alias / tight forwarding (CompanionTheory & PositivityTheory)",
+      "color": "violet"
+    },
     "Z-C2": {
       "short": "Z-C2 Capelli AST",
       "title": "Layout-Free Balanced-AST Collapse",
-      "mechanism": "Token-identical explicit-chain wrapping (CapelliIdentities)",
+      "mechanism": "Token-identical explicit-chain wrapping (CapelliIdentities & siblings)",
       "color": "sapphire"
+    },
+    "Z-C3": {
+      "short": "Z-C3 Private Dedupe",
+      "title": "Self-Contained Private-Lemma Deduplication",
+      "mechanism": "Acyclic shared-helper promotion for duplicate private lemmas",
+      "color": "crimson"
     },
     "Z-C4": {
       "short": "Z-C4 Hub Imports",
       "title": "Transitive Import-Hub Pruning",
-      "mechanism": "Closure-preserving redundant import drop (Literature Hub)",
+      "mechanism": "Closure-preserving redundant import drop (Literature & multi-hub)",
       "color": "teal"
     }
   },

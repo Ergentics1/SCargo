@@ -1,0 +1,933 @@
+<!-- Copyright (c) 2026 Ergentics, LLC — Licensed under the MIT License. See LICENSE in the project root. -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Ergentics · Working Paper 002 (v1.1) — Zero-Trust AST Proof Compression, Adaptive Sharding &amp; G4–G5 Rehearsal</title>
+  <style>
+    :root {
+      --background: #f8fafc;
+      --foreground: #0f172a;
+      --card: #ffffff;
+      --card-alt: #f1f5f9;
+      --border: #e2e8f0;
+      --muted-foreground: #475569;
+      --primary: #1d4ed8;
+      --success: #047857;
+      --warning: #b45309;
+      --danger: #b91c1c;
+      --chart-1: #1d4ed8;
+      --chart-2: #0e7490;
+      --chart-3: #b45309;
+      --chart-4: #6d28d9;
+      --chart-5: #b91c1c;
+    }
+    @media (prefers-color-scheme: dark) {
+      :root:not([data-theme="light"]) {
+        --background: #0b1120;
+        --foreground: #f1f5f9;
+        --card: #111827;
+        --card-alt: #1e293b;
+        --border: #1e293b;
+        --muted-foreground: #94a3b8;
+        --primary: #60a5fa;
+        --success: #34d399;
+        --warning: #fbbf24;
+        --danger: #fb7185;
+        --chart-1: #60a5fa;
+        --chart-2: #22d3ee;
+        --chart-3: #fbbf24;
+        --chart-4: #a78bfa;
+        --chart-5: #fb7185;
+      }
+    }
+    :root[data-theme="dark"] {
+      --background: #0b1120;
+      --foreground: #f1f5f9;
+      --card: #111827;
+      --card-alt: #1e293b;
+      --border: #1e293b;
+      --muted-foreground: #94a3b8;
+      --primary: #60a5fa;
+      --success: #34d399;
+      --warning: #fbbf24;
+      --danger: #fb7185;
+      --chart-1: #60a5fa;
+      --chart-2: #22d3ee;
+      --chart-3: #fbbf24;
+      --chart-4: #a78bfa;
+      --chart-5: #fb7185;
+    }
+    *, *::before, *::after { box-sizing: border-box; }
+    body {
+      font-family: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      background-color: var(--background);
+      color: var(--foreground);
+      margin: 0;
+      padding: 0;
+      -webkit-font-smoothing: antialiased;
+    }
+    a { color: var(--primary); text-decoration: none; }
+    a:hover { text-decoration: underline; }
+    code, pre, .font-mono { font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace; }
+    .tabular-nums { font-variant-numeric: tabular-nums; }
+    .container { max-width: 68rem; margin: 0 auto; padding: 2rem 1.5rem; }
+    .stack-6 > * + * { margin-top: 1.5rem; }
+    .stack-5 > * + * { margin-top: 1.25rem; }
+    .stack-4 > * + * { margin-top: 1rem; }
+    .stack-3 > * + * { margin-top: 0.75rem; }
+    .stack-2 > * + * { margin-top: 0.5rem; }
+    .card { background: var(--card); border: 1px solid var(--border); border-radius: 0.75rem; padding: 1.25rem 1.5rem; }
+    .subcard { background: var(--background); border: 1px solid var(--border); border-radius: 0.5rem; padding: 0.875rem 1rem; }
+    .grid { display: grid; gap: 1rem; }
+    .grid-2 { grid-template-columns: repeat(1, minmax(0, 1fr)); }
+    .grid-3 { grid-template-columns: repeat(1, minmax(0, 1fr)); }
+    .grid-4 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    @media (min-width: 720px) {
+      .grid-2 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      .grid-3 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+      .grid-4 { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+    }
+    .flex { display: flex; align-items: center; }
+    .flex-wrap { flex-wrap: wrap; }
+    .justify-between { justify-content: space-between; }
+    .gap-2 { gap: 0.5rem; }
+    .gap-3 { gap: 0.75rem; }
+    .text-xs { font-size: 0.75rem; line-height: 1.1rem; }
+    .text-sm { font-size: 0.875rem; line-height: 1.35rem; }
+    .text-base { font-size: 1rem; line-height: 1.5rem; }
+    .text-lg { font-size: 1.15rem; line-height: 1.5rem; }
+    .text-2xl { font-size: 1.5rem; line-height: 1.95rem; }
+    .font-bold { font-weight: 700; }
+    .font-semibold { font-weight: 600; }
+    .uppercase { text-transform: uppercase; letter-spacing: 0.04em; }
+    .muted { color: var(--muted-foreground); }
+    .primary { color: var(--primary); }
+    .success { color: var(--success); }
+    .warning { color: var(--warning); }
+    .danger { color: var(--danger); }
+    .hidden { display: none !important; }
+    .badge {
+      display: inline-block;
+      padding: 0.15rem 0.55rem;
+      border-radius: 9999px;
+      font-size: 0.7rem;
+      font-weight: 700;
+      letter-spacing: 0.02em;
+      white-space: nowrap;
+    }
+    .badge-primary { background: rgba(29, 78, 216, 0.14); color: var(--primary); }
+    .badge-success { background: rgba(4, 120, 87, 0.14); color: var(--success); }
+    .badge-warning { background: rgba(180, 83, 9, 0.16); color: var(--warning); }
+    .badge-danger { background: rgba(185, 28, 28, 0.16); color: var(--danger); }
+    .badge-violet { background: rgba(109, 40, 217, 0.15); color: var(--chart-4); }
+    .badge-teal { background: rgba(14, 116, 144, 0.15); color: var(--chart-2); }
+    nav.tabs {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      border-bottom: 1px solid var(--border);
+      padding-bottom: 0.75rem;
+    }
+    button.tab-btn, button.pill-btn {
+      background: var(--card);
+      color: var(--foreground);
+      border: 1px solid var(--border);
+      border-radius: 0.5rem;
+      padding: 0.5rem 0.85rem;
+      font-size: 0.78rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background-color 140ms ease, color 140ms ease, border-color 140ms ease;
+    }
+    button.tab-btn:hover, button.pill-btn:hover { border-color: var(--primary); }
+    button.tab-btn[aria-selected="true"], button.pill-btn[aria-pressed="true"] {
+      background: var(--primary);
+      color: #ffffff;
+      border-color: var(--primary);
+    }
+    .bar-track {
+      width: 100%;
+      height: 0.65rem;
+      background: var(--card-alt);
+      border-radius: 9999px;
+      overflow: hidden;
+      border: 1px solid var(--border);
+    }
+    .bar-fill { height: 100%; border-radius: 9999px; transition: width 220ms ease; }
+    table { width: 100%; border-collapse: collapse; font-size: 0.8rem; }
+    th, td { padding: 0.55rem 0.65rem; border-bottom: 1px solid var(--border); text-align: left; vertical-align: top; }
+    th { font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.03em; color: var(--muted-foreground); }
+    td.num, th.num { text-align: right; font-variant-numeric: tabular-nums; }
+    .table-wrap { overflow-x: auto; }
+    pre.cmd {
+      background: var(--background);
+      border: 1px solid var(--border);
+      border-radius: 0.5rem;
+      padding: 0.85rem 1rem;
+      font-size: 0.76rem;
+      overflow-x: auto;
+      line-height: 1.5;
+      margin: 0;
+    }
+    .fig-frame {
+      background: var(--background);
+      border: 1px solid var(--border);
+      border-radius: 0.65rem;
+      padding: 0.75rem;
+    }
+    .fig-frame img {
+      width: 100%;
+      height: auto;
+      display: block;
+      border-radius: 0.4rem;
+      border: 1px solid var(--border);
+    }
+    label.zone-toggle {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 0.75rem;
+      padding: 0.6rem 0.8rem;
+      border: 1px solid var(--border);
+      border-radius: 0.5rem;
+      background: var(--background);
+      cursor: pointer;
+    }
+    label.zone-toggle:hover { border-color: var(--primary); }
+    .dot { width: 0.65rem; height: 0.65rem; border-radius: 9999px; display: inline-block; flex-shrink: 0; }
+    footer.colophon {
+      border-top: 1px solid var(--border);
+      padding-top: 1rem;
+      font-size: 0.75rem;
+      color: var(--muted-foreground);
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      gap: 0.5rem;
+    }
+  </style>
+</head>
+<body>
+  <div class="container stack-6">
+
+    <!-- Clean-Room Working Paper Masthead -->
+    <header class="card stack-4">
+      <div class="flex flex-wrap justify-between gap-2 text-xs muted">
+        <span class="font-semibold uppercase primary">Ergentics Working Paper Series &middot; Paper 002 (v1.1)</span>
+        <div class="flex flex-wrap gap-2">
+          <span class="badge badge-success">0 Dirty Files in Riemannian</span>
+          <span class="badge badge-primary">Septuple (7/7) Rust &harr; Swift Parity</span>
+          <button id="theme-toggle" class="pill-btn" type="button" style="padding:0.2rem 0.6rem;font-size:0.72rem;">Toggle Theme</button>
+        </div>
+      </div>
+      <h1 class="text-2xl font-bold" style="margin:0;">
+        Zero-Trust AST Proof Compression, Adaptive 5-Zone Sharding, and G4&ndash;G5 Airlock Rehearsal for a 15-Million-Line Lean 4 Formalization of the Riemann Hypothesis
+      </h1>
+      <p class="text-sm muted" style="margin:0;">
+        Offline, zero-CDN interactive companion to <a href="paper.md"><code>paper.md</code> (v1.1)</a> and
+        <a href="../001-riemannian-formulary-and-reduction-architecture/index.html">Working Paper 001 (v2.1)</a>.
+        All metrics trace verbatim to immutable Arc 5&ndash;Arc 8 clean-room JSON vaults against pinned baseline
+        <code>51d9b1a280</code> (<code>rehearsal_mode = true</code>, <code>remote_ci_attestation = false</code>,
+        <code>target_repo_mutation_allowed = false</code>).
+      </p>
+      <div class="grid grid-4">
+        <div class="subcard">
+          <div class="text-xs muted">Arc 8 5-Zone Scope</div>
+          <div class="text-lg font-mono font-bold tabular-nums primary">1,080 files</div>
+          <div class="text-xs muted">100% Arc 6 subset &middot; 29,408 ops</div>
+        </div>
+        <div class="subcard">
+          <div class="text-xs muted">Concrete Lines Saved</div>
+          <div class="text-lg font-mono font-bold tabular-nums success">&minus;55,155</div>
+          <div class="text-xs muted">106,936 &rarr; 51,781 (&minus;51.6%)</div>
+        </div>
+        <div class="subcard">
+          <div class="text-xs muted">Concrete Bytes Saved</div>
+          <div class="text-lg font-mono font-bold tabular-nums" style="color:var(--chart-2);">&minus;3.96 MB</div>
+          <div class="text-xs muted">8.96 MB &rarr; 5.00 MB (&minus;44.2%)</div>
+        </div>
+        <div class="subcard">
+          <div class="text-xs muted">Adaptive Quick-Check</div>
+          <div class="text-lg font-mono font-bold tabular-nums" style="color:var(--chart-4);">505 (+92)</div>
+          <div class="text-xs muted">vs. 413 naive (+22.3%) &middot; 66 QC shards</div>
+        </div>
+      </div>
+    </header>
+
+    <!-- Five Interactive Tabs -->
+    <nav class="tabs" role="tablist" aria-label="Paper 002 sections">
+      <button data-tab="portfolio" class="tab-btn" role="tab" aria-selected="true" type="button">1. Abstract &amp; 5-Zone Simulator</button>
+      <button data-tab="synthesis" class="tab-btn" role="tab" aria-selected="false" type="button">2. AST Synthesis &amp; Lean Proofs</button>
+      <button data-tab="sharding" class="tab-btn" role="tab" aria-selected="false" type="button">3. Adaptive Sharding &amp; quick-check</button>
+      <button data-tab="airlock" class="tab-btn" role="tab" aria-selected="false" type="button">4. G4&ndash;G5 Airlock &amp; 16 Controls</button>
+      <button data-tab="gallery" class="tab-btn" role="tab" aria-selected="false" type="button">5. 4-Figure Gallery &amp; Reproduce</button>
+    </nav>
+
+    <!-- TAB 1: Abstract & Interactive 5-Zone Portfolio Simulator -->
+    <section id="tab-portfolio" class="tab-panel stack-5">
+      <div class="grid grid-2">
+        <article class="card stack-3">
+          <h2 class="text-base font-bold" style="margin:0;">From 137-File Opening Tranche (Arc 6) to Full 5-Zone Synthesis (Arc 8)</h2>
+          <p class="text-xs muted" style="margin:0;line-height:1.6;">
+            Working Paper 002 executes the clean-room pre-flight qualification phase (Arcs 4&ndash;8 of <code>SCargo</code>)
+            bridging Working Paper 001&rsquo;s observational inventory of <code>Ergentics1/Riemannian</code>
+            (<code>149,397</code> modules, <code>15,168,601</code> lines, <code>871.37 MB</code>) to verified,
+            content-addressed unified-diff patches and exact G4&ndash;G5 CI airlock rehearsal &mdash; while keeping
+            the verified reference proof repository <strong>100% untouched (<code>0</code> dirty files)</strong>.
+          </p>
+          <p class="text-xs muted" style="margin:0;line-height:1.6;">
+            In <strong>v1.0 (Arcs 6&ndash;7)</strong>, three conservative opening zones (<code>Z-C0</code>, <code>Z-C2</code>,
+            <code>Z-C4</code>) reclaimed <strong>&minus;32,166 lines (&minus;56.6%)</strong> and
+            <strong>&minus;1,650,480 bytes (&minus;1.65 MB, &minus;37.7%)</strong> across <strong>137 files</strong>.
+            In <strong>v1.1 (Arc 8)</strong>, expanding clean-room AST synthesis into forwarding wrappers
+            (<code>Z-C1A</code>), self-contained private-lemma deduplication clusters (<code>Z-C3</code>),
+            expanded <code>CapelliIdentities</code> (<code>Z-C2</code>), and multi-hub transitive import pruning
+            (<code>Z-C4</code>) strictly contains all <code>137/137</code> Arc 6 files and scales the verified clean-room
+            budget to <strong>1,080 files</strong>, <strong>&minus;55,155 lines (&minus;51.6%)</strong>, and
+            <strong>&minus;3,955,093 bytes (&minus;3.96 MB, &minus;44.2%)</strong> &mdash; with
+            <strong>1,080/1,080</strong> passing pure in-memory hunk round-trip and read-only
+            <code>git apply --check</code>.
+          </p>
+          <div class="subcard stack-2 text-xs">
+            <div class="font-semibold">Triple-Compartment Standalone Guarantees (&ldquo;No Combo&rdquo;)</div>
+            <div class="muted">&bull; <strong>Lean <code>v4.36.0</code>:</strong> 19/19 <code>leanchecker</code> modules &middot; 10 standalone executables &middot; 120/120 atomic guards &middot; zero <code>sorry</code> / <code>native_decide</code>.</div>
+            <div class="muted">&bull; <strong>Rust <code>1.100.0</code>:</strong> 13 zero-dep crates &middot; <code>#![forbid(unsafe_code)]</code> &middot; <code>-D warnings</code> &middot; 46/46 unit tests.</div>
+            <div class="muted">&bull; <strong>Open-Source Swift <code>6.4.3</code>:</strong> Swift 6 strict concurrency &middot; <code>.treatAllWarnings(as: .error)</code> &middot; 52/52 Swift Testing tests &middot; <strong>7/7</strong> byte-identical JSON parity with Rust (&Delta; = 0).</div>
+          </div>
+        </article>
+
+        <div class="card stack-4">
+          <div class="flex flex-wrap justify-between gap-2">
+            <h2 class="text-base font-bold" style="margin:0;">Interactive 5-Zone Portfolio Simulator</h2>
+            <div class="flex gap-2">
+              <button id="preset-arc8" class="pill-btn" aria-pressed="true" type="button" style="padding:0.3rem 0.65rem;font-size:0.72rem;">Arc 8 (1,080 files)</button>
+              <button id="preset-arc6" class="pill-btn" aria-pressed="false" type="button" style="padding:0.3rem 0.65rem;font-size:0.72rem;">Arc 6 Tranche (137)</button>
+              <button id="preset-qc" class="pill-btn" aria-pressed="false" type="button" style="padding:0.3rem 0.65rem;font-size:0.72rem;">Quick-Check Zones</button>
+            </div>
+          </div>
+          <div id="sim-zone-controls" class="stack-2 text-xs"></div>
+          <div class="grid grid-3" style="gap:0.65rem;">
+            <div class="subcard" style="text-align:center;">
+              <div class="text-xs muted">Selected Files</div>
+              <div id="sim-files" class="text-base font-mono font-bold tabular-nums primary">1,080</div>
+              <div id="sim-ops" class="text-xs muted">29,408 AST ops</div>
+            </div>
+            <div class="subcard" style="text-align:center;">
+              <div class="text-xs muted">Lines Reclaimed</div>
+              <div id="sim-lines" class="text-base font-mono font-bold tabular-nums success">&minus;55,155</div>
+              <div id="sim-lines-pct" class="text-xs muted">&minus;51.6% of selected</div>
+            </div>
+            <div class="subcard" style="text-align:center;">
+              <div class="text-xs muted">Bytes Reclaimed</div>
+              <div id="sim-bytes" class="text-base font-mono font-bold tabular-nums" style="color:var(--chart-2);">&minus;3.96 MB</div>
+              <div id="sim-bytes-pct" class="text-xs muted">&minus;44.2% of selected</div>
+            </div>
+          </div>
+          <div class="subcard stack-2 text-xs">
+            <div class="flex justify-between">
+              <span class="font-semibold">Small-Runner <code>quick-check</code> Share (Adaptive Bin-Packing)</span>
+              <span id="sim-qc-label" class="font-mono font-bold success">505 / 1,080 files (66 QC shards)</span>
+            </div>
+            <div class="bar-track"><div id="sim-qc-bar" class="bar-fill" style="width:46.8%;background:var(--success);"></div></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Exact 5-Zone Verified Table -->
+      <div class="card stack-3">
+        <div class="flex flex-wrap justify-between gap-2">
+          <h3 class="text-sm font-bold" style="margin:0;">Verified Arc 8 Five-Zone Synthesis Ledger (<code>transfer/patches/arc8_adaptive_synth_plan_v1.json</code>)</h3>
+          <span class="text-xs font-mono muted">100% in-memory round-trip &middot; 1,080/1,080 git apply --check PASS</span>
+        </div>
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>Zone</th>
+                <th>Target Scope &amp; Mechanism</th>
+                <th class="num">Files</th>
+                <th class="num">Lines Before</th>
+                <th class="num">Lines After</th>
+                <th class="num">Saved Lines</th>
+                <th class="num">Line &Delta;</th>
+                <th class="num">Saved Bytes</th>
+                <th class="num">Byte &Delta;</th>
+                <th class="num">AST Ops</th>
+              </tr>
+            </thead>
+            <tbody id="zone-ledger-body"></tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <!-- TAB 2: AST Synthesis & Lean v4.36.0 Pre-Flight Proofs -->
+    <section id="tab-synthesis" class="tab-panel hidden stack-5">
+      <div class="grid grid-2">
+        <div class="card stack-3">
+          <h2 class="text-base font-bold" style="margin:0;">Five Disjoint Clean-Room AST Transforms</h2>
+          <div class="stack-2 text-xs">
+            <div class="subcard">
+              <div class="flex justify-between"><strong style="color:var(--chart-2);">Z-C4 &mdash; Multi-Hub Transitive Import Pruning</strong><span class="badge badge-teal">361 hubs &middot; &minus;24,543 L</span></div>
+              <p class="muted" style="margin:0.35rem 0 0;">Exact Kahn topological reachability over the 149,284-module DAG removes strictly redundant <code>public import</code> lines across <code>EveryCharacterOfLiteratureOfVWin</code>, <code>ThirdPlaceSeries</code>, and <code>IntegralStructures</code> while proving identical transitive closure (<code>closure(after) == closure(before)</code>).</p>
+            </div>
+            <div class="subcard">
+              <div class="flex justify-between"><strong style="color:var(--chart-1);">Z-C2 &mdash; Layout-Free Balanced-AST &commat;-Collapse</strong><span class="badge badge-primary">28 files &middot; &minus;19,071 L</span></div>
+              <p class="muted" style="margin:0.35rem 0 0;">Inner-descending scanner collapses layout-free balanced parenthesized explicit <code>@</code>-chains and wraps cleanly at &le;160 chars with 2-space continuation, skipping all comments, strings, backticks, <code>|</code>, and 13 layout keywords while asserting exact whitespace-tokenized identity <code>tok(before) == tok(after)</code>.</p>
+            </div>
+            <div class="subcard">
+              <div class="flex justify-between"><strong style="color:var(--chart-3);">Z-C0 &mdash; Unreferenced Dead-Leaf Module Pruning</strong><span class="badge badge-warning">112 leaves &middot; &minus;8,060 L</span></div>
+              <p class="muted" style="margin:0.35rem 0 0;">Static in-degree zero module deletions across <code>Development/AutomorphicArithmetic/FlagMeasures/</code> emitting exact git deletion diffs with verified zero dangling references across active modules.</p>
+            </div>
+            <div class="subcard">
+              <div class="flex justify-between"><strong style="color:var(--chart-4);">Z-C1A &mdash; Dual-Mode Strict Wrapper Compression</strong><span class="badge badge-violet">538 files &middot; &minus;3,103 L</span></div>
+              <p class="muted" style="margin:0.35rem 0 0;">Covers <code>CompanionTheory</code>, <code>PositivityTheory</code>, and <code>RCT-001</code> wrappers using <strong>Mode A1 (239 files)</strong> strict <code>abbrev</code>/<code>alias</code> binder-preserving forwarding and <strong>Mode A2 (299 files)</strong> tight single-line proof-body compaction where dependent type headers require explicit signatures.</p>
+            </div>
+            <div class="subcard">
+              <div class="flex justify-between"><strong style="color:var(--chart-5);">Z-C3 &mdash; Acyclic Private-Lemma Deduplication</strong><span class="badge badge-danger">19 clusters / 41 files &middot; &minus;378 L</span></div>
+              <p class="muted" style="margin:0.35rem 0 0;">Identifies exact self-contained duplicate <code>private</code> helper blocks across sibling modules, promotes one acyclic canonical host declaration (stripping <code>private </code>), and replaces duplicate siblings with 1-line <code>private abbrev</code> delegations after verifying zero import-cycle creation.</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="card stack-3">
+          <h2 class="text-base font-bold" style="margin:0;">Real Lean <code>v4.36.0</code> <code>module</code> Pre-Flight Proof Ledger</h2>
+          <p class="text-xs muted" style="margin:0;">
+            Every transform is backed by a clean-room Lean <code>v4.36.0</code> <code>module</code> + <code>@[expose] public section</code> fixture compiled with <code>warningAsError = true</code>, <code>autoImplicit = false</code>, zero <code>sorry</code>, zero <code>native_decide</code>, and independently replayed by <code>leanchecker</code> (<strong>19/19 modules PASS</strong>).
+          </p>
+          <div class="table-wrap">
+            <table>
+              <thead>
+                <tr>
+                  <th>Pre-Flight Module</th>
+                  <th>Zone</th>
+                  <th>Kernel-Verified Guarantee</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr><td><code>Preflight.Leaf</code> &amp; <code>Mid</code></td><td>Base</td><td>Clean-room <code>module</code> + <code>public import</code> dependency chain baseline.</td></tr>
+                <tr><td><code>Preflight.WrapAlias</code></td><td><code>Z-C1A</code></td><td>Exact <code>@</code>-binder-plicity preservation (<code>@baselineForward = @strategyAForward</code>).</td></tr>
+                <tr><td><code>Preflight.HubPruned</code></td><td><code>Z-C4</code></td><td>Transitive <code>public import</code> visibility invariance after redundant import drop.</td></tr>
+                <tr><td><code>Preflight.CompactCse</code></td><td><code>Z-C2</code></td><td><code>&le;160</code>-char wrapped collapse + <code>0</code>-free-variable <code>abbrev</code> CSE (<code>rfl</code> + <code>.eq_1</code> preserved).</td></tr>
+                <tr><td><code>Preflight.WrapperAliasStrict</code></td><td><code>Z-C1A</code></td><td>Strict <code>abbrev</code> alias preserves implicit <code>{&alpha;}</code>, instance <code>[Inst]</code>, universe <code>.{u}</code>, and <code>Classical.choice</code> with 0 warnings + Mode <code>A2</code> tight theorem.</td></tr>
+                <tr><td><code>Preflight.PrivateDedupe</code></td><td><code>Z-C3</code></td><td>Promoted canonical host helper preserves definitional <code>rfl</code> equality across independent consumer delegates.</td></tr>
+                <tr><td><code>AdaptiveSynth</code></td><td>All 5</td><td>Proves <code>SG-1</code>..<code>SG-7</code> fail-closed rejection theorems &amp; smooth containment of Arc 7 through Rung 1.</td></tr>
+              </tbody>
+            </table>
+          </div>
+          <div class="subcard text-xs">
+            <strong>Key Lean <code>v4.36.0</code> Semantic Finding:</strong> Untyped <code>theorem foo := bar</code> fails core elaboration (<code>inferDefTypeFailed</code>), whereas <code>abbrev _root_.X := @_root_.Target</code> inside <code>module</code> + <code>@[expose] public section</code> compiles with 0 warnings under <code>warningAsError = true</code> and preserves full binder/universe/axiom fidelity.
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- TAB 3: Adaptive Min-Closure-Union Bin-Packing & quick-check.py:80 Explorer -->
+    <section id="tab-sharding" class="tab-panel hidden stack-5">
+      <div class="grid grid-2">
+        <div class="card stack-3">
+          <h2 class="text-base font-bold" style="margin:0;">Upstream <code>scripts/quick-check.py:80</code> Envelope &amp; Adaptive Lift</h2>
+          <p class="text-xs muted" style="margin:0;line-height:1.6;">
+            Direct read-only inspection of upstream <code>scripts/quick-check.py</code> established three strict admission constraints for the fast small-runner CI queue:
+            <strong>(1)</strong> in-place file existence (<code>(candidate/name).is_file()</code> &mdash; any file deletion forces deferral to <code>ci-build.py</code>),
+            <strong>(2)</strong> at most <code>8</code> changed root modules per PR shard, and
+            <strong>(3)</strong> project ancestor closure union <code>|&cup; A(m)| &le; 2,000</code> modules.
+          </p>
+          <p class="text-xs muted" style="margin:0;line-height:1.6;">
+            Alphabetical chunking mixes heavy-closure files into otherwise light batches, disqualifying entire 8-file shards.
+            Arc 8&rsquo;s <strong>Greedy Min-Closure-Union Bin-Packing</strong> (<code>argmin |S &cup; A(m)|</code> subject to <code>|S| &le; 8</code> and <code>|S &cup; A(m)| &le; 2,000</code>) clusters modules sharing overlapping ancestor cones, lifting small-runner eligibility from
+            <strong>413 files (53 shards)</strong> to <strong>505 files (66 shards)</strong> &mdash; unlocking <strong>+92 additional files (+22.3%)</strong> for fast G4 diagnostic iteration.
+          </p>
+          <div class="subcard stack-2 text-xs">
+            <div class="flex justify-between"><span>Naive Alphabetical Sharding</span><span class="font-mono font-bold">413 files (53 shards)</span></div>
+            <div class="bar-track"><div class="bar-fill" style="width:38.2%;background:var(--muted-foreground);"></div></div>
+            <div class="flex justify-between"><span>Adaptive Min-Closure-Union</span><span class="font-mono font-bold success">505 files (66 shards &middot; +92 / +22.3%)</span></div>
+            <div class="bar-track"><div class="bar-fill" style="width:46.8%;background:var(--success);"></div></div>
+          </div>
+        </div>
+
+        <div class="card stack-3">
+          <h2 class="text-base font-bold" style="margin:0;">Recommended First Live Flight-Article Pilot Batch</h2>
+          <div class="subcard stack-2 text-xs">
+            <div class="flex justify-between items-center">
+              <strong class="primary">Opening Pilot: <code>SHARD-ZC2-01</code> (In-Place <code>CapelliIdentities</code>)</strong>
+              <span class="badge badge-success">QUICK-CHECK ELIGIBLE</span>
+            </div>
+            <div class="muted">&bull; <strong>Scope:</strong> 8 in-place <code>Z-C2</code> files (including <code>CovariantDegrees.lean</code>, <code>MemOfClosed.lean</code>, <code>MulMemIntA.lean</code>).</div>
+            <div class="muted">&bull; <strong>Yield:</strong> <strong>&minus;12,141 lines (&minus;443.2 KB)</strong> in a single clean-diff PR.</div>
+            <div class="muted">&bull; <strong>Closure Footprint:</strong> Only <code>12</code> project modules (&lt; 0.6% of the <code>2,000</code>-module small-runner cap).</div>
+            <div class="muted">&bull; <strong>Safety Proof:</strong> <code>100%</code> whitespace-tokenized stream identity (<code>tok(before) == tok(after)</code>), <code>max_line_after &le; 280</code>, zero Zone A touches, zero deletions.</div>
+            <div class="muted">&bull; <strong>End-to-End Handshake:</strong> Produces real remote <code>result.json</code> receipts to exercise <code>scargo-rehearsal ingest</code> live before scaling into <code>Z-C1A</code> (59 QC shards), <code>Z-C3</code> (3 QC shards), and full <code>ci-build.py</code> (<code>Z-C0</code>, <code>Z-C4</code>).</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Interactive Zone Routing Filter Table -->
+      <div class="card stack-3">
+        <div class="flex flex-wrap justify-between gap-2">
+          <h3 class="text-sm font-bold" style="margin:0;">Arc 8 Adaptive Shard Routing Table (104 Total Shards Across 5 Zones)</h3>
+          <div class="flex gap-2" id="route-filters">
+            <button data-route="all" class="pill-btn" aria-pressed="true" type="button" style="padding:0.25rem 0.65rem;font-size:0.72rem;">All Zones (104 shards)</button>
+            <button data-route="quick_check" class="pill-btn" aria-pressed="false" type="button" style="padding:0.25rem 0.65rem;font-size:0.72rem;">Quick-Check Eligible (66)</button>
+            <button data-route="full_rh_build" class="pill-btn" aria-pressed="false" type="button" style="padding:0.25rem 0.65rem;font-size:0.72rem;">Full rh-build Deferred (38)</button>
+          </div>
+        </div>
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>Zone</th>
+                <th>CI Route</th>
+                <th class="num">Shards</th>
+                <th class="num">Files</th>
+                <th class="num">Max QC Closure</th>
+                <th class="num">Saved Lines</th>
+                <th class="num">Saved Bytes</th>
+                <th>Routing Rationale</th>
+              </tr>
+            </thead>
+            <tbody id="routing-table-body"></tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <!-- TAB 4: G4-G5 Airlock & 16-Negative-Control Matrix -->
+    <section id="tab-airlock" class="tab-panel hidden stack-5">
+      <div class="grid grid-2">
+        <div class="card stack-3">
+          <h2 class="text-base font-bold" style="margin:0;">Pinned Baseline Zone A SHA-256 Locks (<code>51d9b1a280</code>)</h2>
+          <p class="text-xs muted" style="margin:0;">Any drift in these six verification-core artifacts immediately fails closed across Lean, Rust, and Swift guards (<code>RG-1</code> / <code>SG-1</code>).</p>
+          <div class="table-wrap">
+            <table>
+              <thead><tr><th>Zone A Artifact</th><th>SHA-256 Digest</th></tr></thead>
+              <tbody class="font-mono text-xs">
+                <tr><td><code>lakefile.toml</code></td><td><code>e12dd96eb155851de5107571dbfc959e5d9b230ead90331b4778b55b048590bb</code></td></tr>
+                <tr><td><code>lake-manifest.json</code></td><td><code>ee003c5c7a9b2b2a82a142b6633916661c07117199dd143d94d1af63910237df</code></td></tr>
+                <tr><td><code>comparator.json</code></td><td><code>8ea890e6ccda9cf3983ada343af18a41d12542036875a3936e7925ed5b1582ff</code></td></tr>
+                <tr><td><code>export-targets.txt</code></td><td><code>9eeb2e5e55be4a78f6e4983fc950dba915b45ad8aeb7a02a32341927a89e05e8</code></td></tr>
+                <tr><td><code>lean-toolchain</code></td><td><code>582a63f8f9c5128067b688778c1051cf1464c3ca9d57b9325025c051c29b774a</code></td></tr>
+                <tr><td><code>Challenge.export</code></td><td><code>bd484ac9886a96f26b1d9a7a59ebd45b7a70d102c015d4f31f9302bbdd6ab2b9</code></td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <div class="card stack-3">
+          <h2 class="text-base font-bold" style="margin:0;">Cross-Language Cryptographic Receipts (&Delta;<sub>parity</sub> = 0)</h2>
+          <div class="stack-2 text-xs">
+            <div class="subcard">
+              <div class="font-semibold">Arc 6 Patch Plan Digest (<code>scargo-patch</code> Rust &harr; Swift)</div>
+              <div class="font-mono muted" style="word-break:break-all;margin-top:0.2rem;">07bd85c348946a5c2f67aa646cc58a80d9d54eb5cd03b5f2ad4e0305238dfdaa</div>
+            </div>
+            <div class="subcard">
+              <div class="font-semibold">Arc 7 Rehearsal Digest (<code>scargo-rehearsal</code> Rust &harr; Swift)</div>
+              <div class="font-mono muted" style="word-break:break-all;margin-top:0.2rem;">072428c7194bcf63c8d8ed22aeebb8a4ffee1ac54743ded8c1135b99d17e16ed</div>
+            </div>
+            <div class="subcard">
+              <div class="font-semibold">Arc 8 Adaptive Synth Digest (<code>scargo-synth</code> Rust &harr; Swift)</div>
+              <div class="font-mono primary" style="word-break:break-all;margin-top:0.2rem;">345e200d3153eb1f11cd56a2a9cbead44e44a78b4a23e2ed3dbe89718db43dfc</div>
+            </div>
+            <div class="subcard">
+              <div class="font-semibold"><code>PRIN-06</code> Anti-Theater Honesty Attestation</div>
+              <div class="muted" style="margin-top:0.2rem;"><code>rehearsal_mode = true</code> &middot; <code>remote_ci_attestation = false</code> &middot; <code>target_repo_mutation_allowed = false</code>. Rehearsal artifacts are formally blocked by Lean, Rust, and Swift from attesting G5 release readiness.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 16 Fail-Closed Negative Controls Matrix -->
+      <div class="card stack-3">
+        <div class="flex flex-wrap justify-between gap-2">
+          <h3 class="text-sm font-bold" style="margin:0;">16 Adversarial Negative Controls (Arc 7 <code>NEG-R1..R8</code> + Arc 8 <code>NEG-S1..S8</code>)</h3>
+          <div class="flex gap-2" id="neg-filters">
+            <button data-neg="all" class="pill-btn" aria-pressed="true" type="button" style="padding:0.25rem 0.65rem;font-size:0.72rem;">All 16 Controls</button>
+            <button data-neg="arc7" class="pill-btn" aria-pressed="false" type="button" style="padding:0.25rem 0.65rem;font-size:0.72rem;">Arc 7 G4&ndash;G5 (8)</button>
+            <button data-neg="arc8" class="pill-btn" aria-pressed="false" type="button" style="padding:0.25rem 0.65rem;font-size:0.72rem;">Arc 8 Synthesis (8)</button>
+          </div>
+        </div>
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>Control ID</th>
+                <th>Arc</th>
+                <th>Injected Poison / Fault Mode</th>
+                <th>Fail-Closed Guard &amp; Theorem</th>
+                <th>Verdict</th>
+              </tr>
+            </thead>
+            <tbody id="neg-matrix-body"></tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <!-- TAB 5: 4-Figure AUD-07 Gallery & Standalone Reproducibility -->
+    <section id="tab-gallery" class="tab-panel hidden stack-5">
+      <div class="card stack-4">
+        <div class="flex flex-wrap justify-between gap-2">
+          <h2 class="text-base font-bold" style="margin:0;">Dynamic <code>AUD-07</code> Publication Figure Gallery (4 PNGs, SHA-256 Manifested)</h2>
+          <div class="flex flex-wrap gap-2" id="fig-buttons">
+            <button data-fig="0" class="pill-btn" aria-pressed="true" type="button">Fig 1: Arc 6 Budget</button>
+            <button data-fig="1" class="pill-btn" aria-pressed="false" type="button">Fig 2: Z-C2 Pareto</button>
+            <button data-fig="2" class="pill-btn" aria-pressed="false" type="button">Fig 3: G4&ndash;G5 Airlock</button>
+            <button data-fig="3" class="pill-btn" aria-pressed="false" type="button">Fig 4: Arc 8 5-Zone &amp; Sharding</button>
+          </div>
+        </div>
+        <div class="fig-frame stack-3">
+          <img id="fig-img" src="figures/fig1_arc6_zone_reduction_waterfall.png" alt="Paper 002 Figure" />
+          <div class="flex flex-wrap justify-between gap-2 text-xs">
+            <strong id="fig-title">Figure 1 &mdash; Concrete Clean-Room AST Reduction Budget Across Qualified Zones</strong>
+            <a id="fig-open" href="figures/fig1_arc6_zone_reduction_waterfall.png" target="_blank" rel="noopener">Open Full-Resolution PNG &rarr;</a>
+          </div>
+          <p id="fig-caption" class="text-xs muted" style="margin:0;line-height:1.55;"></p>
+        </div>
+      </div>
+
+      <div class="card stack-3">
+        <div class="flex flex-wrap justify-between gap-2">
+          <h3 class="text-sm font-bold" style="margin:0;">Standalone Reproduction Commands (Zero-Combo Per-Language Execution)</h3>
+          <button id="copy-cmd-btn" class="pill-btn" type="button" style="padding:0.25rem 0.65rem;font-size:0.72rem;">Copy Commands</button>
+        </div>
+        <pre id="repro-cmds" class="cmd"># 1. Regenerate all 4 Paper 002 figures + SHA-256 manifest (AUD-07 dynamic render)
+python3 research/papers/002-clean-room-ast-reduction-and-g4-g5-rehearsal/render_figures.py \
+  --patch-plan transfer/patches/arc6_patch_plan_v1.json \
+  --bundles transfer/bundles/arc5_preflight_bundles_v1.json \
+  --rehearsal transfer/rehearsal/arc7_g4_g5_rehearsal_v1.json \
+  --synth-plan transfer/patches/arc8_adaptive_synth_plan_v1.json \
+  --presentation data/sources/paper_002_presentation_v1.json \
+  --out-dir research/papers/002-clean-room-ast-reduction-and-g4-g5-rehearsal/figures
+
+# 2. Run all 10 Paper 002 AUD-07 adversarial, metamorphic &amp; offline-reader tests
+python3 -m unittest discover -s research/papers/002-clean-room-ast-reduction-and-g4-g5-rehearsal -p "test_*.py" -v
+
+# 3. Verify Lean v4.36.0 Arc 8 adaptive synthesis &amp; 19-module leanchecker replay
+LEAN_ABORT_ON_PANIC=1 lake --dir compartments/lean build SCargoLean adaptive_synth_test
+LEAN_ABORT_ON_PANIC=1 compartments/lean/.lake/build/bin/adaptive_synth_test .
+
+# 4. Verify Rust 1.100.0 &amp; Open-Source Swift 6.4.3 septuple parity (Delta = 0)
+diff -u &lt;(compartments/rust/target/release/scargo-synth verify --root . --json) \
+        &lt;(compartments/swift/.build/release/scargo-synth --root . --json)</pre>
+      </div>
+    </section>
+
+    <footer class="colophon">
+      <span>Ergentics Working Paper 002 (v1.1) &middot; &copy; 2026 Ergentics, LLC (MIT License)</span>
+      <span>Zero external CDNs &middot; Strict AUD-07 data provenance &middot; Baseline <code>51d9b1a280</code></span>
+    </footer>
+  </div>
+
+  <script>
+    (function () {
+      "use strict";
+
+      var ZONES = [
+        {
+          id: "Z-C4", name: "Multi-Hub Transitive Import Pruning", color: "var(--chart-2)",
+          arc8: { files: 361, lb: 42970, la: 18427, sl: 24543, bb: 4128767, ba: 1688970, sb: 2439797, ops: 24543, qcFiles: 0, qcShards: 0, fullFiles: 361, fullShards: 23, qcMaxC: 0, note: ">2,000-module transitive cones (Literature + ThirdPlaceSeries + IntegralStructures)" },
+          arc6: { files: 1, lb: 5950, la: 896, sl: 5054, bb: 614479, ba: 105761, sb: 508718, ops: 5054, qcFiles: 0, qcShards: 0, fullFiles: 1, fullShards: 1 }
+        },
+        {
+          id: "Z-C2", name: "Layout-Free Balanced-AST @-Collapse", color: "var(--chart-1)",
+          arc8: { files: 28, lb: 43013, la: 23942, sl: 19071, bb: 3305124, ba: 2631594, sb: 673530, ops: 2575, qcFiles: 28, qcShards: 4, fullFiles: 0, fullShards: 0, qcMaxC: 10, note: "All 28 CapelliIdentities edits in-place with <=10-module closure" },
+          arc6: { files: 24, lb: 42855, la: 23803, sl: 19052, bb: 3296906, ba: 2623904, sb: 673002, ops: 2567, qcFiles: 24, qcShards: 3, fullFiles: 0, fullShards: 0 }
+        },
+        {
+          id: "Z-C0", name: "Unreferenced Dead-Leaf Module Pruning", color: "var(--chart-3)",
+          arc8: { files: 112, lb: 8060, la: 0, sl: 8060, bb: 468760, ba: 0, sb: 468760, ops: 112, qcFiles: 0, qcShards: 0, fullFiles: 112, fullShards: 7, qcMaxC: 0, note: "Deferred to full rh-build by quick-check.py:80 deletion guard" },
+          arc6: { files: 112, lb: 8060, la: 0, sl: 8060, bb: 468760, ba: 0, sb: 468760, ops: 112, qcFiles: 0, qcShards: 0, fullFiles: 112, fullShards: 14 }
+        },
+        {
+          id: "Z-C1A", name: "Dual-Mode Strict Wrapper Compression (239 A1 + 299 A2)", color: "var(--chart-4)",
+          arc8: { files: 538, lb: 7795, la: 4692, sl: 3103, bb: 735825, ba: 384479, sb: 351346, ops: 2137, qcFiles: 455, qcShards: 59, fullFiles: 83, fullShards: 6, qcMaxC: 1979, note: "59 quick-check shards (<=1,979 closure) + 6 heavy-cone shards deferred" },
+          arc6: { files: 0, lb: 0, la: 0, sl: 0, bb: 0, ba: 0, sb: 0, ops: 0, qcFiles: 0, qcShards: 0, fullFiles: 0, fullShards: 0 }
+        },
+        {
+          id: "Z-C3", name: "Acyclic Self-Contained Private-Lemma Dedupe (19 Clusters)", color: "var(--chart-5)",
+          arc8: { files: 41, lb: 5098, la: 4720, sl: 378, bb: 317655, ba: 295995, sb: 21660, ops: 41, qcFiles: 22, qcShards: 3, fullFiles: 19, fullShards: 2, qcMaxC: 1803, note: "3 quick-check cluster shards (<=1,803 closure) + 2 heavy-cone shards" },
+          arc6: { files: 0, lb: 0, la: 0, sl: 0, bb: 0, ba: 0, sb: 0, ops: 0, qcFiles: 0, qcShards: 0, fullFiles: 0, fullShards: 0 }
+        }
+      ];
+
+      var ROUTING_ROWS = [
+        { zone: "Z-C1A", route: "quick_check", shards: 59, files: 455, maxC: 1979, sl: 2535, sb: 269828, reason: "Adaptive Min-Closure-Union packs 455 wrappers within <=8 roots & <=2,000 closure" },
+        { zone: "Z-C1A", route: "full_rh_build", shards: 6, files: 83, maxC: 0, sl: 568, sb: 81518, reason: "Individual wrapper ancestor cones exceed 2,000-module small-runner cap" },
+        { zone: "Z-C2", route: "quick_check", shards: 4, files: 28, maxC: 10, sl: 19071, sb: 673530, reason: "In-place CapelliIdentities balanced-AST rewrites; tiny <=10-module closure" },
+        { zone: "Z-C3", route: "quick_check", shards: 3, files: 22, maxC: 1803, sl: 177, sb: 9496, reason: "Acyclic host+delegate clusters fitting within <=2,000-module closure" },
+        { zone: "Z-C3", route: "full_rh_build", shards: 2, files: 19, maxC: 0, sl: 201, sb: 12164, reason: "Cluster union closure exceeds 2,000 modules; routed to full ci-build.py" },
+        { zone: "Z-C0", route: "full_rh_build", shards: 7, files: 112, maxC: 0, sl: 8060, sb: 468760, reason: "File deletions strictly deferred by upstream scripts/quick-check.py:80" },
+        { zone: "Z-C4", route: "full_rh_build", shards: 23, files: 361, maxC: 0, sl: 24543, sb: 2439797, reason: "Multi-hub transitive closures exceed 2,000-module cap (up to 127,440 modules)" }
+      ];
+
+      var NEG_CONTROLS = [
+        { id: "NEG-R1", arc: "arc7", fault: "Promote quick-check (full_build=false) to attest G5 release", guard: "RG-4 / quick_check_cannot_attest_g5" },
+        { id: "NEG-R2", arc: "arc7", fault: "Route deleted file (has_deleted_files=true) to quick-check", guard: "RG-2 / quick_check_rejects_deleted_files" },
+        { id: "NEG-R3", arc: "arc7", fault: "Inject forbidden axiom (sorryAx / Lean.ofReduceBool)", guard: "RG-4 / forbidden_axiom_rejects_g5" },
+        { id: "NEG-R4", arc: "arc7", fault: "External kernel failure (nanoda_exit=1) with lean_kernel=0", guard: "RG-4 / nanoda_failure_rejects_g5" },
+        { id: "NEG-R5", arc: "arc7", fault: "Zone A pin drift in lake-manifest.json SHA-256", guard: "RG-1 / zone_a_pin_drift_rejects_g5" },
+        { id: "NEG-R6", arc: "arc7", fault: "Drop 1 of 5 Challenge.lean headline theorems", guard: "RG-4 / headline theorem completeness" },
+        { id: "NEG-R7", arc: "arc7", fault: "Stale upstream base_head commit SHA mismatch", guard: "RG-1 / baseline commit pin guard" },
+        { id: "NEG-R8", arc: "arc7", fault: "Rehearsal artifact spoofing remote_ci_attestation=true", guard: "RG-5 / rehearsal_cannot_spoof_remote_g5" },
+        { id: "NEG-S1", arc: "arc8", fault: "Z-C1A wrapper alias with binder-plicity mismatch", guard: "SG-3 / z1a_binder_plicity_reject" },
+        { id: "NEG-S2", arc: "arc8", fault: "Z-C1A wrapper pruning breaking transitive import closure", guard: "SG-3 / z1a_import_closure_guard" },
+        { id: "NEG-S3", arc: "arc8", fault: "Z-C2 balanced-AST rewrite introducing token-stream drift", guard: "SG-4 / z2_token_identity_guard" },
+        { id: "NEG-S4", arc: "arc8", fault: "Z-C3 private-lemma cluster introducing cyclic module import", guard: "SG-5 / z3_cyclic_promotion_rejected" },
+        { id: "NEG-S5", arc: "arc8", fault: "Z-C3 private-lemma cluster capturing ambient section variable", guard: "SG-5 / z3_ambient_var_capture_rejected" },
+        { id: "NEG-S6", arc: "arc8", fault: "Adaptive quick-check shard exceeding 2,000-module closure cap", guard: "SG-6 / adaptive_shard_exceeds_cap_rejected" },
+        { id: "NEG-S7", arc: "arc8", fault: "File deletion routed into quick-check small-runner queue", guard: "SG-6 / quick_check_rejects_deleted_files" },
+        { id: "NEG-S8", arc: "arc8", fault: "Zone A protected verification-core path injected into synth plan", guard: "SG-1 / zone_a_path_rejected" }
+      ];
+
+      var FIGURES = [
+        {
+          src: "figures/fig1_arc6_zone_reduction_waterfall.png",
+          title: "Figure 1 \u2014 Concrete Clean-Room AST Reduction Budget Across Qualified Zones (Arc 6)",
+          caption: "Dynamic AUD-07 render from arc6_patch_plan_v1.json: 137 opening-tranche files reclaiming \u221232,166 lines (\u221256.6%) and \u22121.65 MB (\u221237.7%) across Z-C2, Z-C0, and Z-C4 with 137/137 in-memory hunk round-trip verification."
+        },
+        {
+          src: "figures/fig2_z2_capelli_pareto_and_wrap.png",
+          title: "Figure 2 \u2014 Z-C2 CapelliIdentities Per-File Pareto Yield & Layout-Safety Guardrails",
+          caption: "Top-12 Z-C2 modules account for 88.8% (\u221216,914 of \u221219,052 lines) of Arc 6 Z-C2 savings under <=160-char wrapping, max_line_after=280 <= 280, 1,179 skipped layout spans, and 100% whitespace-tokenized stream identity."
+        },
+        {
+          src: "figures/fig3_up07_dual_route_and_g4_g5_gate.png",
+          title: "Figure 3 \u2014 Upstream quick-check.py Routing Envelope & G4\u2013G5 Airlock Rehearsal Gate",
+          caption: "Log10 closure cones across all 18 Arc 6 shards showing why Z-C0 shards defer despite sitting under 2,000 modules (quick-check.py:80 deletion guard), paired with the fail-closed G1\u2013G5 gate pipeline."
+        },
+        {
+          src: "figures/fig4_arc8_adaptive_sharding_and_5zone_portfolio.png",
+          title: "Figure 4 \u2014 Arc 8 Full 5-Zone Adaptive Synthesis Portfolio & Min-Closure-Union Bin-Packing",
+          caption: "Dynamic AUD-07 render from arc8_adaptive_synth_plan_v1.json: 1,080 files across all 5 disjoint zones (\u221255,155 lines / \u221251.6%, \u22123.96 MB / \u221244.2%) and Greedy Min-Closure-Union bin-packing lifting quick-check eligibility from 413 to 505 files (+92 / +22.3%)."
+        }
+      ];
+
+      function fmtNum(n) { return n.toLocaleString("en-US"); }
+      function fmtBytes(b) {
+        if (b >= 1000000) return (b / 1000000).toFixed(2) + " MB";
+        return (b / 1000).toFixed(1) + " KB";
+      }
+
+      // Theme toggle
+      var themeBtn = document.getElementById("theme-toggle");
+      themeBtn.addEventListener("click", function () {
+        var cur = document.documentElement.getAttribute("data-theme");
+        var prefersDark = window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches;
+        var next = cur ? (cur === "dark" ? "light" : "dark") : (prefersDark ? "light" : "dark");
+        document.documentElement.setAttribute("data-theme", next);
+      });
+
+      // Tabs
+      var tabBtns = document.querySelectorAll("button.tab-btn");
+      var tabPanels = document.querySelectorAll("section.tab-panel");
+      tabBtns.forEach(function (btn) {
+        btn.addEventListener("click", function () {
+          var target = btn.getAttribute("data-tab");
+          tabBtns.forEach(function (b) { b.setAttribute("aria-selected", b === btn ? "true" : "false"); });
+          tabPanels.forEach(function (p) {
+            if (p.id === "tab-" + target) p.classList.remove("hidden");
+            else p.classList.add("hidden");
+          });
+        });
+      });
+
+      // Simulator state
+      var simMode = "arc8";
+      var activeZones = { "Z-C4": true, "Z-C2": true, "Z-C0": true, "Z-C1A": true, "Z-C3": true };
+
+      function renderZoneControls() {
+        var box = document.getElementById("sim-zone-controls");
+        box.innerHTML = "";
+        ZONES.forEach(function (z) {
+          var d = z[simMode];
+          var lbl = document.createElement("label");
+          lbl.className = "zone-toggle";
+          var left = document.createElement("span");
+          left.className = "flex gap-2";
+          var cb = document.createElement("input");
+          cb.type = "checkbox";
+          cb.checked = !!activeZones[z.id];
+          cb.disabled = d.files === 0;
+          cb.addEventListener("change", function () {
+            activeZones[z.id] = cb.checked;
+            updateSim();
+          });
+          var dot = document.createElement("span");
+          dot.className = "dot";
+          dot.style.background = z.color;
+          var txt = document.createElement("span");
+          txt.innerHTML = "<strong>" + z.id + "</strong> &middot; " + z.name;
+          left.appendChild(cb);
+          left.appendChild(dot);
+          left.appendChild(txt);
+          var right = document.createElement("span");
+          right.className = "font-mono tabular-nums muted";
+          right.textContent = d.files > 0 ? (fmtNum(d.files) + "f \u00b7 \u2212" + fmtNum(d.sl) + "L") : "n/a in Arc 6";
+          lbl.appendChild(left);
+          lbl.appendChild(right);
+          box.appendChild(lbl);
+        });
+        updateSim();
+      }
+
+      function updateSim() {
+        var files = 0, lb = 0, sl = 0, bb = 0, sb = 0, ops = 0, qcF = 0, qcS = 0;
+        ZONES.forEach(function (z) {
+          if (!activeZones[z.id]) return;
+          var d = z[simMode];
+          files += d.files; lb += d.lb; sl += d.sl; bb += d.bb; sb += d.sb; ops += d.ops; qcF += d.qcFiles; qcS += d.qcShards;
+        });
+        var pctL = lb > 0 ? (100 * sl / lb).toFixed(1) : "0.0";
+        var pctB = bb > 0 ? (100 * sb / bb).toFixed(1) : "0.0";
+        var qcPct = files > 0 ? (100 * qcF / files) : 0;
+        document.getElementById("sim-files").textContent = fmtNum(files);
+        document.getElementById("sim-ops").textContent = fmtNum(ops) + " AST ops";
+        document.getElementById("sim-lines").textContent = "\u2212" + fmtNum(sl);
+        document.getElementById("sim-lines-pct").textContent = "\u2212" + pctL + "% of selected";
+        document.getElementById("sim-bytes").textContent = "\u2212" + fmtBytes(sb);
+        document.getElementById("sim-bytes-pct").textContent = "\u2212" + pctB + "% of selected";
+        document.getElementById("sim-qc-label").textContent = fmtNum(qcF) + " / " + fmtNum(files) + " files (" + qcS + " QC shards)";
+        document.getElementById("sim-qc-bar").style.width = qcPct.toFixed(1) + "%";
+      }
+
+      function setPreset(mode, zonesMap, activeBtnId) {
+        simMode = mode;
+        activeZones = zonesMap;
+        ["preset-arc8", "preset-arc6", "preset-qc"].forEach(function (id) {
+          document.getElementById(id).setAttribute("aria-pressed", id === activeBtnId ? "true" : "false");
+        });
+        renderZoneControls();
+      }
+      document.getElementById("preset-arc8").addEventListener("click", function () {
+        setPreset("arc8", { "Z-C4": true, "Z-C2": true, "Z-C0": true, "Z-C1A": true, "Z-C3": true }, "preset-arc8");
+      });
+      document.getElementById("preset-arc6").addEventListener("click", function () {
+        setPreset("arc6", { "Z-C4": true, "Z-C2": true, "Z-C0": true, "Z-C1A": false, "Z-C3": false }, "preset-arc6");
+      });
+      document.getElementById("preset-qc").addEventListener("click", function () {
+        setPreset("arc8", { "Z-C4": false, "Z-C2": true, "Z-C0": false, "Z-C1A": true, "Z-C3": true }, "preset-qc");
+      });
+
+      // Populate verified 5-zone ledger table
+      var ledgerBody = document.getElementById("zone-ledger-body");
+      var totF = 0, totLB = 0, totLA = 0, totSL = 0, totBB = 0, totSB = 0, totOps = 0;
+      ZONES.forEach(function (z) {
+        var d = z.arc8;
+        totF += d.files; totLB += d.lb; totLA += d.la; totSL += d.sl; totBB += d.bb; totSB += d.sb; totOps += d.ops;
+        var tr = document.createElement("tr");
+        tr.innerHTML =
+          '<td><strong style="color:' + z.color + ';">' + z.id + "</strong></td>" +
+          "<td>" + z.name + "</td>" +
+          '<td class="num">' + fmtNum(d.files) + "</td>" +
+          '<td class="num">' + fmtNum(d.lb) + "</td>" +
+          '<td class="num">' + fmtNum(d.la) + "</td>" +
+          '<td class="num font-bold">&minus;' + fmtNum(d.sl) + "</td>" +
+          '<td class="num">&minus;' + (100 * d.sl / d.lb).toFixed(1) + "%</td>" +
+          '<td class="num font-bold">&minus;' + fmtBytes(d.sb) + "</td>" +
+          '<td class="num">&minus;' + (100 * d.sb / d.bb).toFixed(1) + "%</td>" +
+          '<td class="num">' + fmtNum(d.ops) + "</td>";
+        ledgerBody.appendChild(tr);
+      });
+      var totTr = document.createElement("tr");
+      totTr.style.fontWeight = "700";
+      totTr.innerHTML =
+        "<td>Total</td><td>Combined Arc 8 5-Zone Portfolio (100% Arc 6 Contained)</td>" +
+        '<td class="num">' + fmtNum(totF) + "</td>" +
+        '<td class="num">' + fmtNum(totLB) + "</td>" +
+        '<td class="num">' + fmtNum(totLA) + "</td>" +
+        '<td class="num success">&minus;' + fmtNum(totSL) + "</td>" +
+        '<td class="num success">&minus;' + (100 * totSL / totLB).toFixed(1) + "%</td>" +
+        '<td class="num" style="color:var(--chart-2);">&minus;' + fmtBytes(totSB) + "</td>" +
+        '<td class="num" style="color:var(--chart-2);">&minus;' + (100 * totSB / totBB).toFixed(1) + "%</td>" +
+        '<td class="num">' + fmtNum(totOps) + "</td>";
+      ledgerBody.appendChild(totTr);
+
+      // Routing table + filter
+      function renderRouting(filter) {
+        var tbody = document.getElementById("routing-table-body");
+        tbody.innerHTML = "";
+        ROUTING_ROWS.forEach(function (r) {
+          if (filter !== "all" && r.route !== filter) return;
+          var badge = r.route === "quick_check"
+            ? '<span class="badge badge-success">QUICK-CHECK</span>'
+            : '<span class="badge badge-warning">FULL RH-BUILD</span>';
+          var tr = document.createElement("tr");
+          tr.innerHTML =
+            "<td><strong>" + r.zone + "</strong></td>" +
+            "<td>" + badge + "</td>" +
+            '<td class="num">' + fmtNum(r.shards) + "</td>" +
+            '<td class="num">' + fmtNum(r.files) + "</td>" +
+            '<td class="num">' + (r.maxC > 0 ? ("&le;" + fmtNum(r.maxC)) : "&mdash;") + "</td>" +
+            '<td class="num">&minus;' + fmtNum(r.sl) + "</td>" +
+            '<td class="num">&minus;' + fmtBytes(r.sb) + "</td>" +
+            '<td class="muted">' + r.reason + "</td>";
+          tbody.appendChild(tr);
+        });
+      }
+      document.querySelectorAll("#route-filters button").forEach(function (btn) {
+        btn.addEventListener("click", function () {
+          document.querySelectorAll("#route-filters button").forEach(function (b) { b.setAttribute("aria-pressed", b === btn ? "true" : "false"); });
+          renderRouting(btn.getAttribute("data-route"));
+        });
+      });
+
+      // Negative control matrix + filter
+      function renderNegs(filter) {
+        var tbody = document.getElementById("neg-matrix-body");
+        tbody.innerHTML = "";
+        NEG_CONTROLS.forEach(function (n) {
+          if (filter !== "all" && n.arc !== filter) return;
+          var tr = document.createElement("tr");
+          tr.innerHTML =
+            '<td class="font-mono font-bold">' + n.id + "</td>" +
+            "<td>" + (n.arc === "arc7" ? '<span class="badge badge-primary">Arc 7</span>' : '<span class="badge badge-violet">Arc 8</span>') + "</td>" +
+            "<td>" + n.fault + "</td>" +
+            '<td class="font-mono text-xs muted">' + n.guard + "</td>" +
+            '<td><span class="badge badge-danger">REJECTED (PASS)</span></td>';
+          tbody.appendChild(tr);
+        });
+      }
+      document.querySelectorAll("#neg-filters button").forEach(function (btn) {
+        btn.addEventListener("click", function () {
+          document.querySelectorAll("#neg-filters button").forEach(function (b) { b.setAttribute("aria-pressed", b === btn ? "true" : "false"); });
+          renderNegs(btn.getAttribute("data-neg"));
+        });
+      });
+
+      // Figure gallery switcher
+      function showFig(idx) {
+        var f = FIGURES[idx];
+        document.getElementById("fig-img").src = f.src;
+        document.getElementById("fig-title").textContent = f.title;
+        document.getElementById("fig-open").href = f.src;
+        document.getElementById("fig-caption").textContent = f.caption;
+        document.querySelectorAll("#fig-buttons button").forEach(function (b) {
+          b.setAttribute("aria-pressed", Number(b.getAttribute("data-fig")) === idx ? "true" : "false");
+        });
+      }
+      document.querySelectorAll("#fig-buttons button").forEach(function (btn) {
+        btn.addEventListener("click", function () { showFig(Number(btn.getAttribute("data-fig"))); });
+      });
+
+      // Copy reproducibility commands
+      var copyBtn = document.getElementById("copy-cmd-btn");
+      copyBtn.addEventListener("click", function () {
+        var txt = document.getElementById("repro-cmds").textContent || "";
+        if (navigator.clipboard && navigator.clipboard.writeText) {
+          navigator.clipboard.writeText(txt).then(function () {
+            copyBtn.textContent = "Copied!";
+            setTimeout(function () { copyBtn.textContent = "Copy Commands"; }, 1600);
+          });
+        }
+      });
+
+      renderZoneControls();
+      renderRouting("all");
+      renderNegs("all");
+      showFig(0);
+    })();
+  </script>
+</body>
+</html>

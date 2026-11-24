@@ -16,6 +16,7 @@ members = [
     "crates/scargo-emit",
     "crates/scargo-patch",
     "crates/scargo-rehearsal",
+    "crates/scargo-synth",
 ]
 
 [workspace.lints.rust]

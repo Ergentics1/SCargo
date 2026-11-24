@@ -31,6 +31,10 @@ name = "scargo-qualify"
 version = "0.1.0"
 
 [[package]]
+name = "scargo-rehearsal"
+version = "0.1.0"
+
+[[package]]
 name = "scargo-riem-lattice"
 version = "0.1.0"
 

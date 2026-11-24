@@ -23,8 +23,8 @@ Direct read-only inspection of `Ergentics1/Riemannian` (`51d9b1a28026d458aef9c9a
      - `lakefile.toml`: `e12dd96eb155851de5107571dbfc959e5d9b230ead90331b4778b55b048590bb`
      - `lake-manifest.json`: `ee003c5c7a9b2b2a82a142b6633916661c07117199dd143d94d1af63910237df`
      - `comparator.json`: `8ea890e6ccda9cf3983ada343af18a41d12542036875a3936e7925ed5b1582ff`
-     - `export-targets.txt`: `9eeb2e5e55be4a78f6e983fc950dba915b45ad8aeb7a02a32341927a89e05e8`
-     - `lean-toolchain`: `582a63f8f9c5128067b1d9a7a59ebd45b7a70d102c015d4f31f9302bbdd6ab2b9`
+     - `export-targets.txt`: `9eeb2e5e55be4a78f6e4983fc950dba915b45ad8aeb7a02a32341927a89e05e8`
+     - `lean-toolchain`: `582a63f8f9c5128067b688778c1051cf1464c3ca9d57b9325025c051c29b774a`
 
 ---
 

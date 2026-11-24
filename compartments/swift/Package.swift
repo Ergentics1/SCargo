@@ -43,6 +43,10 @@ let package = Package(
             name: "SCargoPatch",
             targets: ["SCargoPatch"]
         ),
+        .library(
+            name: "SCargoRehearsal",
+            targets: ["SCargoRehearsal"]
+        ),
         .executable(
             name: "scargo-audit",
             targets: ["scargo-audit"]
@@ -78,6 +82,10 @@ let package = Package(
         .executable(
             name: "scargo-patch",
             targets: ["scargo-patch"]
+        ),
+        .executable(
+            name: "scargo-rehearsal",
+            targets: ["scargo-rehearsal"]
         )
     ],
     targets: [
@@ -142,6 +150,13 @@ let package = Package(
         ),
         .target(
             name: "SCargoPatch",
+            swiftSettings: [
+                .swiftLanguageMode(.v6),
+                .treatAllWarnings(as: .error)
+            ]
+        ),
+        .target(
+            name: "SCargoRehearsal",
             swiftSettings: [
                 .swiftLanguageMode(.v6),
                 .treatAllWarnings(as: .error)
@@ -214,6 +229,14 @@ let package = Package(
         .executableTarget(
             name: "scargo-patch",
             dependencies: ["SCargoPatch"],
+            swiftSettings: [
+                .swiftLanguageMode(.v6),
+                .treatAllWarnings(as: .error)
+            ]
+        ),
+        .executableTarget(
+            name: "scargo-rehearsal",
+            dependencies: ["SCargoRehearsal"],
             swiftSettings: [
                 .swiftLanguageMode(.v6),
                 .treatAllWarnings(as: .error)
@@ -286,6 +309,14 @@ let package = Package(
         .testTarget(
             name: "SCargoPatchTests",
             dependencies: ["SCargoPatch"],
+            swiftSettings: [
+                .swiftLanguageMode(.v6),
+                .treatAllWarnings(as: .error)
+            ]
+        ),
+        .testTarget(
+            name: "SCargoRehearsalTests",
+            dependencies: ["SCargoRehearsal"],
             swiftSettings: [
                 .swiftLanguageMode(.v6),
                 .treatAllWarnings(as: .error)

@@ -1,0 +1,91 @@
+{
+  "schema_version": "1.0.0",
+  "copyright": "Copyright (c) 2026 Ergentics, LLC",
+  "organization": "Ergentics",
+  "tool": "scargo-rehearsal/0.1.0",
+  "rehearsal_suite_id": "ARC7-G4-G5-REHEARSAL-V1",
+  "source_repo_commit": "51d9b1a28026d458aef9c9af3df8b083276e3d2d",
+  "rehearsal_mode": true,
+  "remote_ci_attestation": false,
+  "target_repo_mutation_allowed": false,
+  "zone_a_pins": {
+    "toolchain": "leanprover/lean4:v4.36.0",
+    "lakefile_sha256": "e12dd96eb155851de5107571dbfc959e5d9b230ead90331b4778b55b048590bb",
+    "manifest_sha256": "ee003c5c7a9b2b2a82a142b6633916661c07117199dd143d94d1af63910237df",
+    "comparator_sha256": "8ea890e6ccda9cf3983ada343af18a41d12542036875a3936e7925ed5b1582ff",
+    "export_targets_sha256": "9eeb2e5e55be4a78f6e4983fc950dba915b45ad8aeb7a02a32341927a89e05e8",
+    "lean_toolchain_sha256": "582a63f8f9c5128067b688778c1051cf1464c3ca9d57b9325025c051c29b774a"
+  },
+  "arc6_dataset_summary": {
+    "total_files": 137,
+    "total_saved_lines": 32166,
+    "total_saved_bytes": 1650480,
+    "z0_saved_lines": 8060,
+    "z2_saved_lines": 19052,
+    "z4_saved_lines": 5054
+  },
+  "refined_shard_routing": [
+    {"shard_id": "SHARD-ZC0-01", "zone_id": "Z-C0", "changed_roots": 8, "closure_modules": 1594, "has_deleted_files": true, "ci_route": "full_rh_build", "deferral_reason": "deleted/unsafe source requires full build", "saved_lines": 191, "saved_bytes": 12693},
+    {"shard_id": "SHARD-ZC0-02", "zone_id": "Z-C0", "changed_roots": 8, "closure_modules": 1825, "has_deleted_files": true, "ci_route": "full_rh_build", "deferral_reason": "deleted/unsafe source requires full build", "saved_lines": 550, "saved_bytes": 34792},
+    {"shard_id": "SHARD-ZC0-03", "zone_id": "Z-C0", "changed_roots": 8, "closure_modules": 316, "has_deleted_files": true, "ci_route": "full_rh_build", "deferral_reason": "deleted/unsafe source requires full build", "saved_lines": 1105, "saved_bytes": 63106},
+    {"shard_id": "SHARD-ZC0-04", "zone_id": "Z-C0", "changed_roots": 8, "closure_modules": 650, "has_deleted_files": true, "ci_route": "full_rh_build", "deferral_reason": "deleted/unsafe source requires full build", "saved_lines": 412, "saved_bytes": 24350},
+    {"shard_id": "SHARD-ZC0-05", "zone_id": "Z-C0", "changed_roots": 8, "closure_modules": 293, "has_deleted_files": true, "ci_route": "full_rh_build", "deferral_reason": "deleted/unsafe source requires full build", "saved_lines": 473, "saved_bytes": 28562},
+    {"shard_id": "SHARD-ZC0-06", "zone_id": "Z-C0", "changed_roots": 8, "closure_modules": 903, "has_deleted_files": true, "ci_route": "full_rh_build", "deferral_reason": "deleted/unsafe source requires full build", "saved_lines": 941, "saved_bytes": 43571},
+    {"shard_id": "SHARD-ZC0-07", "zone_id": "Z-C0", "changed_roots": 8, "closure_modules": 1607, "has_deleted_files": true, "ci_route": "full_rh_build", "deferral_reason": "deleted/unsafe source requires full build", "saved_lines": 641, "saved_bytes": 41266},
+    {"shard_id": "SHARD-ZC0-08", "zone_id": "Z-C0", "changed_roots": 8, "closure_modules": 1605, "has_deleted_files": true, "ci_route": "full_rh_build", "deferral_reason": "deleted/unsafe source requires full build", "saved_lines": 850, "saved_bytes": 50194},
+    {"shard_id": "SHARD-ZC0-09", "zone_id": "Z-C0", "changed_roots": 8, "closure_modules": 1603, "has_deleted_files": true, "ci_route": "full_rh_build", "deferral_reason": "deleted/unsafe source requires full build", "saved_lines": 641, "saved_bytes": 34218},
+    {"shard_id": "SHARD-ZC0-10", "zone_id": "Z-C0", "changed_roots": 8, "closure_modules": 912, "has_deleted_files": true, "ci_route": "full_rh_build", "deferral_reason": "deleted/unsafe source requires full build", "saved_lines": 488, "saved_bytes": 30002},
+    {"shard_id": "SHARD-ZC0-11", "zone_id": "Z-C0", "changed_roots": 8, "closure_modules": 1593, "has_deleted_files": true, "ci_route": "full_rh_build", "deferral_reason": "deleted/unsafe source requires full build", "saved_lines": 471, "saved_bytes": 26273},
+    {"shard_id": "SHARD-ZC0-12", "zone_id": "Z-C0", "changed_roots": 8, "closure_modules": 1656, "has_deleted_files": true, "ci_route": "full_rh_build", "deferral_reason": "deleted/unsafe source requires full build", "saved_lines": 353, "saved_bytes": 25764},
+    {"shard_id": "SHARD-ZC0-13", "zone_id": "Z-C0", "changed_roots": 8, "closure_modules": 1922, "has_deleted_files": true, "ci_route": "full_rh_build", "deferral_reason": "deleted/unsafe source requires full build", "saved_lines": 488, "saved_bytes": 27080},
+    {"shard_id": "SHARD-ZC0-14", "zone_id": "Z-C0", "changed_roots": 8, "closure_modules": 1060, "has_deleted_files": true, "ci_route": "full_rh_build", "deferral_reason": "deleted/unsafe source requires full build", "saved_lines": 456, "saved_bytes": 26889},
+    {"shard_id": "SHARD-ZC2-01", "zone_id": "Z-C2", "changed_roots": 8, "closure_modules": 12, "has_deleted_files": false, "ci_route": "quick_check", "deferral_reason": "", "saved_lines": 12141, "saved_bytes": 443176},
+    {"shard_id": "SHARD-ZC2-02", "zone_id": "Z-C2", "changed_roots": 8, "closure_modules": 8, "has_deleted_files": false, "ci_route": "quick_check", "deferral_reason": "", "saved_lines": 5846, "saved_bytes": 194840},
+    {"shard_id": "SHARD-ZC2-03", "zone_id": "Z-C2", "changed_roots": 8, "closure_modules": 10, "has_deleted_files": false, "ci_route": "quick_check", "deferral_reason": "", "saved_lines": 1065, "saved_bytes": 34986},
+    {"shard_id": "SHARD-ZC4-01", "zone_id": "Z-C4", "changed_roots": 1, "closure_modules": 127440, "has_deleted_files": false, "ci_route": "full_rh_build", "deferral_reason": "project ancestor cone exceeds small-runner budget", "saved_lines": 5054, "saved_bytes": 508718}
+  ],
+  "rehearsed_quick_check_receipts": [
+    {"shard_id": "SHARD-ZC2-01", "rehearsal_mode": true, "remote_ci_attestation": false, "status": "changed_roots_pass", "scope": "changed-modules-only", "full_build": false, "exit_code": 0, "has_deleted_files": false, "base_head": "51d9b1a28026d458aef9c9af3df8b083276e3d2d", "candidate_head": "f129ba46d371542c96eb242e4585993d96b0aefe", "ancestor_modules": 12, "raw_work_source_tree": "6a6c652e03db8f33fcd82a6ecddb2957a0979b10", "raw_work_uploaded": false, "runner_name": "rehearsal-small-runner", "targets": ["Development.AutomorphicArithmetic.IntegralCasts.CapelliIdentities.BorelApproximation", "Development.AutomorphicArithmetic.IntegralCasts.CapelliIdentities.ConjInvariantCharacterMem", "Development.AutomorphicArithmetic.IntegralCasts.CapelliIdentities.CovariantDegrees", "Development.AutomorphicArithmetic.IntegralCasts.CapelliIdentities.ImportsMoreExtra", "Development.AutomorphicArithmetic.IntegralCasts.CapelliIdentities.MemOfClosed", "Development.AutomorphicArithmetic.IntegralCasts.CapelliIdentities.MulMemIntA", "Development.AutomorphicArithmetic.IntegralCasts.CapelliIdentities.RootEquality", "Development.AutomorphicArithmetic.IntegralCasts.CapelliIdentities.SelectionLemmas"]},
+    {"shard_id": "SHARD-ZC2-02", "rehearsal_mode": true, "remote_ci_attestation": false, "status": "changed_roots_pass", "scope": "changed-modules-only", "full_build": false, "exit_code": 0, "has_deleted_files": false, "base_head": "51d9b1a28026d458aef9c9af3df8b083276e3d2d", "candidate_head": "f129ba46d371542c96eb242e4585993d96b0aefe", "ancestor_modules": 8, "raw_work_source_tree": "6a6c652e03db8f33fcd82a6ecddb2957a0979b10", "raw_work_uploaded": false, "runner_name": "rehearsal-small-runner", "targets": ["Development.AutomorphicArithmetic.IntegralCasts.CapelliIdentities.BlockHomomorphism", "Development.AutomorphicArithmetic.IntegralCasts.CapelliIdentities.ComplexNormedInstanceCompat", "Development.AutomorphicArithmetic.IntegralCasts.CapelliIdentities.HloweqTransfer", "Development.AutomorphicArithmetic.IntegralCasts.CapelliIdentities.InvolutionInvariants", "Development.AutomorphicArithmetic.IntegralCasts.CapelliIdentities.PlaceRankTwoOne", "Development.AutomorphicArithmetic.IntegralCasts.CapelliIdentities.StandardLattice", "Development.AutomorphicArithmetic.IntegralCasts.CapelliIdentities.UnopSMul", "Development.AutomorphicArithmetic.IntegralCasts.CapelliIdentities.ZeroContDiffOnSupported"]},
+    {"shard_id": "SHARD-ZC2-03", "rehearsal_mode": true, "remote_ci_attestation": false, "status": "changed_roots_pass", "scope": "changed-modules-only", "full_build": false, "exit_code": 0, "has_deleted_files": false, "base_head": "51d9b1a28026d458aef9c9af3df8b083276e3d2d", "candidate_head": "f129ba46d371542c96eb242e4585993d96b0aefe", "ancestor_modules": 10, "raw_work_source_tree": "6a6c652e03db8f33fcd82a6ecddb2957a0979b10", "raw_work_uploaded": false, "runner_name": "rehearsal-small-runner", "targets": ["Development.AutomorphicArithmetic.IntegralCasts.CapelliIdentities.EMulSubMulCapelliMatrixPow", "Development.AutomorphicArithmetic.IntegralCasts.CapelliIdentities.EqZeroOfForallIntegralCoeff", "Development.AutomorphicArithmetic.IntegralCasts.CapelliIdentities.GenericMap", "Development.AutomorphicArithmetic.IntegralCasts.CapelliIdentities.HolSubMul", "Development.AutomorphicArithmetic.IntegralCasts.CapelliIdentities.IrrMap", "Development.AutomorphicArithmetic.IntegralCasts.CapelliIdentities.Qminor", "Development.AutomorphicArithmetic.IntegralCasts.CapelliIdentities.QuantumMinorsCasimir", "Development.AutomorphicArithmetic.IntegralCasts.CapelliIdentities.RegularUnitPoints"]}
+  ],
+  "rehearsed_ci_build_receipt": {
+    "schema": 1,
+    "rehearsal_mode": true,
+    "remote_ci_attestation": false,
+    "full_build": true,
+    "base_head": "51d9b1a28026d458aef9c9af3df8b083276e3d2d",
+    "candidate_head": "f129ba46d371542c96eb242e4585993d96b0aefe",
+    "candidate_tree": "29142a4aa03158c6e52039a333ddbf9bf0dc0fe3",
+    "source_tree": "6a6c652e03db8f33fcd82a6ecddb2957a0979b10",
+    "toolchain": "leanprover/lean4:v4.36.0",
+    "lakefile_sha256": "e12dd96eb155851de5107571dbfc959e5d9b230ead90331b4778b55b048590bb",
+    "manifest_sha256": "ee003c5c7a9b2b2a82a142b6633916661c07117199dd143d94d1af63910237df",
+    "input_fingerprint": "9bc0a435a878ab3a1fc12d8ba7b61b3ac9c604db96cf890e0a03027a8a18786d",
+    "build_exit_code": 0,
+    "map_sha256": "d32ec23df046bdbf2957f353d0482bb1b8ed56fa1321be568d60d7c5fb508275",
+    "module_manifest_sha256": "beb299972d7b7218fc851857eda0eadda1ac0862a78a8fad349780c526d92370",
+    "module_manifest_bytes": 9842100
+  },
+  "rehearsed_g5_comparator_receipt": {
+    "rehearsal_mode": true,
+    "remote_ci_attestation": false,
+    "remote_workflow_run_id": 0,
+    "full_build": true,
+    "challenge_module": "Challenge",
+    "solution_module": "Main",
+    "lean_kernel_exit": 0,
+    "leanchecker_paranoid_exit": 0,
+    "nanoda_exit": 0,
+    "challenge_export_sha256": "bd484ac9886a96f26b1d9a7a59ebd45b7a70d102c015d4f31f9302bbdd6ab2b9",
+    "solution_export_sha256": "cdd92d3fe16c62f3b831a29fbb0f8376e942358bb71899a290db00cf4c3bc21c",
+    "theorem_names": ["riemannHypothesis", "riemannZeta_eq_zero_re", "LFunction_ne_zero_of_half_lt_re", "LFunction_eq_zero_re", "LFunction_eq_zero_re_of_isPrimitive"],
+    "theorem_axioms": {
+      "riemannHypothesis": ["propext", "Quot.sound", "Classical.choice"],
+      "riemannZeta_eq_zero_re": ["propext", "Quot.sound", "Classical.choice"],
+      "LFunction_ne_zero_of_half_lt_re": ["propext", "Quot.sound", "Classical.choice"],
+      "LFunction_eq_zero_re": ["propext", "Quot.sound", "Classical.choice"],
+      "LFunction_eq_zero_re_of_isPrimitive": ["propext", "Quot.sound", "Classical.choice"]
+    }
+  }
+}

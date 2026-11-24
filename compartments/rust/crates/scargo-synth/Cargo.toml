@@ -1,0 +1,12 @@
+# Copyright (c) 2026 Ergentics, LLC
+# Licensed under the MIT License. See LICENSE in the project root.
+
+[package]
+name = "scargo-synth"
+version = "0.1.0"
+edition = "2024"
+license = "MIT"
+description = "Arc 8 standalone adaptive 5-zone AST synthesis, min-closure-union bin-packing, and round-trip verifier"
+
+[lints]
+workspace = true

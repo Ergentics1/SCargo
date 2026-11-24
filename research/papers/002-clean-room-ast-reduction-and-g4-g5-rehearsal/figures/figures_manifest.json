@@ -1,5 +1,5 @@
 {
-  "schema_version": "1.0.0",
+  "schema_version": "1.1.0",
   "copyright": "Copyright (c) 2026 Ergentics, LLC",
   "organization": "Ergentics",
   "paper_id": "PAPER-002",
@@ -8,7 +8,7 @@
     {
       "guard_id": "commit_sha_correspondence",
       "passed": true,
-      "detail": "All 3 datasets match pinned baseline commit 51d9b1a280.",
+      "detail": "All 4 datasets match pinned baseline commit 51d9b1a280.",
       "healing_action": null
     },
     {
@@ -20,13 +20,13 @@
     {
       "guard_id": "presentation_label_coverage",
       "passed": true,
-      "detail": "All 3 active zones have declarative presentation metadata.",
+      "detail": "All 5 active zones have declarative presentation metadata.",
       "healing_action": null
     },
     {
       "guard_id": "dataset_structural_integrity",
       "passed": true,
-      "detail": "Verified 137 patch entries (100% round-trip) and 18 routed shards.",
+      "detail": "Verified 137 patch entries (100% round-trip), 18 routed shards and 1080 Arc 8 synth entries (104 shards).",
       "healing_action": null
     },
     {
@@ -51,7 +51,11 @@
     },
     "presentation": {
       "path": "data/sources/paper_002_presentation_v1.json",
-      "sha256": "c7de835381bcc431217e615ddb2d8139eb6efeaa6c81dcb02483881f68348ced"
+      "sha256": "3a90b24c9009ed720009beb4183c3d98d0d3c1b31dd8037fd5e84fd2ef75e08c"
+    },
+    "synth_plan": {
+      "path": "transfer/patches/arc8_adaptive_synth_plan_v1.json",
+      "sha256": "83d9af393b917f1c538561350cec1874a7617711cd7771642a189ff4bbebfbc2"
     }
   },
   "rendered_claims": {
@@ -69,12 +73,17 @@
     "fig3_up07_dual_route_and_g4_g5_gate.png": [
       "Baseline 51d9b1a280 · 18 Arc 6 shards: 3 quick-check eligible (Z-C2), 14 deletion-deferred (Z-C0, quick-check.py:80), 1 cone-deferred (Z-C4)",
       "Quick-check eligible: 3, deletion-deferred: 14, cone-deferred: 1"
+    ],
+    "fig4_arc8_adaptive_sharding_and_5zone_portfolio.png": [
+      "Baseline 51d9b1a280 · 1,080 files across 5 zones (−55,155 lines / −51.6%, −3.96 MB / −44.2%) · Adaptive quick-check: 413 → 505 files (+92)",
+      "Arc 8 total files: 1,080, saved lines: 55,155 (51.6%), saved bytes: 3,955,093 (44.2%)",
+      "Adaptive bin-packing quick-check: 413 -> 505 files (+92), Z-C3 clusters: 19"
     ]
   },
   "outputs": {
     "fig1_arc6_zone_reduction_waterfall.png": {
-      "sha256": "c32753591f3e55961af603ad9fbe45162e882ffaf2bb8f40f92465e0d69ff13a",
-      "bytes": 209948
+      "sha256": "d76d060d92cc89e0679b87bcb5c83c3778dfa8e789c923e7a16c5dc16a951a3f",
+      "bytes": 210763
     },
     "fig2_z2_capelli_pareto_and_wrap.png": {
       "sha256": "4d97763d397fda07572400717816582a7f8127b92e569f3f96f726f3f3deee0c",
@@ -83,6 +92,10 @@
     "fig3_up07_dual_route_and_g4_g5_gate.png": {
       "sha256": "a36bddc337688da0e0d67359780e2290b7b73719e54ac440d966352076b14cbf",
       "bytes": 228384
+    },
+    "fig4_arc8_adaptive_sharding_and_5zone_portfolio.png": {
+      "sha256": "4c5a6d1b16dffea8ac0f8e1cf72a262dcf07468eec3046e89816fcaac1abf59d",
+      "bytes": 286445
     }
   }
 }

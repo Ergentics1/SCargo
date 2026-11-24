@@ -53,3 +53,7 @@ root = "SCargoLean.PatchVerifierTest"
 [[lean_exe]]
 name = "airlock_rehearsal_test"
 root = "SCargoLean.AirlockRehearsalTest"
+
+[[lean_exe]]
+name = "adaptive_synth_test"
+root = "SCargoLean.AdaptiveSynthTest"

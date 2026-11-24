@@ -47,5 +47,9 @@ name = "scargo-sweep"
 version = "0.1.0"
 
 [[package]]
+name = "scargo-synth"
+version = "0.1.0"
+
+[[package]]
 name = "scargo-trace"
 version = "0.1.0"

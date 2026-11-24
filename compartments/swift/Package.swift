@@ -39,6 +39,10 @@ let package = Package(
             name: "SCargoEmit",
             targets: ["SCargoEmit"]
         ),
+        .library(
+            name: "SCargoPatch",
+            targets: ["SCargoPatch"]
+        ),
         .executable(
             name: "scargo-audit",
             targets: ["scargo-audit"]
@@ -70,6 +74,10 @@ let package = Package(
         .executable(
             name: "scargo-emit",
             targets: ["scargo-emit"]
+        ),
+        .executable(
+            name: "scargo-patch",
+            targets: ["scargo-patch"]
         )
     ],
     targets: [
@@ -127,6 +135,13 @@ let package = Package(
         ),
         .target(
             name: "SCargoEmit",
+            swiftSettings: [
+                .swiftLanguageMode(.v6),
+                .treatAllWarnings(as: .error)
+            ]
+        ),
+        .target(
+            name: "SCargoPatch",
             swiftSettings: [
                 .swiftLanguageMode(.v6),
                 .treatAllWarnings(as: .error)
@@ -191,6 +206,14 @@ let package = Package(
         .executableTarget(
             name: "scargo-emit",
             dependencies: ["SCargoEmit"],
+            swiftSettings: [
+                .swiftLanguageMode(.v6),
+                .treatAllWarnings(as: .error)
+            ]
+        ),
+        .executableTarget(
+            name: "scargo-patch",
+            dependencies: ["SCargoPatch"],
             swiftSettings: [
                 .swiftLanguageMode(.v6),
                 .treatAllWarnings(as: .error)
@@ -255,6 +278,14 @@ let package = Package(
         .testTarget(
             name: "SCargoEmitTests",
             dependencies: ["SCargoEmit"],
+            swiftSettings: [
+                .swiftLanguageMode(.v6),
+                .treatAllWarnings(as: .error)
+            ]
+        ),
+        .testTarget(
+            name: "SCargoPatchTests",
+            dependencies: ["SCargoPatch"],
             swiftSettings: [
                 .swiftLanguageMode(.v6),
                 .treatAllWarnings(as: .error)

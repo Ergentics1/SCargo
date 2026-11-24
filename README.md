@@ -36,9 +36,9 @@ Built on the **SpaceX Falcon Payload User's Guide (Rev. 8, May 2025)**, the **NA
 SCargo/
 ├── ARCHITECTURE.md                   # Compartment philosophy, Correspondence Principle & zero-trust invariants
 ├── compartments/
-│   ├── rust/                         # Rust 1.100.0 workspace: scargo-probe, scargo-trace, scargo-qualify, scargo-riem-lattice, scargo-schwartz-zippel, scargo-sweep, scargo-ground, scargo-airlock, scargo-census, scargo-emit (zero-dep, forbid(unsafe_code))
-│   ├── swift/                        # Open-Source Swift 6.4.3: SCargoModel, RiemLattice, SchwartzZippel, SCargoSweep, SCargoGround, SCargoAirlock, SCargoCensus, SCargoEmit, CLIs & Swift Testing suites
-│   └── lean/                         # Lean v4.36.0: SCargoLean.Contract, RiemLattice, SchwartzZippel, SweepWitness, GroundCodec, TransferAirlock, HighMassCensus, Preflight.* (`module`), PreflightHarness + standalone test drivers
+│   ├── rust/                         # Rust 1.100.0 workspace: scargo-probe, scargo-trace, scargo-qualify, scargo-riem-lattice, scargo-schwartz-zippel, scargo-sweep, scargo-ground, scargo-airlock, scargo-census, scargo-emit, scargo-patch (zero-dep, forbid(unsafe_code))
+│   ├── swift/                        # Open-Source Swift 6.4.3: SCargoModel, RiemLattice, SchwartzZippel, SCargoSweep, SCargoGround, SCargoAirlock, SCargoCensus, SCargoEmit, SCargoPatch, CLIs & Swift Testing suites
+│   └── lean/                         # Lean v4.36.0: SCargoLean.Contract, RiemLattice, SchwartzZippel, SweepWitness, GroundCodec, TransferAirlock, HighMassCensus, Preflight.* (`module`), PreflightHarness, PatchVerifier + standalone test drivers
 ├── models/
 │   ├── reduction_model.md            # Quantitative proof mass-budget & reduction equations
 │   ├── verification_methodology_model.md   # Deterministic / runtime / probabilistic SWE-sweep & D<->R<->P seam model (13 witnesses, 14 defects)
@@ -46,6 +46,7 @@ SCargo/
 │   ├── rung3_reconciled_reduction_and_airlock_model.md  # Rung 3 reconciled proof-reduction airlock, AG-1..AG-5 & UP-07 batching model
 │   ├── arc4_high_mass_zone_census_model.md  # Arc 4 Z-C2/Z-C3/Z-C4 high-mass census, UP-08 lexical reconciliation & Pareto ranking model
 │   ├── arc5_elaboration_and_emitter_model.md  # Arc 5 Lean 4.36 `module` pre-flight elaboration harness & dual-route UP-07 patch emitter model
+│   ├── arc6_ast_patch_generator_model.md  # Arc 6 concrete AST-aware patch generator (`Z-C0`/`Z-C2`/`Z-C4`) & pure in-memory unified-diff verifier model
 │   ├── conflation_and_boolean_guard_analysis.md  # Helper-pathology taxonomy, AUD-01..07 & atomic guard spec
 │   ├── riemannian_disambiguation_model.md  # Authority-controlled RIEM-A / RIEM-B / RIEM-C / RIEM-LATTICE map
 │   ├── riemann_lattice_graph_rh_model.md   # Euler 1735-1739 root & exact proof: G_PLR satisfies Graph RH
@@ -69,7 +70,8 @@ SCargo/
     ├── ICD-RIEMANNIAN.md             # Interface Control Document & flight-readiness gates for Riemannian
     ├── README.md                     # Clean-room separation plane & G1-G3 vs G4-G5 sign-off contract
     ├── packages/                     # Declarative staged clean-room transfer package manifests (rung3_airlock_manifest_v1.json)
-    └── bundles/                      # Declarative Arc 5 dual-route UP-07 pre-flight shard & full-runner bundles (arc5_preflight_bundles_v1.json)
+    ├── bundles/                      # Declarative Arc 5 dual-route UP-07 pre-flight shard & full-runner bundles (arc5_preflight_bundles_v1.json)
+    └── patches/                      # Zero-copy content-addressed Arc 6 per-file AST patch plan & SHA-256 receipts (arc6_patch_plan_v1.json)
 ```
 
 ---
@@ -80,7 +82,7 @@ Each compartment runs independently with zero cross-language combo wrappers:
 
 ### 1. Lean (`v4.36.0`, `warningAsError = true`, `LEAN_ABORT_ON_PANIC=1`, zero `sorry` / `native_decide`)
 ```bash
-LEAN_ABORT_ON_PANIC=1 lake --dir compartments/lean build SCargoLean riem_lattice_test sz_lattice_test sweep_witness_test ground_codec_test transfer_airlock_test high_mass_census_test preflight_harness_test
+LEAN_ABORT_ON_PANIC=1 lake --dir compartments/lean build SCargoLean riem_lattice_test sz_lattice_test sweep_witness_test ground_codec_test transfer_airlock_test high_mass_census_test preflight_harness_test patch_verifier_test
 LEAN_ABORT_ON_PANIC=1 lake --dir compartments/lean exe riem_lattice_test
 LEAN_ABORT_ON_PANIC=1 lake --dir compartments/lean exe sz_lattice_test
 LEAN_ABORT_ON_PANIC=1 lake --dir compartments/lean exe sweep_witness_test
@@ -88,7 +90,8 @@ LEAN_ABORT_ON_PANIC=1 lake --dir compartments/lean exe ground_codec_test
 LEAN_ABORT_ON_PANIC=1 lake --dir compartments/lean exe transfer_airlock_test .
 LEAN_ABORT_ON_PANIC=1 lake --dir compartments/lean exe high_mass_census_test .
 LEAN_ABORT_ON_PANIC=1 lake --dir compartments/lean exe preflight_harness_test .
-LEAN_PATH=compartments/lean/.lake/build/lib/lean leanchecker SCargoLean SCargoLean.Contract SCargoLean.RiemLattice SCargoLean.SchwartzZippel SCargoLean.SweepWitness SCargoLean.GroundCodec SCargoLean.TransferAirlock SCargoLean.HighMassCensus SCargoLean.Preflight.Leaf SCargoLean.Preflight.Mid SCargoLean.Preflight.WrapAlias SCargoLean.Preflight.HubPruned SCargoLean.PreflightHarness
+LEAN_ABORT_ON_PANIC=1 lake --dir compartments/lean exe patch_verifier_test .
+LEAN_PATH=compartments/lean/.lake/build/lib/lean leanchecker SCargoLean SCargoLean.Contract SCargoLean.RiemLattice SCargoLean.SchwartzZippel SCargoLean.SweepWitness SCargoLean.GroundCodec SCargoLean.TransferAirlock SCargoLean.HighMassCensus SCargoLean.Preflight.Leaf SCargoLean.Preflight.Mid SCargoLean.Preflight.WrapAlias SCargoLean.Preflight.HubPruned SCargoLean.Preflight.CompactCse SCargoLean.PreflightHarness SCargoLean.PatchVerifier
 ```
 
 ### 2. Rust (`1.100.0`, zero external crates, `-D warnings`, `#![forbid(unsafe_code)]`)
@@ -106,6 +109,7 @@ compartments/rust/target/release/scargo-ground --root .
 compartments/rust/target/release/scargo-airlock --root .
 compartments/rust/target/release/scargo-census verify --root .
 compartments/rust/target/release/scargo-emit verify --root .
+compartments/rust/target/release/scargo-patch verify --root .
 ```
 
 ### 3. Open-Source Swift (`6.4.3`, `.treatAllWarnings(as: .error)`, guarded default `swiftbuild`)
@@ -122,6 +126,7 @@ compartments/swift/.build/release/scargo-ground --root .
 compartments/swift/.build/release/scargo-airlock --root .
 compartments/swift/.build/release/scargo-census --root .
 compartments/swift/.build/release/scargo-emit --root .
+compartments/swift/.build/release/scargo-patch --root .
 ```
 
 ---
@@ -137,6 +142,7 @@ compartments/swift/.build/release/scargo-emit --root .
 - Rung 3 Reconciled Proof-Reduction & Clean-Room ICD Airlock Model: [`models/rung3_reconciled_reduction_and_airlock_model.md`](models/rung3_reconciled_reduction_and_airlock_model.md)
 - Arc 4 High-Mass Zone Census (`Z-C2`/`Z-C3`/`Z-C4`) & `UP-08` Lexical Provenance Model: [`models/arc4_high_mass_zone_census_model.md`](models/arc4_high_mass_zone_census_model.md)
 - Arc 5 Lean `v4.36.0` `module` Pre-Flight Elaboration & Dual-Route `UP-07` Emitter Model: [`models/arc5_elaboration_and_emitter_model.md`](models/arc5_elaboration_and_emitter_model.md)
+- Arc 6 Concrete AST-Aware Patch Generator & Unified-Diff Verifier Model: [`models/arc6_ast_patch_generator_model.md`](models/arc6_ast_patch_generator_model.md)
 - Interface Control Document (`Riemannian` airlock): [`transfer/ICD-RIEMANNIAN.md`](transfer/ICD-RIEMANNIAN.md)
 - Paper 001 (Formulary & Reduction Architecture): [`research/papers/001-riemannian-formulary-and-reduction-architecture/paper.md`](research/papers/001-riemannian-formulary-and-reduction-architecture/paper.md)
 

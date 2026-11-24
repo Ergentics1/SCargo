@@ -45,3 +45,7 @@ root = "SCargoLean.HighMassCensusTest"
 [[lean_exe]]
 name = "preflight_harness_test"
 root = "SCargoLean.PreflightHarnessTest"
+
+[[lean_exe]]
+name = "patch_verifier_test"
+root = "SCargoLean.PatchVerifierTest"

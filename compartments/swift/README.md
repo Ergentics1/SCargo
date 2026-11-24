@@ -11,6 +11,7 @@ This compartment targets **Open-Source Swift `6.4.3`** (`swift-tools-version: 6.
 - **`SCargoAirlock`** & **`scargo-airlock`**: Standalone Rung 3 reconciled proof-reduction & clean-room ICD airlock verifier (`AG-1`..`AG-5`, exact baseline/trace conservation, Pareto mass ratios $\rho_i$, deterministic `UP-07` $\le 8$-root batch schedules, RCT-001 Vargha–Delaney $\hat{A}_{12}$, synthetic clean-room transforms, and 7 adversarial airlock controls matching Rust SHA-256 byte-for-byte; `SCargoAirlockTests`).
 - **`SCargoCensus`** & **`scargo-census`**: Standalone Arc 4 high-mass zone census (`Z-C2`/`Z-C3`/`Z-C4`) & `UP-08` lexical provenance verifier (`HG-1`..`HG-5`, deterministic Pareto yield ranking, and 6 adversarial negative controls matching Rust SHA-256 byte-for-byte; `SCargoCensusTests`).
 - **`SCargoEmit`** & **`scargo-emit`**: Standalone Arc 5 clean-room dual-route `UP-07` pre-flight bundle verifier & synthetic deterministic diff emitter (`EG-1`..`EG-6`, 24 shards + 4 full bundles across `Z-C0`/`Z-C1A`/`Z-C2`/`Z-C4`, 4 synthetic transform rewriters, Lean 4.36 `module` pre-flight check, and 6 adversarial negative controls matching Rust SHA-256 byte-for-byte; `SCargoEmitTests`).
+- **`SCargoPatch`** & **`scargo-patch`**: Standalone Arc 6 AST-aware patch plan verifier & pure in-memory unified-diff round-trip engine (`PG-1`..`PG-6`, exact `137`-file bijection across `Z-C0`/`Z-C2`/`Z-C4`, `<= 160`-char layout-free `Z-C2` balanced-AST collapse, `0`-free-variable closed-subtree `abbrev` CSE, `Z-C4` transitive import-closure pruning, and 7 adversarial negative controls matching Rust SHA-256 byte-for-byte; `SCargoPatchTests`).
 
 ## Standalone Verification Commands (Guarded Default `swiftbuild`, 0 Warnings)
 
@@ -27,4 +28,5 @@ compartments/swift/.build/release/scargo-ground --root .
 compartments/swift/.build/release/scargo-airlock --root .
 compartments/swift/.build/release/scargo-census --root .
 compartments/swift/.build/release/scargo-emit --root .
+compartments/swift/.build/release/scargo-patch --root .
 ```
